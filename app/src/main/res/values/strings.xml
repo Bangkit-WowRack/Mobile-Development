@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CloudRayaApps</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_resource">Resource</string>
+    <string name="menu_monitor">Monitor</string>
+    <string name="menu_server">Server</string>
+    <string name="menu_profile">Profile</string>
 </resources>

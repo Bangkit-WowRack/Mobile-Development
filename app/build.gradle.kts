@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.wowrack.cloudrayaapps"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.wowrack.cloudrayaapps"
@@ -66,4 +66,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 }
