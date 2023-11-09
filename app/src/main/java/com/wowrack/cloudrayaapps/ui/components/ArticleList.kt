@@ -54,7 +54,7 @@ fun ArticleList(
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+
     ) {
         items(dummyArticles, key = { it.id }) { article ->
             ArticleItem(article)
@@ -82,7 +82,6 @@ fun ArticleItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(180.dp)
-                    .clip(RoundedCornerShape(8.dp))
             )
 //            Image(
 //                painter = painterResource(article.image),
