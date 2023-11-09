@@ -116,7 +116,7 @@ private fun BottomBar(
         ),
         NavigationItem(
             title = stringResource(R.string.menu_monitor),
-            icon = Icons.Default.Monitoring,
+            icon = Icons.Default.AccountCircle,
             screen = Screen.Monitor
         ),
         NavigationItem(
