@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -111,12 +110,16 @@ private fun BottomBar(
         ),
         NavigationItem(
             title = stringResource(R.string.menu_resource),
-            icon = Icons.Default.ShoppingCart,
+            icon = Icons.Default.Home,
             screen = Screen.Resource
         ),
         NavigationItem(
             title = stringResource(R.string.menu_monitor),
+<<<<<<< HEAD
             icon = Icons.Default.AccountCircle,
+=======
+            icon = Icons.Default.Home,
+>>>>>>> d5b2f33c6f7e4131a915e96844c4da85202bf2a3
             screen = Screen.Monitor
         ),
         NavigationItem(
