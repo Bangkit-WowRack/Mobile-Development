@@ -50,7 +50,7 @@ fun App(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Login.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.GetStarted.route) {
@@ -60,7 +60,9 @@ fun App(
             }
             composable(Screen.Login.route) {
                 LoginScreen(
-
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route)
+                    }
                 )
             }
             composable(Screen.Home.route) {

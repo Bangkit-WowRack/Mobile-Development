@@ -44,18 +44,20 @@ import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 
 @Composable
 fun LoginScreen(
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.primary
     ) {
-        LoginContent()
+        LoginContent(navigateToHome)
     }
 }
 
 @Composable
 fun LoginContent(
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -81,9 +83,7 @@ fun LoginContent(
         TextInput(InputType.AppKey)
         TextInput(InputType.SecretKey)
         Button(
-            onClick = {
-
-            },
+            onClick = navigateToHome,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
@@ -124,7 +124,7 @@ fun TextInput(inputType: InputType) {
 @Composable
 fun LoginScreenPreview() {
     CloudRayaAppsTheme {
-        LoginScreen()
+        LoginScreen({})
     }
 }
 
