@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MiscellaneousServices
+import androidx.compose.material.icons.filled.Monitor
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -112,18 +116,18 @@ private fun BottomBar(
         ),
         NavigationItem(
             title = stringResource(R.string.menu_resource),
-            icon = Icons.Default.Home,
+            icon = Icons.Default.MiscellaneousServices,
             screen = Screen.Resource
         ),
         NavigationItem(
             title = stringResource(R.string.menu_monitor),
 
-            icon = Icons.Default.AccountCircle,
+            icon = Icons.Default.Monitor,
             screen = Screen.Monitor
         ),
         NavigationItem(
             title = stringResource(R.string.menu_server),
-            icon = Icons.Default.AccountCircle,
+            icon = Icons.Default.Security,
             screen = Screen.Server
         ),
         NavigationItem(
