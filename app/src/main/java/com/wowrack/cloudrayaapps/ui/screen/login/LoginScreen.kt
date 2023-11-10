@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.R
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
+import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun LoginScreen(
@@ -69,13 +70,14 @@ fun LoginContent(
     ) {
 
         Image(
-            painter = painterResource(R.drawable.dummy_logo),
+            painter = painterResource(R.drawable.cloudraya_login_logo),
             contentDescription = "dummy logo",
             modifier.size(200.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = "Login",
+            fontFamily = poppins,
             fontSize = 40.sp,
             fontWeight = FontWeight.Bold
         )
@@ -90,7 +92,7 @@ fun LoginContent(
                 containerColor = Color.White
             )
         ) {
-            Text("Login", Modifier.padding(vertical = 8.dp), Color.DarkGray)
+            Text("Login", Modifier.padding(vertical = 8.dp), Color.DarkGray, fontFamily = poppins)
         }
 
     }
@@ -107,7 +109,7 @@ fun TextInput(inputType: InputType) {
         value = value,
         onValueChange = {value = it},
         leadingIcon = { Icon(imageVector = inputType.icon , null )},
-        placeholder = { Text(text = inputType.label)},
+        placeholder = { Text(text = inputType.label, fontFamily = poppins)},
         singleLine = true,
         shape = RoundedCornerShape(16.dp),
         colors = TextFieldDefaults.textFieldColors(

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
+import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +51,8 @@ fun ProjectList(
                 value = selectedText,
                 onValueChange = {},
                 textStyle = TextStyle(
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    fontFamily = poppins,
                 ),
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -69,7 +71,7 @@ fun ProjectList(
             ) {
                 servers.forEach { item ->
                     DropdownMenuItem(
-                        text = { Text(text = item) },
+                        text = { Text(text = item, fontFamily = poppins,) },
                         onClick = {
                             selectedText = item
                             expanded = false

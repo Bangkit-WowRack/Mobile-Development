@@ -17,6 +17,7 @@ import com.wowrack.cloudrayaapps.ui.components.ArticleList
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.components.ProjectList
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
+import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun HomeScreen(
@@ -37,18 +38,21 @@ fun HomeContent(
     ) {
         Text(
             text = "Project",
+            fontFamily = poppins,
             fontSize = 16.sp,
         )
         ProjectList()
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Dashboard",
+            fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         ArticleList()
         Text(
             text = "Notification",
+            fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

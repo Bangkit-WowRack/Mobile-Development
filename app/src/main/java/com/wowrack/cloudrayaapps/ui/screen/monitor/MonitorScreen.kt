@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.ui.components.LineChartList
 import com.wowrack.cloudrayaapps.ui.screen.login.LoginContent
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
+import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun MonitorScreen(
@@ -46,18 +47,21 @@ fun MonitorContent(
     ) {
         Text(
             text = "CPU",
+            fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         LineChartList()
         Text(
             text = "GPU",
+            fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         LineChartList()
         Text(
             text = "Memory",
+            fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

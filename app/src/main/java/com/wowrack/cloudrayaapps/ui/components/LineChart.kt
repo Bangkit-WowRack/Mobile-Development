@@ -26,17 +26,17 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 fun LineChartList() {
     val steps = 5
     val pointData = listOf(
-        Point(0f, 40f),
-        Point(1f, 90f),
-        Point(2f, 0f),
-        Point(3f, 60f),
-        Point(4f, 10f),
-        Point(5f, 30f),
-        Point(6f, 50f),
-        Point(7f, 30f),
-        Point(8f, 90f),
-        Point(9f, 60f),
-        Point(10f, 40f),
+        Point(0f, 0f),
+        Point(1f, 10f),
+        Point(2f, 20f),
+        Point(3f, 30f),
+        Point(4f, 40f),
+        Point(5f, 50f),
+        Point(6f, 60f),
+        Point(7f, 70f),
+        Point(8f, 80f),
+        Point(9f, 90f),
+        Point(10f, 100f),
     )
 
     val xAxisData = AxisData.Builder()
@@ -94,7 +94,7 @@ fun LineChartList() {
     LineChart(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
+            .height(200.dp),
         lineChartData = lineChartData
     )
 
