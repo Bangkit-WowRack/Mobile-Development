@@ -13,12 +13,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun ServerScreen(
+    id: String,
     modifier: Modifier = Modifier,
+    viewModel: ServerViewModel = hiltViewModel()
 ) {
     ServerContent()
 }
@@ -48,6 +51,6 @@ fun ServerContent(
 @Composable
 fun ServerScreenPreview() {
     CloudRayaAppsTheme {
-        ServerScreen()
+        ServerScreen("1")
     }
 }

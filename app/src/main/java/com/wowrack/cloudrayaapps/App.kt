@@ -20,10 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.wowrack.cloudrayaapps.ui.components.BottomBar
 import com.wowrack.cloudrayaapps.ui.navigation.NavigationItem
 import com.wowrack.cloudrayaapps.ui.navigation.Screen
 import com.wowrack.cloudrayaapps.ui.screen.getstarted.GetStartedScreen
@@ -34,8 +37,8 @@ import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileScreen
 import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceScreen
 import com.wowrack.cloudrayaapps.ui.screen.server.ServerScreen
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
+import com.wowrack.cloudrayaapps.utils.showBottomBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
     modifier: Modifier = Modifier,
@@ -46,8 +49,19 @@ fun App(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.Login.route && currentRoute != Screen.GetStarted.route) {
-                BottomBar(navController)
+            if (currentRoute.showBottomBar()) {
+                BottomBar(
+                    navigator = { route: String ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    },
+                    currentRoute = currentRoute ?: Screen.Home.route
+                )
             }
         },
         modifier = modifier
@@ -79,86 +93,25 @@ fun App(
 
                 )
             }
-            composable(Screen.Monitor.route) {
-                MonitorScreen(
-
-                )
-            }
-            composable(Screen.Server.route) {
-                ServerScreen(
-
-                )
-            }
             composable(Screen.Profile.route) {
                 ProfileScreen(
 
                 )
             }
-
-        }
-    }
-}
-
-@Composable
-private fun BottomBar(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
-) {
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
-    val navigationItems = listOf(
-        NavigationItem(
-            title = stringResource(R.string.menu_home),
-            icon = Icons.Default.Home,
-            screen = Screen.Home
-        ),
-        NavigationItem(
-            title = stringResource(R.string.menu_resource),
-            icon = Icons.Default.MiscellaneousServices,
-            screen = Screen.Resource
-        ),
-        NavigationItem(
-            title = stringResource(R.string.menu_monitor),
-
-            icon = Icons.Default.Monitor,
-            screen = Screen.Monitor
-        ),
-        NavigationItem(
-            title = stringResource(R.string.menu_server),
-            icon = Icons.Default.Security,
-            screen = Screen.Server
-        ),
-        NavigationItem(
-            title = stringResource(R.string.menu_profile),
-            icon = Icons.Default.AccountCircle,
-            screen = Screen.Profile
-        ),
-    )
-
-    NavigationBar(
-        modifier = modifier,
-    ) {
-        navigationItems.map { item ->
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title
-                    )
-                },
-                selected = currentRoute == item.screen.route,
-                onClick = {
-                    navController.navigate(item.screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        restoreState = true
-                        launchSingleTop = true
-                    }
-                }
-            )
+            composable(
+                route = Screen.Monitor.route,
+                arguments = listOf(navArgument("id") { type = NavType.StringType })
+            ) {
+                val id = it.arguments?.getString("id") ?: ""
+                MonitorScreen(id)
+            }
+            composable(
+                route = Screen.Server.route,
+                arguments = listOf(navArgument("id") { type = NavType.StringType })
+            ) {
+                val id = it.arguments?.getString("id") ?: ""
+                ServerScreen(id)
+            }
         }
     }
 }
