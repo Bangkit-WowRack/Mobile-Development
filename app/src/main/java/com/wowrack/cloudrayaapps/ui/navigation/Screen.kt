@@ -5,7 +5,11 @@ sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Home : Screen("home")
     object Resource : Screen("resource")
-    object Monitor : Screen("monitor")
-    object Server : Screen("server")
     object Profile : Screen("profile")
+    object Monitor : Screen("monitor/{id}") {
+        fun createRoute(id: String) = "monitor/$id"
+    }
+    object Server : Screen("server/{id}") {
+        fun createRoute(id: String) = "server/$id"
+    }
 }

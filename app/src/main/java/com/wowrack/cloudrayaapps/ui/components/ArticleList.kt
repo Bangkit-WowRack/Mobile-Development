@@ -26,31 +26,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.wowrack.cloudrayaapps.data.dummy.getDummyArticle
 import com.wowrack.cloudrayaapps.data.model.Article
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 
 @Composable
 fun ArticleList(
-
+    modifier: Modifier = Modifier,
 ) {
-    val dummyArticles = listOf(
-        Article(
-            id = 1,
-            image = "https://picsum.photos/180/90",
-        ),
-        Article(
-            id = 2,
-            image = "https://picsum.photos/180/90",
-        ),
-        Article(
-            id = 3,
-            image = "https://picsum.photos/180/90",
-        ),
-        Article(
-            id = 4,
-            image = "https://picsum.photos/180/90",
-        )
-    )
+    val dummyArticles = getDummyArticle()
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
