@@ -40,7 +40,7 @@ fun LineChartList() {
     )
 
     val xAxisData = AxisData.Builder()
-        .axisStepSize(50.dp)
+        .axisStepSize(30.dp)
         .backgroundColor(Color.Transparent)
         .steps(pointData.size - 1)
         .labelData { i -> i.toString() }
@@ -52,10 +52,11 @@ fun LineChartList() {
     val yAxisData = AxisData.Builder()
         .steps(steps)
         .backgroundColor(Color.Transparent)
-        .labelAndAxisLinePadding(20.dp)
+        .labelAndAxisLinePadding(25.dp)
         .labelData { i ->
-            val yScale = 100/steps
-            (i * yScale).toString()
+            val yScale = 100 / steps
+            val result = (i * yScale).toString()
+            "$result%"
         }
         .axisLineColor(MaterialTheme.colorScheme.primary)
         .axisLabelColor(MaterialTheme.colorScheme.primary)

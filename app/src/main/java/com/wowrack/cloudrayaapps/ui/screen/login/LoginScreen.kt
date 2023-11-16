@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AppBlocking
 import androidx.compose.material.icons.outlined.Key
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Smartphone
+import androidx.compose.material.icons.outlined.Web
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -84,6 +87,8 @@ fun LoginContent(
         Spacer(modifier = Modifier.height(4.dp))
         TextInput(InputType.AppKey)
         TextInput(InputType.SecretKey)
+        TextInput(InputType.ApiUrl)
+        TextInput(InputType.AppName)
         Button(
             onClick = navigateToHome,
             modifier = Modifier.fillMaxWidth(),
@@ -145,6 +150,20 @@ sealed class InputType(
     object SecretKey: InputType(
         label = "Secret Key",
         icon = Icons.Outlined.Lock,
+        KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None
+    )
+
+    object ApiUrl: InputType(
+        label = "API Url",
+        icon = Icons.Outlined.Web,
+        KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None
+    )
+
+    object AppName: InputType(
+        label = "App Name",
+        icon = Icons.Outlined.Smartphone,
         KeyboardOptions(imeAction = ImeAction.Done),
         visualTransformation = VisualTransformation.None
     )

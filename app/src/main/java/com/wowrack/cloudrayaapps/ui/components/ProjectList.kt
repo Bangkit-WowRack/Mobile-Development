@@ -53,6 +53,7 @@ fun ProjectList(
                 textStyle = TextStyle(
                     textAlign = TextAlign.Start,
                     fontFamily = poppins,
+                    color = Color.DarkGray
                 ),
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -71,7 +72,7 @@ fun ProjectList(
             ) {
                 servers.forEach { item ->
                     DropdownMenuItem(
-                        text = { Text(text = item, fontFamily = poppins,) },
+                        text = { Text(text = item, fontFamily = poppins, color = Color.DarkGray) },
                         onClick = {
                             selectedText = item
                             expanded = false
