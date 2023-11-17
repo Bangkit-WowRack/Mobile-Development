@@ -23,18 +23,23 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun ResourceScreen(
+    navigateToMonitor: (String) -> Unit,
+    navigateToServer: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ResourceViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
-    Surface {
-        ResourceContent()
-    }
+    ResourceContent(
+        navigateToMonitor,
+        navigateToServer,
+    )
 }
 
 @Composable
 fun ResourceContent(
+    navigateToMonitor: (String) -> Unit,
+    navigateToServer: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -60,6 +65,6 @@ fun ResourceContent(
 @Composable
 fun ResourceScreenPreview() {
     CloudRayaAppsTheme {
-        ResourceScreen()
+        ResourceScreen({}, {})
     }
 }

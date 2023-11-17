@@ -90,13 +90,16 @@ fun App(
             }
             composable(Screen.Resource.route) {
                 ResourceScreen(
-
+                    navigateToMonitor = { id ->
+                        navController.navigate(Screen.Monitor.createRoute(id))
+                    },
+                    navigateToServer = { id ->
+                        navController.navigate(Screen.Server.createRoute(id))
+                    }
                 )
             }
             composable(Screen.Profile.route) {
-                ProfileScreen(
-
-                )
+                ProfileScreen()
             }
             composable(
                 route = Screen.Monitor.route,
