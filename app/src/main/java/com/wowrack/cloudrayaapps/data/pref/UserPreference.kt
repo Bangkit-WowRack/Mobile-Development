@@ -8,7 +8,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.wowrack.cloudrayaapps.data.model.User
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 val Context.userDataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
@@ -37,11 +39,11 @@ class UserPreference private constructor(private val userDataStore: DataStore<Pr
     }
 
     fun getToken() = userDataStore.data.map { preferences ->
-        preferences[bearerToken] ?: ""
+        preferences[bearerToken]
     }
 
     fun getRefreshToken() = userDataStore.data.map { preferences ->
-        preferences[refreshToken] ?: ""
+        preferences[refreshToken]
     }
 
     suspend fun logout() {

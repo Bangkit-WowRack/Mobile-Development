@@ -2,9 +2,8 @@ package com.wowrack.cloudrayaapps.data.repository
 
 import com.wowrack.cloudrayaapps.data.api.ApiService
 import com.wowrack.cloudrayaapps.data.pref.UserPreference
-import javax.inject.Inject
 
-class ServerRepository @Inject constructor(
+class ServerRepository (
     private val userPreference: UserPreference,
     private val apiService: ApiService,
 ) {

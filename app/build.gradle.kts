@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
 }
 
 android {
@@ -69,7 +69,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     //navigation
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.navigation:navigation-compose:2.6.0")
 
     //compose extension
@@ -88,11 +87,20 @@ dependencies {
     //chart
     implementation("co.yml:ycharts:2.1.0")
 
+    //view-model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
+    //jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
     // Dependency Injection
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.work:work-runtime-ktx:2.8.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+//    implementation("com.google.dagger:hilt-android:2.44")
+//    kapt("com.google.dagger:hilt-android-compiler:2.44")
+//    implementation("androidx.hilt:hilt-work:1.0.0")
+//    kapt("androidx.hilt:hilt-compiler:1.0.0")
+//    implementation("androidx.work:work-runtime-ktx:2.8.0")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 }
