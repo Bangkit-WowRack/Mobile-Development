@@ -1,86 +1,125 @@
 package com.wowrack.cloudrayaapps.ui.components
 
-import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun ProjectList(
-
+    modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val servers = arrayOf("Server 1", "Server 2", "Server 3")
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .shadow(8.dp, RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background,
+        ),
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.AccountBox,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(12.dp)
+                    .size(48.dp)
+            )
+            Column {
+                Text(
+                    text = "Virtual Machine Name",
+                    fontFamily = poppins,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Text(
+                    text = "Additional Info",
+                    fontFamily = poppins,
+                    fontSize = 10.sp,
+                    color = Color.Black
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f)) // Spacer untuk memberikan jarak
+            ThreeDotMenu()
+        }
+    }
+}
+
+@Composable
+fun ThreeDotMenu() {
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(servers[0]) }
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        contentAlignment = Alignment.TopEnd
     ) {
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            }
-        ) {
-            TextField(
-                value = selectedText,
-                onValueChange = {},
-                textStyle = TextStyle(
-                    textAlign = TextAlign.Start,
-                    fontFamily = poppins,
-                    color = Color.DarkGray
-                ),
-                readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor().width(200.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
-            )
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
+        }
 
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                servers.forEach { item ->
-                    DropdownMenuItem(
-                        text = { Text(text = item, fontFamily = poppins, color = Color.DarkGray) },
-                        onClick = {
-                            selectedText = item
-                            expanded = false
-                            Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
-                        }
-                    )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .widthIn(max = 120.dp)
+                .background(Color.White),
+        ) {
+            DropdownMenuItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                text = { Text(text = "Monitor") },
+                onClick = {
+                    expanded = false
                 }
-            }
+            )
+            DropdownMenuItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                text = { Text(text = "Security") },
+                onClick = {
+                    expanded = false
+                }
+            )
         }
     }
 }

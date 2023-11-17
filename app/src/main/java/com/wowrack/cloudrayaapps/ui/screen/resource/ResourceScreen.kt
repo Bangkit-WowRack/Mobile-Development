@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
+import com.wowrack.cloudrayaapps.ui.components.ProjectList
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
@@ -26,7 +28,9 @@ fun ResourceScreen(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
-    ResourceContent()
+    Surface {
+        ResourceContent()
+    }
 }
 
 @Composable
@@ -35,18 +39,20 @@ fun ResourceContent(
 ) {
     Column(
         modifier
-            .padding(24.dp)
+            .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
-            text = "Coming Soon",
+            text = "VM List",
             fontFamily = poppins,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
         )
+        ProjectList()
+        ProjectList()
+        ProjectList()
+        ProjectList()
     }
 }
 

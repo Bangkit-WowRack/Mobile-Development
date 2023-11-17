@@ -95,7 +95,7 @@ fun LineChartList() {
     LineChart(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
+            .height(300.dp),
         lineChartData = lineChartData
     )
 
