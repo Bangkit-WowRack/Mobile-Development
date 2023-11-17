@@ -39,13 +39,6 @@ fun HomeContent(
         verticalArrangement =  Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Project",
-            fontFamily = poppins,
-            fontSize = 16.sp,
-        )
-        ProjectList()
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
             text = "Dashboard",
             fontFamily = poppins,
             fontSize = 20.sp,
