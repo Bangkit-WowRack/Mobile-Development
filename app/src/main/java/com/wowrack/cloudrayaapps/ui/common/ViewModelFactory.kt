@@ -1,7 +1,9 @@
 package com.wowrack.cloudrayaapps.ui.common
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.wowrack.cloudrayaapps.data.di.Injection
 import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
 import com.wowrack.cloudrayaapps.data.repository.ServerRepository
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
@@ -36,4 +38,12 @@ class ViewModelFactory(
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
+}
+
+fun getViewModelFactory(context: Context): ViewModelFactory {
+    return ViewModelFactory(
+        Injection.provideUserRepository(context),
+        Injection.provideServerRepository(context),
+        Injection.provideArticleRepository()
+    )
 }
