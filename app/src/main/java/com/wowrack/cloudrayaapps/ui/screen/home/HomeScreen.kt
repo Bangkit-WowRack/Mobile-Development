@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.wowrack.cloudrayaapps.ui.components.ArticleList
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.components.ProjectList
@@ -23,7 +22,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
+//    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     HomeContent()
 }

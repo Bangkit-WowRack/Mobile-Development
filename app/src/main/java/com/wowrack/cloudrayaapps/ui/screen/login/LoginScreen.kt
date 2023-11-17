@@ -39,7 +39,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.wowrack.cloudrayaapps.R
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
@@ -48,7 +47,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 fun LoginScreen(
     navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = hiltViewModel()
+//    viewModel: LoginViewModel = hiltViewModel()
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),

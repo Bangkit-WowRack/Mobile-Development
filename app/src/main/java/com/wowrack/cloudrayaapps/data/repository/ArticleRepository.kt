@@ -1,9 +1,8 @@
 package com.wowrack.cloudrayaapps.data.repository
 
 import com.wowrack.cloudrayaapps.data.api.ApiService
-import javax.inject.Inject
 
-class ArticleRepository @Inject constructor(
+class ArticleRepository (
     private val apiService: ApiService,
 ) {
 

@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
 }
 
 android {
@@ -89,10 +89,10 @@ dependencies {
     implementation("co.yml:ycharts:2.1.0")
 
     // Dependency Injection
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.work:work-runtime-ktx:2.8.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+//    implementation("com.google.dagger:hilt-android:2.44")
+//    kapt("com.google.dagger:hilt-android-compiler:2.44")
+//    implementation("androidx.hilt:hilt-work:1.0.0")
+//    kapt("androidx.hilt:hilt-compiler:1.0.0")
+//    implementation("androidx.work:work-runtime-ktx:2.8.0")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 }

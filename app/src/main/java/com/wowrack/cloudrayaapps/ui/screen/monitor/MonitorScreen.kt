@@ -16,9 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.wowrack.cloudrayaapps.ui.components.LineChartList
-import com.wowrack.cloudrayaapps.ui.screen.login.LoginContent
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
@@ -26,7 +24,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 fun MonitorScreen(
     id: String,
     modifier: Modifier = Modifier,
-    viewModel: MonitorViewModel = hiltViewModel()
+//    viewModel: MonitorViewModel = hiltViewModel()
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
