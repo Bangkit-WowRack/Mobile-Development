@@ -8,7 +8,7 @@ data class UserDetailResponse(
 	val code: Int,
 
 	@field:SerializedName("data")
-	val data: Data,
+	val data: DetailData,
 
 	@field:SerializedName("message")
 	val message: String
@@ -38,7 +38,7 @@ data class Ballance(
 	val currentBalance: Int
 )
 
-data class Data(
+data class DetailData(
 
 	@field:SerializedName("country")
 	val country: String,

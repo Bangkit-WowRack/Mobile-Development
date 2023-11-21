@@ -24,7 +24,7 @@ class ViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(serverRepository, articleRepository) as T
+            return HomeViewModel(userRepository, articleRepository) as T
         } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(userRepository) as T
         } else if (modelClass.isAssignableFrom(MonitorViewModel::class.java)) {

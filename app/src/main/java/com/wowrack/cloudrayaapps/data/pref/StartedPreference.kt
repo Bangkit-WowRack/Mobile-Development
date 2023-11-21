@@ -14,13 +14,13 @@ val Context.startDataStore: DataStore<Preferences> by preferencesDataStore(name 
 
 class StartedPreference private constructor(private val startDataStore: DataStore<Preferences>) {
 
-    suspend fun saveSession() {
+    suspend fun setStarted() {
         startDataStore.edit { preferences ->
             preferences[isNew] = "true"
         }
     }
 
-    fun isFirstOpen(): Boolean {
+    fun isStarted(): Boolean {
         return runBlocking {
             startDataStore.data.map { preferences ->
                 preferences[isNew]

@@ -8,8 +8,11 @@ import com.wowrack.cloudrayaapps.data.model.User
 import com.wowrack.cloudrayaapps.data.pref.StartedPreference
 import com.wowrack.cloudrayaapps.data.pref.UserPreference
 import com.wowrack.cloudrayaapps.data.common.Result
+import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
+import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
+import com.wowrack.cloudrayaapps.data.pref.KeyPreference
 import com.wowrack.cloudrayaapps.data.utils.apiCallWithAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +20,11 @@ import kotlinx.coroutines.flow.Flow
 class UserRepository(
     private val apiService: ApiService,
     private val userPreference: UserPreference,
+    private val keyPreference: KeyPreference,
     private val startedPreference: StartedPreference
 ) {
+
+    fun isStarted(): Boolean = startedPreference.isStarted()
 
     fun login(appKey: String, secretKey: String): LiveData<Result<Boolean>> =
         liveData(Dispatchers.IO) {
@@ -29,8 +35,9 @@ class UserRepository(
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
-                        val data = body.data
-                        saveSession(data)
+                        startedPreference.setStarted()
+                        userPreference.saveSession(body.data)
+                        keyPreference.saveKey(Key(appKey, secretKey))
                         emit(Result.Success(true))
                     } else {
                         emit(Result.Error("Login Failed"))
@@ -77,41 +84,40 @@ class UserRepository(
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
-
-//        try {
-//            val response = apiService.getUserDetail(userPreference.getUserToken())
-//            if (response.isSuccessful) {
-//                val body = response.body()
-//                if (body != null) {
-//                    emit(Result.Success(body))
-//                } else {
-//                    emit(Result.Error("Something went wrong"))
-//                }
-//            } else {
-//                val errorBody = response.errorBody()?.string()
-//                if (!errorBody.isNullOrBlank()) {
-//                    val gson = Gson()
-//                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-//                    emit(Result.Error(errorResponse.message))
-//                } else {
-//                    emit(Result.Error("Something went wrong"))
-//                }
-//            }
-//        } catch (e: Exception) {
-//            emit(Result.Error(e.message.toString()))
-//        }
     }
 
-    fun getSession(): Flow<User> {
-        return userPreference.getSession()
+    fun getUserDashboard(): LiveData<Result<DashboardResponse>> = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+
+        try {
+            apiCallWithAuth(userPreference) {
+                val response = apiService.getUserDashboard(it)
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        emit(Result.Success(body))
+                    } else {
+                        emit(Result.Error("Something went wrong"))
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (!errorBody.isNullOrBlank()) {
+                        val gson = Gson()
+                        val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                        emit(Result.Error(errorResponse.message))
+                    } else {
+                        emit(Result.Error("Something went wrong"))
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
     }
 
     suspend fun logout() {
         userPreference.logout()
-    }
-
-    private suspend fun saveSession(user: User) {
-        userPreference.saveSession(user)
+        keyPreference.deleteKey()
     }
 
     companion object {
@@ -120,12 +126,14 @@ class UserRepository(
         fun getInstance(
             apiService: ApiService,
             userPreference: UserPreference,
+            keyPreference: KeyPreference,
             startedPreference: StartedPreference
         ): UserRepository =
             instance ?: synchronized(this) {
                 instance ?: UserRepository(
                     apiService,
                     userPreference,
+                    keyPreference,
                     startedPreference
                 )
             }.also { instance = it }

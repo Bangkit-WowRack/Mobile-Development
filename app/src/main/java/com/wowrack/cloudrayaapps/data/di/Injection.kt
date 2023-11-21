@@ -2,8 +2,10 @@ package com.wowrack.cloudrayaapps.data.di
 
 import android.content.Context
 import com.wowrack.cloudrayaapps.data.api.ApiConfig
+import com.wowrack.cloudrayaapps.data.pref.KeyPreference
 import com.wowrack.cloudrayaapps.data.pref.StartedPreference
 import com.wowrack.cloudrayaapps.data.pref.UserPreference
+import com.wowrack.cloudrayaapps.data.pref.keyDataStore
 import com.wowrack.cloudrayaapps.data.pref.startDataStore
 import com.wowrack.cloudrayaapps.data.pref.userDataStore
 import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
@@ -14,8 +16,9 @@ object Injection {
     fun provideUserRepository(context: Context): UserRepository {
         val apiService = ApiConfig.getApiService()
         val userPref = UserPreference.getInstance(context.userDataStore)
+        val keyPref = KeyPreference.getInstance(context.keyDataStore)
         val startPref = StartedPreference.getInstance(context.startDataStore)
-        return UserRepository.getInstance(apiService, userPref, startPref)
+        return UserRepository.getInstance(apiService, userPref, keyPref, startPref)
     }
 
     fun provideServerRepository(context: Context): ServerRepository {

@@ -22,7 +22,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/")
+                .baseUrl("https://api.cloudraya.com/v1/api/gateway")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
