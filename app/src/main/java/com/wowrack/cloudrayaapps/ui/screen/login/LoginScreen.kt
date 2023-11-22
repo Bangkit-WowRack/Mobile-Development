@@ -93,8 +93,8 @@ fun LoginContent(
         Spacer(modifier = Modifier.height(4.dp))
         TextInput(InputType.AppKey)
         TextInput(InputType.SecretKey)
-        TextInput(InputType.ApiUrl)
-        TextInput(InputType.AppName)
+//        TextInput(InputType.ApiUrl)
+//        TextInput(InputType.AppName)
         Button(
             onClick = navigateToHome,
             modifier = Modifier.fillMaxWidth(),

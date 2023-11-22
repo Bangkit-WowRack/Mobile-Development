@@ -65,7 +65,7 @@ fun ArticleItem(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(150.dp)
             )
 //            Image(
 //                painter = painterResource(article.image),
