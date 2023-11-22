@@ -56,14 +56,14 @@ fun HomeContent(
         Text(
             text = "Dashboard",
             fontFamily = poppins,
-            fontSize = 18.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         CardInfo()
         Text(
             text = "News",
             fontFamily = poppins,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
         ArticleList()
@@ -71,7 +71,7 @@ fun HomeContent(
         Text(
             text = "Notification",
             fontFamily = poppins,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
         Card(
