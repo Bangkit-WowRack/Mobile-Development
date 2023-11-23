@@ -1,17 +1,14 @@
 package com.wowrack.cloudrayaapps.ui.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.MiscellaneousServices
-import androidx.compose.material.icons.filled.Monitor
-import androidx.compose.material.icons.filled.Security
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.wowrack.cloudrayaapps.R
 import com.wowrack.cloudrayaapps.ui.navigation.NavigationItem
 import com.wowrack.cloudrayaapps.ui.navigation.Screen
@@ -20,17 +17,19 @@ import com.wowrack.cloudrayaapps.ui.navigation.Screen
 fun BottomBar(
     navigator: (String) -> Unit,
     currentRoute: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+    val iconSize = 24.dp
+
     val navigationItems = listOf(
         NavigationItem(
             title = stringResource(R.string.menu_home),
-            icon = Icons.Default.Home,
+            icon = painterResource(id = R.drawable.ic_home_solid),
             screen = Screen.Home
         ),
         NavigationItem(
             title = stringResource(R.string.menu_resource),
-            icon = Icons.Default.MiscellaneousServices,
+            icon = painterResource(id = R.drawable.ic_list_solid),
             screen = Screen.Resource
         ),
 //        NavigationItem(
@@ -46,7 +45,7 @@ fun BottomBar(
 //        ),
         NavigationItem(
             title = stringResource(R.string.menu_profile),
-            icon = Icons.Default.AccountCircle,
+            icon = painterResource(id = R.drawable.ic_user_solid),
             screen = Screen.Profile
         ),
     )
@@ -58,8 +57,9 @@ fun BottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title
+                        painter = item.icon,
+                        contentDescription = item.title,
+                        modifier = Modifier.size(iconSize)
                     )
                 },
                 selected = currentRoute == item.screen.route,

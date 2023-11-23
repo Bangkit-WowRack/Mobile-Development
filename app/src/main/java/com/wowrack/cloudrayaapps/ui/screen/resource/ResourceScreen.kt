@@ -61,7 +61,7 @@ fun ResourceContent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ResourceScreenPreview() {
     CloudRayaAppsTheme {
