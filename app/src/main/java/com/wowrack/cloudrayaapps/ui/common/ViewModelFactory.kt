@@ -13,6 +13,7 @@ import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorViewModel
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileViewModel
 import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceViewModel
 import com.wowrack.cloudrayaapps.ui.screen.server.ServerViewModel
+import com.wowrack.cloudrayaapps.ui.screen.welcome.WelcomeViewModel
 
 class ViewModelFactory(
     private val userRepository: UserRepository,
@@ -23,7 +24,9 @@ class ViewModelFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(WelcomeViewModel::class.java)) {
+            return WelcomeViewModel(userRepository) as T
+        } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(userRepository, articleRepository) as T
         } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(userRepository) as T

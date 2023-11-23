@@ -1,21 +1,24 @@
 package com.wowrack.cloudrayaapps.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
 import com.wowrack.cloudrayaapps.data.api.ApiService
-import com.wowrack.cloudrayaapps.data.model.User
 import com.wowrack.cloudrayaapps.data.pref.StartedPreference
 import com.wowrack.cloudrayaapps.data.pref.UserPreference
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
 import com.wowrack.cloudrayaapps.data.model.Key
+import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
+import com.wowrack.cloudrayaapps.data.token.isTokenExpired
 import com.wowrack.cloudrayaapps.data.utils.apiCallWithAuth
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 
 class UserRepository(
     private val apiService: ApiService,
@@ -29,9 +32,8 @@ class UserRepository(
     fun login(appKey: String, secretKey: String): LiveData<Result<Boolean>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
-
             try {
-                val response = apiService.login(appKey, secretKey)
+                val response = apiService.login(LoginRequest(appKey, secretKey))
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
@@ -56,6 +58,13 @@ class UserRepository(
                 emit(Result.Error(e.message.toString()))
             }
         }
+
+    fun isLogin(): Boolean {
+        val token = runBlocking {
+            userPreference.getToken().firstOrNull()
+        }
+        return token != null
+    }
 
     fun getUserDetail(): LiveData<Result<UserDetailResponse>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)

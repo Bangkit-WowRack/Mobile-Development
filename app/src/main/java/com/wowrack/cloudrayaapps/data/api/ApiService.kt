@@ -1,22 +1,25 @@
 package com.wowrack.cloudrayaapps.data.api
 
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
+import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.LoginResponse
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.model.VirtualMachinesResponse
+import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface ApiService {
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST("user/auth")
     suspend fun login(
-        @Field("appKey") appKey: String,
-        @Field("secretKey") secretKey: String
+        @Body requestBody: LoginRequest
     ): Response<LoginResponse>
 
     @GET("user/detail")
@@ -24,7 +27,7 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): Response<UserDetailResponse>
 
-    @GET("user/detail")
+    @GET("user/dashboard/list")
     suspend fun getUserDashboard(
         @Header("Authorization") token: String,
     ): Response<DashboardResponse>

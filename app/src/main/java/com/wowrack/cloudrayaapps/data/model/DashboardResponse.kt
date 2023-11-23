@@ -8,7 +8,7 @@ data class DashboardResponse(
 	val code: Int? = null,
 
 	@field:SerializedName("data")
-	val data: DashboardData? = null,
+	val data: DashboardData,
 
 	@field:SerializedName("message")
 	val message: String? = null

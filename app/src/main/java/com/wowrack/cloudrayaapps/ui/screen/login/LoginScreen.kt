@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.Smartphone
 import androidx.compose.material.icons.outlined.Web
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,10 +46,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wowrack.cloudrayaapps.R
+import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navigateToHome: () -> Unit,
@@ -57,80 +60,121 @@ fun LoginScreen(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
+    val loginStatus by viewModel.loginStatus
+    val isLoading by viewModel.isLoading
+
+    val onLogin = { appKey: String, secretKey: String ->
+        viewModel.login(appKey, secretKey)
+    }
+
+    var appKey by remember { mutableStateOf("") }
+    var secretKey by remember { mutableStateOf("") }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.primary
     ) {
-        LoginContent(navigateToHome)
-    }
-}
-
-@Composable
-fun LoginContent(
-    navigateToHome: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier
-            .padding(24.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Image(
-            painter = painterResource(R.drawable.cloudraya_login_logo),
-            contentDescription = "dummy logo",
-            modifier.size(200.dp)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = "Login",
-            fontFamily = poppins,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        TextInput(InputType.AppKey)
-        TextInput(InputType.SecretKey)
-//        TextInput(InputType.ApiUrl)
-//        TextInput(InputType.AppName)
-        Button(
-            onClick = navigateToHome,
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White
-            )
+        Column(
+            modifier
+                .padding(24.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp,
+                alignment = Alignment.CenterVertically
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Login", Modifier.padding(vertical = 8.dp), Color.DarkGray, fontFamily = poppins)
+
+            Image(
+                painter = painterResource(R.drawable.cloudraya_login_logo),
+                contentDescription = "dummy logo",
+                modifier.size(200.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Login",
+                fontFamily = poppins,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = appKey,
+                onValueChange = { appKey = it },
+                leadingIcon = { Icon(imageVector = InputType.AppKey.icon, null) },
+                placeholder = { Text(text = InputType.AppKey.label, fontFamily = poppins) },
+                singleLine = true,
+                shape = RoundedCornerShape(16.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                )
+            )
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = secretKey,
+                onValueChange = { secretKey = it },
+                leadingIcon = { Icon(imageVector = InputType.SecretKey.icon, null) },
+                placeholder = { Text(text = InputType.SecretKey.label, fontFamily = poppins) },
+                singleLine = true,
+                shape = RoundedCornerShape(16.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                )
+            )
+            when (loginStatus) {
+                is UiState.Loading -> {
+
+                }
+
+                is UiState.Success -> {
+                    navigateToHome()
+                }
+
+                is UiState.Error -> {
+                    Text(
+                        text = (loginStatus as UiState.Error).errorMessage,
+                        modifier = Modifier.padding(vertical = 3.dp),
+                        color = Color.Red,
+                        fontFamily = poppins
+                    )
+                }
+            }
+            Button(
+                onClick = { onLogin(appKey, secretKey) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isLoading,
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White
+                )
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .size(20.dp),
+                        color = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                } else {
+                    Text(
+                        text = "Login",
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Color.DarkGray,
+                        fontFamily = poppins
+                    )
+                }
+            }
         }
-
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TextInput(inputType: InputType) {
-    var value:String by remember { mutableStateOf("") }
-
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth(),
-        value = value,
-        onValueChange = {value = it},
-        leadingIcon = { Icon(imageVector = inputType.icon , null )},
-        placeholder = { Text(text = inputType.label, fontFamily = poppins)},
-        singleLine = true,
-        shape = RoundedCornerShape(16.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color.White,
-            focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        )
-
-    )
 }
 
 @Preview
@@ -147,27 +191,28 @@ sealed class InputType(
     val keyboardOptions: KeyboardOptions,
     val visualTransformation: VisualTransformation
 ) {
-    object AppKey: InputType(
+    object AppKey : InputType(
         label = "App Key",
         icon = Icons.Outlined.Key,
         KeyboardOptions(imeAction = ImeAction.Next),
         visualTransformation = VisualTransformation.None
     )
-    object SecretKey: InputType(
+
+    object SecretKey : InputType(
         label = "Secret Key",
         icon = Icons.Outlined.Lock,
         KeyboardOptions(imeAction = ImeAction.Next),
         visualTransformation = VisualTransformation.None
     )
 
-    object ApiUrl: InputType(
+    object ApiUrl : InputType(
         label = "API Url",
         icon = Icons.Outlined.Web,
         KeyboardOptions(imeAction = ImeAction.Next),
         visualTransformation = VisualTransformation.None
     )
 
-    object AppName: InputType(
+    object AppName : InputType(
         label = "App Name",
         icon = Icons.Outlined.Smartphone,
         KeyboardOptions(imeAction = ImeAction.Done),

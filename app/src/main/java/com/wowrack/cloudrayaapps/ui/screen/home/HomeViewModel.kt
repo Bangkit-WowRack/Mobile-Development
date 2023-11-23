@@ -10,7 +10,7 @@ import com.wowrack.cloudrayaapps.data.model.ArticlesResponse
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.ui.common.UiState
 
-class HomeViewModel (
+class HomeViewModel(
     private val userRepository: UserRepository,
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
@@ -23,7 +23,12 @@ class HomeViewModel (
     val articleData: State<UiState<ArticlesResponse>>
         get() = _articleData
 
-    fun getDashboardData () {
+    init {
+        getDashboardData()
+        getArticleData()
+    }
+
+    private fun getDashboardData() {
         userRepository.getUserDashboard().observeForever {
             when (it) {
                 is Result.Loading -> _dashboardData.value = UiState.Loading
@@ -33,7 +38,7 @@ class HomeViewModel (
         }
     }
 
-    fun getArticleData () {
+    private fun getArticleData() {
         articleRepository.getArticles().observeForever {
             when (it) {
                 is Result.Loading -> _articleData.value = UiState.Loading

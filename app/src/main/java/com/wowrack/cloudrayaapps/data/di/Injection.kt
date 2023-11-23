@@ -1,6 +1,8 @@
 package com.wowrack.cloudrayaapps.data.di
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.wowrack.cloudrayaapps.data.api.ApiConfig
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
 import com.wowrack.cloudrayaapps.data.pref.StartedPreference

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,12 +35,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.R
+import com.wowrack.cloudrayaapps.data.model.ServersItem
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 
 @Composable
 fun ProjectList(
+    data: ServersItem,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -66,20 +67,20 @@ fun ProjectList(
             )
             Column {
                 Text(
-                    text = "Virtual Machine Name",
+                    text = data.name,
                     fontFamily = poppins,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
                 Text(
-                    text = "Additional Info",
+                    text = data.status,
                     fontFamily = poppins,
                     fontSize = 10.sp,
                     color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.weight(1f)) // Spacer untuk memberikan jarak
+            Spacer(modifier = Modifier.weight(1f))
             ThreeDotMenu()
         }
     }
@@ -123,13 +124,5 @@ fun ThreeDotMenu() {
                 }
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProjectPreview() {
-    CloudRayaAppsTheme {
-        ProjectList()
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,9 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wowrack.cloudrayaapps.R
+import com.wowrack.cloudrayaapps.data.model.DetailData
+import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
+import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
+import com.wowrack.cloudrayaapps.ui.shimmer.ProfileScreenShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.utils.getStatus
 
 @Composable
 fun ProfileScreen(
@@ -45,15 +51,30 @@ fun ProfileScreen(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
+    val profileData by viewModel.profileData
+
     Surface(
         color = MaterialTheme.colorScheme.primary
     ) {
-        ProfileContent()
+        when (profileData) {
+            is UiState.Loading -> {
+                ProfileScreenShimmering()
+            }
+            is UiState.Success -> {
+                ProfileContent(
+                    data = (profileData as UiState.Success).data.data
+                )
+            }
+            is UiState.Error -> {
+                Text(text = (profileData as UiState.Error).errorMessage)
+            }
+        }
     }
 }
 
 @Composable
 fun ProfileContent(
+    data: DetailData,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -65,7 +86,7 @@ fun ProfileContent(
                 .padding(16.dp)
                 .size(100.dp)
                 .clip(CircleShape)
-                .background(Color.Gray) // Ganti warna latar sesuai kebutuhan
+                .background(Color.Gray)
         ) {
             Image(
                 painter = painterResource(R.drawable.people),
@@ -74,7 +95,7 @@ fun ProfileContent(
             )
         }
         Text(
-            text = "Michael Jackson",
+            text = data.firstname + " " + data.lastname,
             fontFamily = poppins,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
@@ -100,7 +121,7 @@ fun ProfileContent(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Active",
+                        text = data.status.getStatus(),
                         fontFamily = poppins,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxSize(),
@@ -127,7 +148,7 @@ fun ProfileContent(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Prepaid",
+                        text = data.billingtype,
                         fontFamily = poppins,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxSize(),
@@ -147,20 +168,22 @@ fun ProfileContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Spacer(modifier = Modifier.height(32.dp))
-                ProfileDetail(title = "Email", desc = "bangkitwowrack@gmail.com")
-                ProfileDetail(title = "Mobile Phone", desc = "0812-3456-7890")
-                ProfileDetail(title = "Company", desc = "Bangkit 01")
-                ProfileDetail(title = "Address", desc = "Dicoding Space Jalan Batik Kumeli No 50\n" +
-                        "Kabupaten Bandung, Jawa Barat\n" +
-                        "Indonesia")
-                ProfileDetail(title = "Postal Code", desc = "40123")
+                ProfileSection(title = "Email", desc = data.email)
+                ProfileSection(title = "Mobile Phone", desc = data.mobilePhone)
+                ProfileSection(title = "Company", desc = data.company)
+                ProfileSection(title = "Address", desc = data.address1)
+                ProfileSection(title = "Postal Code", desc = data.postalCode)
             }
         }
     }
 }
 
 @Composable
-fun ProfileDetail(modifier: Modifier = Modifier, title: String, desc: String) {
+fun ProfileSection(
+    modifier: Modifier = Modifier,
+    title: String,
+    desc: String
+) {
     Column(
         modifier = modifier.padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.Start

@@ -18,3 +18,13 @@ fun String?.showBottomBar(): Boolean {
         else -> false
     }
 }
+
+fun Int.getStatus(): String {
+    return when (this) {
+        1 -> "Active"
+        2 -> "Pending"
+        3 -> "Suspended"
+        4 -> "Terminated"
+        else -> "Unknown"
+    }
+}

@@ -23,6 +23,7 @@ import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorScreen
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileScreen
 import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceScreen
 import com.wowrack.cloudrayaapps.ui.screen.server.ServerScreen
+import com.wowrack.cloudrayaapps.ui.screen.welcome.WelcomeScreen
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.utils.showBottomBar
 
@@ -55,9 +56,19 @@ fun App(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Login.route,
+            startDestination = Screen.Welcome.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable(Screen.Welcome.route) {
+                WelcomeScreen(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    },
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route)
+                    }
+                )
+            }
             composable(Screen.GetStarted.route) {
                 GetStartedScreen(
 

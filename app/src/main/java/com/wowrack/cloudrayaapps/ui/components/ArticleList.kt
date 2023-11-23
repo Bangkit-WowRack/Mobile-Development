@@ -1,10 +1,12 @@
 package com.wowrack.cloudrayaapps.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,20 +28,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.data.dummy.getDummyArticle
 import com.wowrack.cloudrayaapps.data.model.Article
+import com.wowrack.cloudrayaapps.data.model.ArticleData
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.utils.truncateText
 
 @Composable
 fun ArticleList(
+    data: List<ArticleData>,
     modifier: Modifier = Modifier,
 ) {
-    val dummyArticles = getDummyArticle()
-
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-
+        contentPadding = PaddingValues(start = 5.dp)
     ) {
-        items(dummyArticles, key = { it.id }) { article ->
+        items(data, key = { it.id }) { article ->
             ArticleItem(article)
         }
     }
@@ -47,24 +50,27 @@ fun ArticleList(
 
 @Composable
 fun ArticleItem(
-    article: Article,
+    article: ArticleData,
     modifier: Modifier = Modifier,
 ) {
-    Card (
+    Card(
         modifier = modifier
             .width(300.dp)
-            .height(180.dp)
-            .shadow(8.dp, RoundedCornerShape(8.dp)),
+            .height(120.dp)
+            .shadow(8.dp, RoundedCornerShape(8.dp))
+            .clickable {
+
+            },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
         ),
-    ){
+    ) {
         Column(
             modifier.padding(16.dp),
         ) {
             Text(
-                text = "Lorem ipsum dolor sit amet",
+                text = article.title.truncateText(70),
                 fontFamily = poppins,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -79,28 +85,28 @@ fun ArticleItem(
                     .padding(2.dp)
             ) {
                 Text(
-                    text = "Lorem ipsum dolor sit amet",
+                    text = article.categories.name,
                     fontFamily = poppins,
                     fontSize = 12.sp,
                     modifier = modifier
                 )
             }
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia sapien id venenatis blandit. Quisque dictum, enim quis viverra malesuada.",
-                fontFamily = poppins,
-                fontSize = 12.sp,
-                maxLines = 3,
-                modifier = modifier
-            )
+//            Spacer(modifier = Modifier.height(4.dp))
+//            Text(
+//                text = "By ${article.creator.name}",
+//                fontFamily = poppins,
+//                fontSize = 12.sp,
+//                maxLines = 3,
+//                modifier = modifier
+//            )
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    CloudRayaAppsTheme {
-        ArticleList()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    CloudRayaAppsTheme {
+//        ArticleList()
+//    }
+//}

@@ -1,5 +1,6 @@
 package com.wowrack.cloudrayaapps.ui.screen.resource
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.wowrack.cloudrayaapps.data.common.Result
@@ -11,16 +12,20 @@ class ResourceViewModel (
     private val repository: ServerRepository
 ) : ViewModel() {
 
-    private val _profileData = mutableStateOf<UiState<VirtualMachinesResponse>>(UiState.Loading)
-    val profileData: UiState<VirtualMachinesResponse>
-        get() = _profileData.value
+    private val _vmListData = mutableStateOf<UiState<VirtualMachinesResponse>>(UiState.Loading)
+    val vmListData: State<UiState<VirtualMachinesResponse>>
+        get() = _vmListData
 
-    fun getVMList() {
+    init {
+        getVMList()
+    }
+
+    private fun getVMList() {
         repository.getVMList().observeForever {
             when (it) {
-                is Result.Loading -> _profileData.value = UiState.Loading
-                is Result.Success -> _profileData.value = UiState.Success(it.data)
-                is Result.Error -> _profileData.value = UiState.Error(it.error)
+                is Result.Loading -> _vmListData.value = UiState.Loading
+                is Result.Success -> _vmListData.value = UiState.Success(it.data)
+                is Result.Error -> _vmListData.value = UiState.Error(it.error)
             }
         }
     }

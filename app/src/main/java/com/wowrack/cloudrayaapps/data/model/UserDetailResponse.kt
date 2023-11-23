@@ -32,10 +32,10 @@ data class Currency(
 data class Ballance(
 
 	@field:SerializedName("current_cost")
-	val currentCost: Int,
+	val currentCost: Float,
 
 	@field:SerializedName("current_balance")
-	val currentBalance: Int
+	val currentBalance: Float
 )
 
 data class DetailData(

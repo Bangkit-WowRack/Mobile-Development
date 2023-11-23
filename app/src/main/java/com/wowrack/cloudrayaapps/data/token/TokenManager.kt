@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.first
 
 suspend fun UserPreference.getUserToken(): String? = coroutineScope {
     val token = getToken().first()
-    if (token != null && !isTokenExpired(token)) {
+    if (token != null) {
         "Bearer $token"
     } else {
         null
@@ -21,7 +21,7 @@ private fun decodeJwt(token: String): Claims {
     return jws.body
 }
 
-private fun isTokenExpired(token: String): Boolean {
+fun isTokenExpired(token: String): Boolean {
     return try {
         val expiration = decodeJwt(token)["exp"] as Long
         val currentTimeMillis = System.currentTimeMillis() / 1000

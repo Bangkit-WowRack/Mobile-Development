@@ -74,6 +74,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("io.coil-kt:coil-compose:2.2.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.compose.runtime:runtime:1.5.4")
 
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

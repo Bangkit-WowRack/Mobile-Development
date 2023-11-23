@@ -53,7 +53,7 @@ data class ServersItem(
 	val projectTag: String? = null,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	val name: String,
 
 	@field:SerializedName("location")
 	val location: String? = null,
@@ -71,7 +71,7 @@ data class ServersItem(
 	val launchDate: String? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null
+	val status: String
 )
 
 data class NetworkInfo(

@@ -15,6 +15,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -25,9 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wowrack.cloudrayaapps.R
+import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.ArticleList
 import com.wowrack.cloudrayaapps.ui.components.CardDashboardItem
+import com.wowrack.cloudrayaapps.ui.components.DashboardInfo
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.components.ProjectList
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
@@ -40,13 +44,9 @@ fun HomeScreen(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
-    HomeContent()
-}
+    val dashboardData by viewModel.dashboardData
+    val articleData by viewModel.articleData
 
-@Composable
-fun HomeContent(
-    modifier: Modifier = Modifier,
-) {
     Column(
         modifier
             .padding(16.dp)
@@ -59,14 +59,37 @@ fun HomeContent(
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
-        CardInfo()
+        when (dashboardData) {
+            is UiState.Loading -> {
+                Text(text = "Loading")
+            }
+            is UiState.Success -> {
+                DashboardInfo((dashboardData as UiState.Success).data.data)
+            }
+            is UiState.Error -> {
+                Text(text = (dashboardData as UiState.Error).errorMessage)
+            }
+        }
         Text(
             text = "News",
             fontFamily = poppins,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
-        ArticleList()
+        when (articleData) {
+            is UiState.Loading -> {
+                Text(text = "Loading")
+            }
+            is UiState.Success -> {
+                val data = (articleData as UiState.Success).data.data
+                if (data != null) {
+                    ArticleList(data)
+                }
+            }
+            is UiState.Error -> {
+                Text(text = (articleData as UiState.Error).errorMessage)
+            }
+        }
         Spacer(modifier = modifier.height(8.dp))
         Text(
             text = "Notification",
@@ -84,57 +107,5 @@ fun HomeContent(
         ) {
             NotificationList()
         }
-    }
-}
-
-@Composable
-fun CardInfo(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row() {
-            CardDashboardItem(
-                icon = R.drawable.ic_server_solid,
-                title = "Total VMs",
-                value = "2",
-                info = "VMs"
-            )
-            Spacer(modifier = modifier.width(8.dp))
-            CardDashboardItem(
-                icon = R.drawable.ic_map_pin_solid,
-                title = "Total Public IP",
-                value = "2",
-                info = "IP"
-            )
-        }
-        Spacer(modifier = modifier.height(8.dp))
-        Row {
-            CardDashboardItem(
-                icon = R.drawable.ic_check_circle_solid,
-                title = "Running VMs",
-                value = "2",
-                info = "VMs"
-            )
-            Spacer(modifier = modifier.width(8.dp))
-            CardDashboardItem(
-                icon = R.drawable.ic_times_circle_solid,
-                title = "Stopped VM",
-                value = "0",
-                info = "VM"
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    CloudRayaAppsTheme {
-        HomeScreen()
     }
 }
