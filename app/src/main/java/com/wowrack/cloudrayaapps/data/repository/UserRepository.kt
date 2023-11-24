@@ -1,6 +1,5 @@
 package com.wowrack.cloudrayaapps.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
@@ -14,12 +13,8 @@ import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
-import com.wowrack.cloudrayaapps.data.token.getUserToken
-import com.wowrack.cloudrayaapps.data.token.isTokenExpired
-//import com.wowrack.cloudrayaapps.data.utils.apiCallWithAuth
 import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
@@ -28,53 +23,8 @@ class UserRepository(
     private val userPreference: UserPreference,
     private val keyPreference: KeyPreference,
     private val startedPreference: StartedPreference,
-    private val validateLogins: suspend () -> Boolean
+    private val validateLogin: suspend () -> Boolean
 ) {
-
-    suspend fun validateLogin(
-
-    ): Boolean {
-        try {
-            val key = keyPreference.getKey().first()
-
-            if (key.appKey == "" || key.secretKey == "") {
-                return false
-            }
-
-            val response = apiService.login(LoginRequest(key.appKey, key.secretKey))
-
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    userPreference.saveSession(body.data)
-                    return true
-                }
-            }
-
-            return false
-        } catch (e: Exception) {
-            return false
-        }
-    }
-
-    suspend fun getTokenAndValidate(
-
-    ): String? {
-        val token = userPreference.getUserToken()
-        if (token != null) {
-            if (userPreference.isTokenExpired()) {
-                val isValid = validateLogin()
-                return if (isValid) {
-                    userPreference.getUserToken()
-                } else {
-                    null
-                }
-            }
-            return token
-        }
-
-        return null
-    }
 
     fun isStarted(): Boolean = startedPreference.isStarted()
 
@@ -82,7 +32,7 @@ class UserRepository(
         emit(Result.Loading)
 
         try {
-            val token = getTokenAndValidate()
+            val token = getTokenAndValidate(userPreference, validateLogin)
 
             if (token == null) {
                 emit(Result.NotLogged)
@@ -135,7 +85,7 @@ class UserRepository(
         emit(Result.Loading)
 
         try {
-            val token = getTokenAndValidate()
+            val token = getTokenAndValidate(userPreference, validateLogin)
 
             if (token != null) {
                 val response = apiService.getUserDetail(token)
@@ -168,7 +118,7 @@ class UserRepository(
         emit(Result.Loading)
 
         try {
-            val token = getTokenAndValidate()
+            val token = getTokenAndValidate(userPreference, validateLogin)
 
             if (token != null) {
                 val response = apiService.getUserDashboard(token)

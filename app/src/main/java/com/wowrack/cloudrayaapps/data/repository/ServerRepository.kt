@@ -28,30 +28,29 @@ class ServerRepository(
         try {
             val token = getTokenAndValidate(userPreference, validateLogin)
 
-            if (token == null) {
-                emit(Result.NotLogged)
-                return@liveData
-            }
-
-            val response = apiService.getVMList(token)
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    emit(Result.Success(body))
+            if (token != null) {
+                val response = apiService.getVMList(token)
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        emit(Result.Success(body))
+                    } else {
+                        emit(Result.Error("Something went wrong"))
+                    }
                 } else {
-                    emit(Result.Error("Something went wrong"))
+                    val errorBody = response.errorBody()?.string()
+                    if (!errorBody.isNullOrBlank()) {
+                        val gson = Gson()
+                        val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                        emit(Result.Error(errorResponse.message))
+                    } else {
+                        emit(Result.Error("Something went wrong"))
+                    }
                 }
+
             } else {
-                val errorBody = response.errorBody()?.string()
-                if (!errorBody.isNullOrBlank()) {
-                    val gson = Gson()
-                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                    emit(Result.Error(errorResponse.message))
-                } else {
-                    emit(Result.Error("Something went wrong"))
-                }
+                emit(Result.NotLogged)
             }
-
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
