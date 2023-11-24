@@ -1,6 +1,7 @@
 package com.wowrack.cloudrayaapps.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,12 +44,16 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun ProjectList(
     data: ServersItem,
+    navigateToMonitor: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(8.dp, RoundedCornerShape(16.dp)),
+            .shadow(8.dp, RoundedCornerShape(16.dp))
+            .clickable {
+                navigateToMonitor(data.serverId.toString())
+            },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
