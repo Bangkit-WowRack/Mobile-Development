@@ -56,7 +56,7 @@ fun ArticleItem(
     Card(
         modifier = modifier
             .width(300.dp)
-            .height(120.dp)
+            .height(150.dp)
             .shadow(8.dp, RoundedCornerShape(8.dp))
             .clickable {
 

@@ -34,6 +34,8 @@ import com.wowrack.cloudrayaapps.ui.components.CardDashboardItem
 import com.wowrack.cloudrayaapps.ui.components.DashboardInfo
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.components.ProjectList
+import com.wowrack.cloudrayaapps.ui.shimmer.ArticleShimmering
+import com.wowrack.cloudrayaapps.ui.shimmer.HomeDataShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
@@ -61,7 +63,7 @@ fun HomeScreen(
         )
         when (dashboardData) {
             is UiState.Loading -> {
-                Text(text = "Loading")
+                HomeDataShimmering()
             }
             is UiState.Success -> {
                 DashboardInfo((dashboardData as UiState.Success).data.data)
@@ -78,7 +80,7 @@ fun HomeScreen(
         )
         when (articleData) {
             is UiState.Loading -> {
-                Text(text = "Loading")
+                ArticleShimmering()
             }
             is UiState.Success -> {
                 val data = (articleData as UiState.Success).data.data
