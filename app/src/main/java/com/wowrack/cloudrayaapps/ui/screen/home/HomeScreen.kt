@@ -1,5 +1,6 @@
 package com.wowrack.cloudrayaapps.ui.screen.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -39,6 +42,15 @@ fun HomeScreen(
 ) {
     val dashboardData by viewModel.dashboardData
     val articleData by viewModel.articleData
+
+    LaunchedEffect(key1 = true) {
+        if (dashboardData is UiState.Loading) {
+            viewModel.getDashboardData()
+        }
+        if (articleData is UiState.Loading) {
+            viewModel.getArticleData()
+        }
+    }
 
     Column(
         modifier

@@ -23,12 +23,12 @@ class HomeViewModel(
     val articleData: State<UiState<ArticlesResponse>>
         get() = _articleData
 
-    init {
-        getDashboardData()
-        getArticleData()
-    }
+//    init {
+//        getDashboardData()
+//        getArticleData()
+//    }
 
-    private fun getDashboardData() {
+    fun getDashboardData() {
         userRepository.getUserDashboard().observeForever {
             when (it) {
                 is Result.Loading -> _dashboardData.value = UiState.Loading
@@ -39,7 +39,7 @@ class HomeViewModel(
         }
     }
 
-    private fun getArticleData() {
+    fun getArticleData() {
         articleRepository.getArticles().observeForever {
             when (it) {
                 is Result.Loading -> _articleData.value = UiState.Loading

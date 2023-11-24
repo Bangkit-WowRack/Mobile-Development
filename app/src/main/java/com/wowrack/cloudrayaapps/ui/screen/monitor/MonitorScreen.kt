@@ -34,6 +34,7 @@ fun MonitorScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
         MonitorContent()
+        DetailContent()
     }
 }
 

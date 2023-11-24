@@ -41,7 +41,7 @@ fun App(
                 BottomBar(
                     navigator = { route: String ->
                         navController.navigate(route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
+                            popUpTo(navController.graph.id) {
                                 saveState = true
                             }
                             restoreState = true
@@ -63,15 +63,14 @@ fun App(
                 WelcomeScreen(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
-                            navController.popBackStack()
                         }
                     },
                     navigateToHome = {
                         navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Home.route) {
+                            popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
                             navController.popBackStack()
@@ -100,10 +99,9 @@ fun App(
                 HomeScreen(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
-                            navController.popBackStack()
                         }
                     },
                 )
@@ -112,10 +110,9 @@ fun App(
                 ResourceScreen(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
-                            navController.popBackStack()
                         }
                     },
                     navigateToMonitor = { id ->
@@ -130,10 +127,9 @@ fun App(
                 ProfileScreen(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
-                            navController.popBackStack()
                         }
                     },
                 )
