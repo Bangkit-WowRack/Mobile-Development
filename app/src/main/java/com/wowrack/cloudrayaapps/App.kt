@@ -64,7 +64,7 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-
+                                inclusive = true
                             }
                             navController.popBackStack()
                         }
@@ -72,7 +72,7 @@ fun App(
                     navigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Home.route) {
-
+                                inclusive = true
                             }
                             navController.popBackStack()
                         }
@@ -87,8 +87,12 @@ fun App(
             composable(Screen.Login.route) {
                 LoginScreen(
                     navigateToHome = {
-                        navController.navigate(Screen.Home.route)
-                        navController.popBackStack()
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) {
+                                inclusive = true
+                            }
+                            navController.popBackStack()
+                        }
                     }
                 )
             }
@@ -97,7 +101,7 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-
+                                inclusive = true
                             }
                             navController.popBackStack()
                         }
@@ -109,7 +113,7 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-
+                                inclusive = true
                             }
                             navController.popBackStack()
                         }
@@ -127,7 +131,7 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-
+                                inclusive = true
                             }
                             navController.popBackStack()
                         }

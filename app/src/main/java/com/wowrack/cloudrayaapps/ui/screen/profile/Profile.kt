@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -54,6 +55,11 @@ fun ProfileScreen(
 ) {
     val profileData by viewModel.profileData
 
+    val onLogout = {
+        viewModel.logout()
+        navigateToLogin()
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.primary
     ) {
@@ -63,7 +69,8 @@ fun ProfileScreen(
             }
             is UiState.Success -> {
                 ProfileContent(
-                    data = (profileData as UiState.Success).data.data
+                    data = (profileData as UiState.Success).data.data,
+                    onLogout = onLogout
                 )
             }
             is UiState.Error -> {
@@ -79,6 +86,7 @@ fun ProfileScreen(
 @Composable
 fun ProfileContent(
     data: DetailData,
+    onLogout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -177,8 +185,26 @@ fun ProfileContent(
                 ProfileSection(title = "Company", desc = data.company)
                 ProfileSection(title = "Address", desc = data.address1)
                 ProfileSection(title = "Postal Code", desc = data.postalCode)
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = onLogout,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = "Log Out",
+                        fontFamily = poppins,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
             }
         }
+
     }
 }
 

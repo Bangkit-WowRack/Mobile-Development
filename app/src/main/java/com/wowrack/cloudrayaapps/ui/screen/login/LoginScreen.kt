@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,6 +66,17 @@ fun LoginScreen(
 
     val onLogin = { appKey: String, secretKey: String ->
         viewModel.login(appKey, secretKey)
+    }
+
+    LaunchedEffect(loginStatus) {
+        when (loginStatus) {
+            is UiState.Success -> {
+                navigateToHome()
+            }
+            else -> {
+                // do nothing
+            }
+        }
     }
 
     var appKey by remember { mutableStateOf("") }
@@ -134,11 +146,6 @@ fun LoginScreen(
                 is UiState.Loading -> {
 
                 }
-
-                is UiState.Success -> {
-                    navigateToHome()
-                }
-
                 is UiState.Error -> {
                     Text(
                         text = (loginStatus as UiState.Error).errorMessage,
@@ -147,7 +154,6 @@ fun LoginScreen(
                         fontFamily = poppins
                     )
                 }
-
                 is UiState.NotLogged -> {
                     Text(
                         text = "Something Went Wrong",
@@ -155,6 +161,9 @@ fun LoginScreen(
                         color = Color.Red,
                         fontFamily = poppins
                     )
+                }
+                else -> {
+                    // do nothing
                 }
             }
             Button(
