@@ -1,6 +1,7 @@
 package com.wowrack.cloudrayaapps.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,12 +44,16 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun ProjectList(
     data: ServersItem,
+    navigateToMonitor: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(8.dp, RoundedCornerShape(16.dp)),
+            .shadow(8.dp, RoundedCornerShape(16.dp))
+            .clickable {
+                navigateToMonitor(data.serverId.toString())
+            },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -80,49 +85,49 @@ fun ProjectList(
                     color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            ThreeDotMenu()
+//            Spacer(modifier = Modifier.weight(1f))
+//            ThreeDotMenu()
         }
     }
 }
 
-@Composable
-fun ThreeDotMenu() {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(
-        contentAlignment = Alignment.TopEnd
-    ) {
-        IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .widthIn(max = 120.dp)
-                .background(Color.White),
-        ) {
-            DropdownMenuItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                text = { Text(text = "Monitor") },
-                onClick = {
-                    expanded = false
-                }
-            )
-            DropdownMenuItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                text = { Text(text = "Security") },
-                onClick = {
-                    expanded = false
-                }
-            )
-        }
-    }
-}
+//@Composable
+//fun ThreeDotMenu() {
+//    var expanded by remember { mutableStateOf(false) }
+//
+//    Box(
+//        contentAlignment = Alignment.TopEnd
+//    ) {
+//        IconButton(onClick = { expanded = true }) {
+//            Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
+//        }
+//
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false },
+//            modifier = Modifier
+//                .padding(end = 8.dp)
+//                .widthIn(max = 120.dp)
+//                .background(Color.White),
+//        ) {
+//            DropdownMenuItem(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 8.dp),
+//                text = { Text(text = "Monitor") },
+//                onClick = {
+//                    expanded = false
+//                }
+//            )
+//            DropdownMenuItem(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 8.dp),
+//                text = { Text(text = "Security") },
+//                onClick = {
+//                    expanded = false
+//                }
+//            )
+//        }
+//    }
+//}

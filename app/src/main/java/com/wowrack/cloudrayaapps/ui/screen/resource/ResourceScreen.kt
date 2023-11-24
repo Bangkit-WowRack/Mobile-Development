@@ -83,8 +83,7 @@ fun ResourceContent(
             data.forEach {
                 ProjectList(
                     it,
-//                    navigateToMonitor,
-//                    navigateToServer,
+                    navigateToMonitor,
                 )
             }
         }
