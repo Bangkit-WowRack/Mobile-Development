@@ -14,9 +14,12 @@ import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
+import com.wowrack.cloudrayaapps.data.token.getUserToken
 import com.wowrack.cloudrayaapps.data.token.isTokenExpired
-import com.wowrack.cloudrayaapps.data.utils.apiCallWithAuth
+//import com.wowrack.cloudrayaapps.data.utils.apiCallWithAuth
+import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
@@ -24,10 +27,72 @@ class UserRepository(
     private val apiService: ApiService,
     private val userPreference: UserPreference,
     private val keyPreference: KeyPreference,
-    private val startedPreference: StartedPreference
+    private val startedPreference: StartedPreference,
+    private val validateLogins: suspend () -> Boolean
 ) {
 
+    suspend fun validateLogin(
+
+    ): Boolean {
+        try {
+            val key = keyPreference.getKey().first()
+
+            if (key.appKey == "" || key.secretKey == "") {
+                return false
+            }
+
+            val response = apiService.login(LoginRequest(key.appKey, key.secretKey))
+
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    userPreference.saveSession(body.data)
+                    return true
+                }
+            }
+
+            return false
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    suspend fun getTokenAndValidate(
+
+    ): String? {
+        val token = userPreference.getUserToken()
+        if (token != null) {
+            if (userPreference.isTokenExpired()) {
+                val isValid = validateLogin()
+                return if (isValid) {
+                    userPreference.getUserToken()
+                } else {
+                    null
+                }
+            }
+            return token
+        }
+
+        return null
+    }
+
     fun isStarted(): Boolean = startedPreference.isStarted()
+
+    fun isLoggedIn(): LiveData<Result<Boolean>> = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+
+        try {
+            val token = getTokenAndValidate()
+
+            if (token == null) {
+                emit(Result.NotLogged)
+            } else {
+                emit(Result.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
 
     fun login(appKey: String, secretKey: String): LiveData<Result<Boolean>> =
         liveData(Dispatchers.IO) {
@@ -70,8 +135,10 @@ class UserRepository(
         emit(Result.Loading)
 
         try {
-            apiCallWithAuth(userPreference) {
-                val response = apiService.getUserDetail(it)
+            val token = getTokenAndValidate()
+
+            if (token != null) {
+                val response = apiService.getUserDetail(token)
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
@@ -89,6 +156,8 @@ class UserRepository(
                         emit(Result.Error("Something went wrong"))
                     }
                 }
+            } else {
+                emit(Result.NotLogged)
             }
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -99,8 +168,10 @@ class UserRepository(
         emit(Result.Loading)
 
         try {
-            apiCallWithAuth(userPreference) {
-                val response = apiService.getUserDashboard(it)
+            val token = getTokenAndValidate()
+
+            if (token != null) {
+                val response = apiService.getUserDashboard(token)
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
@@ -118,6 +189,8 @@ class UserRepository(
                         emit(Result.Error("Something went wrong"))
                     }
                 }
+            } else {
+                emit(Result.NotLogged)
             }
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -136,14 +209,16 @@ class UserRepository(
             apiService: ApiService,
             userPreference: UserPreference,
             keyPreference: KeyPreference,
-            startedPreference: StartedPreference
+            startedPreference: StartedPreference,
+            validateLogin: suspend () -> Boolean
         ): UserRepository =
             instance ?: synchronized(this) {
                 instance ?: UserRepository(
                     apiService,
                     userPreference,
                     keyPreference,
-                    startedPreference
+                    startedPreference,
+                    validateLogin
                 )
             }.also { instance = it }
     }

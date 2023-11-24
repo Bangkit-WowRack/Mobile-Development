@@ -35,6 +35,10 @@ class LoginViewModel (
                     _loginStatus.value = UiState.Error(it.error)
                     _isLoading.value = false
                 }
+                is Result.NotLogged -> {
+                    _loginStatus.value = UiState.NotLogged
+                    _isLoading.value = false
+                }
             }
         }
     }

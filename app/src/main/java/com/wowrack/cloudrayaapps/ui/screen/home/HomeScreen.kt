@@ -34,11 +34,13 @@ import com.wowrack.cloudrayaapps.ui.components.CardDashboardItem
 import com.wowrack.cloudrayaapps.ui.components.DashboardInfo
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.components.ProjectList
+import com.wowrack.cloudrayaapps.ui.navigation.Screen
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun HomeScreen(
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -69,6 +71,9 @@ fun HomeScreen(
             is UiState.Error -> {
                 Text(text = (dashboardData as UiState.Error).errorMessage)
             }
+            is UiState.NotLogged -> {
+                navigateToLogin()
+            }
         }
         Text(
             text = "News",
@@ -88,6 +93,9 @@ fun HomeScreen(
             }
             is UiState.Error -> {
                 Text(text = (articleData as UiState.Error).errorMessage)
+            }
+            is UiState.NotLogged -> {
+                navigateToLogin()
             }
         }
         Spacer(modifier = modifier.height(8.dp))

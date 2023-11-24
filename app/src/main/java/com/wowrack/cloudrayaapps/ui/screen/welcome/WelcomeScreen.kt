@@ -1,10 +1,12 @@
 package com.wowrack.cloudrayaapps.ui.screen.welcome
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 
@@ -21,20 +23,15 @@ fun WelcomeScreen(
 
     when (isLogin) {
         is UiState.Loading -> {
-            // Loading()
         }
         is UiState.Success -> {
-            when((isLogin as UiState.Success<Boolean>).data) {
-                true -> {
-                    navigateToHome()
-                }
-                false -> {
-                    navigateToLogin()
-                }
-            }
+            navigateToHome()
+        }
+        is UiState.NotLogged -> {
+            navigateToLogin()
         }
         is UiState.Error -> {
-            // Error(message = (isLogin as UiState.Error).message, onRetry = onRetry)
+            navigateToLogin()
         }
     }
 }

@@ -6,6 +6,10 @@ import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 suspend fun UserPreference.getUserToken(): String? = coroutineScope {
     val token = getToken().first()
@@ -21,11 +25,16 @@ private fun decodeJwt(token: String): Claims {
     return jws.body
 }
 
-fun isTokenExpired(token: String): Boolean {
+suspend fun UserPreference.isTokenExpired(): Boolean {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+
     return try {
-        val expiration = decodeJwt(token)["exp"] as Long
-        val currentTimeMillis = System.currentTimeMillis() / 1000
-        currentTimeMillis >= expiration
+        val expiredDate = getExpiredAt().first() ?: return true
+        val expiredDateFormat = dateFormat.parse(expiredDate)
+        val currentDate = Date()
+
+        currentDate.after(expiredDateFormat)
     } catch (e: Exception) {
         true
     }

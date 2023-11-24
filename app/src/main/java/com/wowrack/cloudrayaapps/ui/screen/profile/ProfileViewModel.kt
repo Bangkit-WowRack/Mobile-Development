@@ -28,6 +28,7 @@ class ProfileViewModel (
                 is Result.Loading -> _profileData.value = UiState.Loading
                 is Result.Success -> _profileData.value = UiState.Success(it.data)
                 is Result.Error -> _profileData.value = UiState.Error(it.error)
+                is Result.NotLogged -> _profileData.value = UiState.NotLogged
             }
         }
     }

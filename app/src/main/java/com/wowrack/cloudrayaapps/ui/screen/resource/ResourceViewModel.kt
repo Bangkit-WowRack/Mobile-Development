@@ -26,6 +26,7 @@ class ResourceViewModel (
                 is Result.Loading -> _vmListData.value = UiState.Loading
                 is Result.Success -> _vmListData.value = UiState.Success(it.data)
                 is Result.Error -> _vmListData.value = UiState.Error(it.error)
+                is Result.NotLogged -> _vmListData.value = UiState.NotLogged
             }
         }
     }

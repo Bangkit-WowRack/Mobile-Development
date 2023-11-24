@@ -34,6 +34,7 @@ class HomeViewModel(
                 is Result.Loading -> _dashboardData.value = UiState.Loading
                 is Result.Success -> _dashboardData.value = UiState.Success(it.data)
                 is Result.Error -> _dashboardData.value = UiState.Error(it.error)
+                is Result.NotLogged -> _dashboardData.value = UiState.NotLogged
             }
         }
     }
@@ -44,6 +45,7 @@ class HomeViewModel(
                 is Result.Loading -> _articleData.value = UiState.Loading
                 is Result.Success -> _articleData.value = UiState.Success(it.data)
                 is Result.Error -> _articleData.value = UiState.Error(it.error)
+                is Result.NotLogged -> _articleData.value = UiState.NotLogged
             }
         }
     }

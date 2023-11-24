@@ -28,6 +28,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun ResourceScreen(
+    navigateToLogin: () -> Unit,
     navigateToMonitor: (String) -> Unit,
     navigateToServer: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -50,6 +51,9 @@ fun ResourceScreen(
         }
         is UiState.Error -> {
             Text(text = "Error")
+        }
+        is UiState.NotLogged -> {
+            navigateToLogin()
         }
     }
 }
@@ -87,10 +91,10 @@ fun ResourceContent(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ResourceScreenPreview() {
-    CloudRayaAppsTheme {
-        ResourceScreen({}, {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ResourceScreenPreview() {
+//    CloudRayaAppsTheme {
+//        ResourceScreen({}, {})
+//    }
+//}

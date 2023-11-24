@@ -83,11 +83,16 @@ fun App(
             }
             composable(Screen.Home.route) {
                 HomeScreen(
-
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    },
                 )
             }
             composable(Screen.Resource.route) {
                 ResourceScreen(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    },
                     navigateToMonitor = { id ->
                         navController.navigate(Screen.Monitor.createRoute(id))
                     },
@@ -97,7 +102,11 @@ fun App(
                 )
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    },
+                )
             }
             composable(
                 route = Screen.Monitor.route,
