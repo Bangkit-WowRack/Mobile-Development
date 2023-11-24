@@ -97,9 +97,9 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-                                inclusive = true
+
                             }
-                            launchSingleTop = true
+                            navController.popBackStack()
                         }
                     },
                 )
@@ -109,9 +109,9 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-                                inclusive = true
+
                             }
-                            launchSingleTop = true
+                            navController.popBackStack()
                         }
                     },
                     navigateToMonitor = { id ->
@@ -127,9 +127,9 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-                                inclusive = true
+
                             }
-                            launchSingleTop = true
+                            navController.popBackStack()
                         }
                     },
                 )
