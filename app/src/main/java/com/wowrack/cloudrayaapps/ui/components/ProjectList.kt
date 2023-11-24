@@ -80,49 +80,49 @@ fun ProjectList(
                     color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            ThreeDotMenu()
+//            Spacer(modifier = Modifier.weight(1f))
+//            ThreeDotMenu()
         }
     }
 }
 
-@Composable
-fun ThreeDotMenu() {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(
-        contentAlignment = Alignment.TopEnd
-    ) {
-        IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .widthIn(max = 120.dp)
-                .background(Color.White),
-        ) {
-            DropdownMenuItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                text = { Text(text = "Monitor") },
-                onClick = {
-                    expanded = false
-                }
-            )
-            DropdownMenuItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                text = { Text(text = "Security") },
-                onClick = {
-                    expanded = false
-                }
-            )
-        }
-    }
-}
+//@Composable
+//fun ThreeDotMenu() {
+//    var expanded by remember { mutableStateOf(false) }
+//
+//    Box(
+//        contentAlignment = Alignment.TopEnd
+//    ) {
+//        IconButton(onClick = { expanded = true }) {
+//            Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
+//        }
+//
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false },
+//            modifier = Modifier
+//                .padding(end = 8.dp)
+//                .widthIn(max = 120.dp)
+//                .background(Color.White),
+//        ) {
+//            DropdownMenuItem(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 8.dp),
+//                text = { Text(text = "Monitor") },
+//                onClick = {
+//                    expanded = false
+//                }
+//            )
+//            DropdownMenuItem(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 8.dp),
+//                text = { Text(text = "Security") },
+//                onClick = {
+//                    expanded = false
+//                }
+//            )
+//        }
+//    }
+//}
