@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -177,6 +179,24 @@ fun ProfileContent(
                 ProfileSection(title = "Company", desc = data.company)
                 ProfileSection(title = "Address", desc = data.address1)
                 ProfileSection(title = "Postal Code", desc = data.postalCode)
+                Button(
+                    onClick = { },
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Red
+                    )
+                ) {
+                    Text(
+                        text = "Logout",
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Color.White,
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
