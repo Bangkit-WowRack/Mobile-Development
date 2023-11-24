@@ -64,17 +64,17 @@ fun App(
                     navigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(Screen.Login.route) {
-                                inclusive = true
+
                             }
-                            launchSingleTop = true
+                            navController.popBackStack()
                         }
                     },
                     navigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Home.route) {
-                                inclusive = true
+
                             }
-                            launchSingleTop = true
+                            navController.popBackStack()
                         }
                     }
                 )
@@ -88,6 +88,7 @@ fun App(
                 LoginScreen(
                     navigateToHome = {
                         navController.navigate(Screen.Home.route)
+                        navController.popBackStack()
                     }
                 )
             }

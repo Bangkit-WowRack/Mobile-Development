@@ -24,22 +24,23 @@ class ViewModelFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(WelcomeViewModel::class.java)) {
-            return WelcomeViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(userRepository, articleRepository) as T
-        } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(MonitorViewModel::class.java)) {
-            return MonitorViewModel(serverRepository) as T
-        } else if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            return ProfileViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(ResourceViewModel::class.java)) {
-            return ResourceViewModel(serverRepository) as T
-        } else if (modelClass.isAssignableFrom(ServerViewModel::class.java)) {
-            return ServerViewModel(serverRepository) as T
+        return when {
+            modelClass.isAssignableFrom(WelcomeViewModel::class.java) ->
+                WelcomeViewModel(userRepository) as T
+            modelClass.isAssignableFrom(HomeViewModel::class.java) ->
+                HomeViewModel(userRepository, articleRepository) as T
+            modelClass.isAssignableFrom(LoginViewModel::class.java) ->
+                LoginViewModel(userRepository) as T
+            modelClass.isAssignableFrom(MonitorViewModel::class.java) ->
+                MonitorViewModel(serverRepository) as T
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) ->
+                ProfileViewModel(userRepository) as T
+            modelClass.isAssignableFrom(ResourceViewModel::class.java) ->
+                ResourceViewModel(serverRepository) as T
+            modelClass.isAssignableFrom(ServerViewModel::class.java) ->
+                ServerViewModel(serverRepository) as T
+            else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
-        throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 }
 
