@@ -46,6 +46,7 @@ import com.wowrack.cloudrayaapps.utils.getStatus
 
 @Composable
 fun ProfileScreen(
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -67,6 +68,9 @@ fun ProfileScreen(
             }
             is UiState.Error -> {
                 Text(text = (profileData as UiState.Error).errorMessage)
+            }
+            is UiState.NotLogged -> {
+                navigateToLogin()
             }
         }
     }
@@ -204,10 +208,10 @@ fun ProfileSection(
     }
 }
 
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    CloudRayaAppsTheme {
-        ProfileScreen()
-    }
-}
+//@Preview
+//@Composable
+//fun ProfileScreenPreview() {
+//    CloudRayaAppsTheme {
+//        ProfileScreen()
+//    }
+//}

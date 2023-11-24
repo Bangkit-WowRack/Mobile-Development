@@ -42,6 +42,10 @@ class UserPreference private constructor(private val userDataStore: DataStore<Pr
         preferences[bearerToken]
     }
 
+    fun getExpiredAt() = userDataStore.data.map { preferences ->
+        preferences[expiredAt]
+    }
+
     fun getRefreshToken() = userDataStore.data.map { preferences ->
         preferences[refreshToken]
     }

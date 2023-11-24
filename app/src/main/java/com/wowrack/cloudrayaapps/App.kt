@@ -62,10 +62,20 @@ fun App(
             composable(Screen.Welcome.route) {
                 WelcomeScreen(
                     navigateToLogin = {
-                        navController.navigate(Screen.Login.route)
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Login.route) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
                     },
                     navigateToHome = {
-                        navController.navigate(Screen.Home.route)
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
                     }
                 )
             }
@@ -83,11 +93,26 @@ fun App(
             }
             composable(Screen.Home.route) {
                 HomeScreen(
-
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Login.route) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+                    },
                 )
             }
             composable(Screen.Resource.route) {
                 ResourceScreen(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Login.route) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+                    },
                     navigateToMonitor = { id ->
                         navController.navigate(Screen.Monitor.createRoute(id))
                     },
@@ -97,7 +122,16 @@ fun App(
                 )
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Login.route) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+                    },
+                )
             }
             composable(
                 route = Screen.Monitor.route,

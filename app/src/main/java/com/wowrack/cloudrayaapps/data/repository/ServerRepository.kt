@@ -9,24 +9,27 @@ import com.wowrack.cloudrayaapps.data.pref.UserPreference
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.dummy.getDummyBandwidthResponse
 import com.wowrack.cloudrayaapps.data.dummy.getDummyUsageResponse
-import com.wowrack.cloudrayaapps.data.model.BandwidthData
 import com.wowrack.cloudrayaapps.data.model.BandwidthResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
-import com.wowrack.cloudrayaapps.data.utils.apiCallWithAuth
+import com.wowrack.cloudrayaapps.data.model.VMDetailResponse
+import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
 
-class ServerRepository (
+class ServerRepository(
     private val userPreference: UserPreference,
     private val apiService: ApiService,
+    private val validateLogin: suspend () -> Boolean
 ) {
 
     fun getVMList(): LiveData<Result<VirtualMachinesResponse>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
 
         try {
-            apiCallWithAuth(userPreference) {
-                val response = apiService.getVMList(it)
+            val token = getTokenAndValidate(userPreference, validateLogin)
+
+            if (token != null) {
+                val response = apiService.getVMList(token)
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
@@ -44,13 +47,50 @@ class ServerRepository (
                         emit(Result.Error("Something went wrong"))
                     }
                 }
+
+            } else {
+                emit(Result.NotLogged)
             }
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
     }
 
-    fun getVMUsage(id: String): LiveData<Result<UsageResponse>> = liveData(Dispatchers.IO) {
+    fun getVMDetail(id: Int): LiveData<Result<VMDetailResponse>> = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+
+        try {
+            val token = getTokenAndValidate(userPreference, validateLogin)
+
+            if (token == null) {
+                emit(Result.NotLogged)
+                return@liveData
+            }
+
+            val response = apiService.getVMDetail(token, id)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    emit(Result.Success(body))
+                } else {
+                    emit(Result.Error("Something went wrong"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (!errorBody.isNullOrBlank()) {
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                    emit(Result.Error(errorResponse.message))
+                } else {
+                    emit(Result.Error("Something went wrong"))
+                }
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getVMUsage(id: Int): LiveData<Result<UsageResponse>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
 
         try {
@@ -60,7 +100,7 @@ class ServerRepository (
         }
     }
 
-    fun getVMBandwidth(id: String): LiveData<Result<BandwidthResponse>> = liveData(Dispatchers.IO) {
+    fun getVMBandwidth(id: Int): LiveData<Result<BandwidthResponse>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
 
         try {
@@ -76,9 +116,14 @@ class ServerRepository (
         fun getInstance(
             userPreference: UserPreference,
             apiService: ApiService,
+            validateLogin: suspend () -> Boolean
         ): ServerRepository =
             instance ?: synchronized(this) {
-                instance ?: ServerRepository(userPreference, apiService)
+                instance ?: ServerRepository(
+                    userPreference,
+                    apiService,
+                    validateLogin
+                )
             }.also { instance = it }
     }
 }

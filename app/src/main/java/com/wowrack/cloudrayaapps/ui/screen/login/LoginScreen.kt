@@ -147,6 +147,15 @@ fun LoginScreen(
                         fontFamily = poppins
                     )
                 }
+
+                is UiState.NotLogged -> {
+                    Text(
+                        text = "Something Went Wrong",
+                        modifier = Modifier.padding(vertical = 3.dp),
+                        color = Color.Red,
+                        fontFamily = poppins
+                    )
+                }
             }
             Button(
                 onClick = { onLogin(appKey, secretKey) },

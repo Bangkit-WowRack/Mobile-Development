@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.ui.common.UiState
+import com.wowrack.cloudrayaapps.data.common.Result
 import kotlinx.coroutines.launch
 
 class WelcomeViewModel(
-    private val userRepository: UserRepository,
+    private val repository: UserRepository,
 ) : ViewModel() {
 
     val isLogin = mutableStateOf<UiState<Boolean>>(UiState.Loading)
@@ -17,12 +18,14 @@ class WelcomeViewModel(
         isLogin()
     }
 
-    private fun isLogin() = viewModelScope.launch {
-        try {
-            val login = userRepository.isLogin()
-            isLogin.value = UiState.Success(login)
-        } catch (e: Exception) {
-            isLogin.value = UiState.Error(e.message.toString())
+    private fun isLogin() {
+        repository.isLoggedIn().observeForever {
+            when (it) {
+                is Result.Loading -> isLogin.value = UiState.Loading
+                is Result.Success -> isLogin.value = UiState.Success(it.data)
+                is Result.Error -> isLogin.value = UiState.Error(it.error)
+                is Result.NotLogged -> isLogin.value = UiState.NotLogged
+            }
         }
     }
 }

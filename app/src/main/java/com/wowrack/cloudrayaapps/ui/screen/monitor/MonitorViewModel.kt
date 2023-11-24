@@ -19,22 +19,24 @@ class MonitorViewModel (
     val bandwidthData: UiState<BandwidthResponse>
         get() = _bandwidthData.value
 
-    fun getUsageData(id: String) {
+    fun getUsageData(id: Int) {
         repository.getVMUsage(id).observeForever {
             when (it) {
                 is Result.Loading -> _usageData.value = UiState.Loading
                 is Result.Success -> _usageData.value = UiState.Success(it.data)
                 is Result.Error -> _usageData.value = UiState.Error(it.error)
+                is Result.NotLogged -> _usageData.value = UiState.NotLogged
             }
         }
     }
 
-    fun getBandwidthData(id: String) {
+    fun getBandwidthData(id: Int) {
         repository.getVMBandwidth(id).observeForever {
             when (it) {
                 is Result.Loading -> _bandwidthData.value = UiState.Loading
                 is Result.Success -> _bandwidthData.value = UiState.Success(it.data)
                 is Result.Error -> _bandwidthData.value = UiState.Error(it.error)
+                is Result.NotLogged -> _bandwidthData.value = UiState.NotLogged
             }
         }
     }
