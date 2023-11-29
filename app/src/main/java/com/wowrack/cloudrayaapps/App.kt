@@ -73,7 +73,6 @@ fun App(
                             popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
-                            navController.popBackStack()
                         }
                     }
                 )
