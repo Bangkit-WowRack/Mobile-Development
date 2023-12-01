@@ -34,7 +34,7 @@ fun DashboardInfo(
             )
             Spacer(modifier = modifier.width(8.dp))
             CardDashboardItem(
-                icon = R.drawable.ic_map_pin_solid,
+                icon = R.drawable.ic_hdd_solid,
                 title = "Total Disk",
                 value = "${data.totalDisk} GB",
                 info = "Disk"
@@ -43,14 +43,14 @@ fun DashboardInfo(
         Spacer(modifier = modifier.height(8.dp))
         Row {
             CardDashboardItem(
-                icon = R.drawable.ic_check_circle_solid,
+                icon = R.drawable.ic_microchip_solid,
                 title = "Total CPU",
                 value = "${data.totalCpu} Cores",
                 info = "CPU"
             )
             Spacer(modifier = modifier.width(8.dp))
             CardDashboardItem(
-                icon = R.drawable.ic_times_circle_solid,
+                icon = R.drawable.ic_memory_solid,
                 title = "Total RAM",
                 value = "${data.totalRam} GB",
                 info = "RAM"
