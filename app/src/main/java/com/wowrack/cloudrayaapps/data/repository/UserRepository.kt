@@ -29,8 +29,6 @@ class UserRepository(
     fun isStarted(): Boolean = startedPreference.isStarted()
 
     fun isLoggedIn(): LiveData<Result<Boolean>> = liveData(Dispatchers.IO) {
-        emit(Result.Loading)
-
         try {
             val token = getTokenAndValidate(userPreference, validateLogin)
 
@@ -40,7 +38,7 @@ class UserRepository(
                 emit(Result.Success(true))
             }
         } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+            emit(Result.NotLogged)
         }
     }
 
@@ -64,7 +62,11 @@ class UserRepository(
                     if (!errorBody.isNullOrBlank()) {
                         val gson = Gson()
                         val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                        emit(Result.Error(errorResponse.message))
+                        if (errorResponse.code == 401) {
+                            emit(Result.NotLogged)
+                        } else {
+                            emit(Result.Error(errorResponse.message))
+                        }
                     } else {
                         emit(Result.Error("Login Failed"))
                     }
@@ -101,7 +103,11 @@ class UserRepository(
                     if (!errorBody.isNullOrBlank()) {
                         val gson = Gson()
                         val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                        emit(Result.Error(errorResponse.message))
+                        if (errorResponse.code == 401) {
+                            emit(Result.NotLogged)
+                        } else {
+                            emit(Result.Error(errorResponse.message))
+                        }
                     } else {
                         emit(Result.Error("Something went wrong"))
                     }
@@ -134,7 +140,11 @@ class UserRepository(
                     if (!errorBody.isNullOrBlank()) {
                         val gson = Gson()
                         val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                        emit(Result.Error(errorResponse.message))
+                        if (errorResponse.code == 401) {
+                            emit(Result.NotLogged)
+                        } else {
+                            emit(Result.Error(errorResponse.message))
+                        }
                     } else {
                         emit(Result.Error("Something went wrong"))
                     }

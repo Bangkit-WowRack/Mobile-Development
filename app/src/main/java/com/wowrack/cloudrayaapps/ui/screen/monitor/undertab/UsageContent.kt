@@ -22,7 +22,11 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun CPUTab(modifier: Modifier = Modifier) {
-    Column(modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
@@ -45,31 +49,16 @@ fun CPUTab(modifier: Modifier = Modifier) {
                 LineChartList()
             }
         }
+    }
+}
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .shadow(8.dp, RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-        ) {
-            Column(modifier = Modifier
-                .padding(16.dp)
-            ) {
-                Text(
-                    text = "GPU",
-                    fontFamily = poppins,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                LineChartList()
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+@Composable
+fun MemoryTab(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
@@ -85,6 +74,39 @@ fun CPUTab(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "Memory",
+                    fontFamily = poppins,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                LineChartList()
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+fun BandwidthTab(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .shadow(8.dp, RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background
+            ),
+        ) {
+            Column(modifier = Modifier
+                .padding(16.dp)
+            ) {
+                Text(
+                    text = "Bandwidth",
                     fontFamily = poppins,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold

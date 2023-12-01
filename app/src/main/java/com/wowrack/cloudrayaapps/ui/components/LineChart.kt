@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
@@ -24,10 +25,10 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 
 @Composable
 fun LineChartList() {
-    val steps = 5
+    val steps = 10
     val pointData = listOf(
         Point(0f, 0f),
-        Point(1f, 10f),
+        Point(1f, 17f),
         Point(2f, 20f),
         Point(3f, 30f),
         Point(4f, 40f),
@@ -37,6 +38,16 @@ fun LineChartList() {
         Point(8f, 80f),
         Point(9f, 90f),
         Point(10f, 100f),
+        Point(11f, 0f),
+        Point(12f, 10f),
+        Point(13f, 30f),
+        Point(14f, 40f),
+        Point(15f, 50f),
+        Point(16f, 60f),
+        Point(17f, 70f),
+        Point(18f, 80f),
+        Point(19f, 90f),
+        Point(20f, 100f),
     )
 
     val xAxisData = AxisData.Builder()
@@ -98,5 +109,10 @@ fun LineChartList() {
             .height(300.dp),
         lineChartData = lineChartData
     )
+}
 
+@Preview(showBackground = true)
+@Composable
+fun LineChartListPreview() {
+    LineChartList()
 }

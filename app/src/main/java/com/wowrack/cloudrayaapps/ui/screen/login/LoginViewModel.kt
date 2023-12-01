@@ -29,7 +29,6 @@ class LoginViewModel (
                 }
                 is Result.Success -> {
                     _loginStatus.value = UiState.Success(it.data)
-                    _isLoading.value = false
                 }
                 is Result.Error -> {
                     _loginStatus.value = UiState.Error(it.error)

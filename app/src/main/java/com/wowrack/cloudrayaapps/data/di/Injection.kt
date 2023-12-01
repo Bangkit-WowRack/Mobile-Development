@@ -21,7 +21,7 @@ object Injection {
         val userPref = UserPreference.getInstance(context.userDataStore)
         val keyPref = KeyPreference.getInstance(context.keyDataStore)
         val startPref = StartedPreference.getInstance(context.startDataStore)
-        val validateLogin = suspend { true }
+        val validateLogin = suspend { validateLogin(apiService, userPref, keyPref) }
         return UserRepository.getInstance(apiService, userPref, keyPref, startPref, validateLogin)
     }
 

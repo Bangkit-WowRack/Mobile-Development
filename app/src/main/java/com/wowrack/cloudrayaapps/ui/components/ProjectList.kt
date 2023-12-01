@@ -44,7 +44,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun ProjectList(
     data: ServersItem,
-    navigateToMonitor: (String) -> Unit,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -52,7 +52,7 @@ fun ProjectList(
             .fillMaxWidth()
             .shadow(8.dp, RoundedCornerShape(16.dp))
             .clickable {
-                navigateToMonitor(data.serverId.toString())
+                navigateToMonitor(data.localId)
             },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(

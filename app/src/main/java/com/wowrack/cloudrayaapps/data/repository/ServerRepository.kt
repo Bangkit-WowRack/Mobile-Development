@@ -42,7 +42,11 @@ class ServerRepository(
                     if (!errorBody.isNullOrBlank()) {
                         val gson = Gson()
                         val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                        emit(Result.Error(errorResponse.message))
+                        if (errorResponse.code == 401) {
+                            emit(Result.NotLogged)
+                        } else {
+                            emit(Result.Error(errorResponse.message))
+                        }
                     } else {
                         emit(Result.Error("Something went wrong"))
                     }
@@ -80,7 +84,11 @@ class ServerRepository(
                 if (!errorBody.isNullOrBlank()) {
                     val gson = Gson()
                     val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                    emit(Result.Error(errorResponse.message))
+                    if (errorResponse.code == 401) {
+                            emit(Result.NotLogged)
+                        } else {
+                            emit(Result.Error(errorResponse.message))
+                        }
                 } else {
                     emit(Result.Error("Something went wrong"))
                 }

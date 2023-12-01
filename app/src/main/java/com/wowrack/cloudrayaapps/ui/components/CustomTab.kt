@@ -63,7 +63,7 @@ private fun TabItem(
         } else {
             Color.Black
         },
-        animationSpec = tween(easing = LinearEasing),
+        animationSpec = tween(easing = LinearEasing), label = "tabTextColor",
     )
     Text(
         modifier = Modifier
@@ -74,7 +74,6 @@ private fun TabItem(
             .width(tabWidth)
             .padding(
                 vertical = 8.dp,
-                horizontal = 8.dp,
             ),
         text = text,
         color = tabTextColor,
@@ -95,7 +94,7 @@ fun CustomTab(
 
     val indicatorOffset: Dp by animateDpAsState(
         targetValue = calculatedTabWidth  * selectedItemIndex,
-        animationSpec = tween(easing = LinearEasing),
+        animationSpec = tween(easing = LinearEasing), label = "indicatorOffset",
     )
 
     Column {
@@ -129,6 +128,4 @@ fun CustomTab(
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
-
-
 }

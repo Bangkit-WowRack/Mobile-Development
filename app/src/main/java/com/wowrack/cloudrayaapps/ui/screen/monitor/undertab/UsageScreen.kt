@@ -1,13 +1,18 @@
 package com.wowrack.cloudrayaapps.ui.screen.monitor.undertab
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -20,6 +25,7 @@ fun UsageContent(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    var selected by remember { mutableIntStateOf(0) }
 
     Column(
         modifier
@@ -29,34 +35,20 @@ fun UsageContent(
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val (selected, setSelected) = remember {
-                mutableStateOf(0)
-            }
-
             CustomTab(
                 modifier = Modifier.fillMaxWidth(),
                 selectedItemIndex = selected,
                 items = listOf("CPU", "Memory", "Bandwidth"),
-                onClick = { index -> setSelected(index) }
+                onClick = { selected = it }
             )
 
             when (selected) {
                 0 -> CPUTab()
-                1 -> Text(
-                    text = "Memory",
-                    fontFamily = poppins,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier,
-                )
-                2 -> Text(
-                    text = "Bandwidth",
-                    fontFamily = poppins,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier,
-                )
+                1 -> MemoryTab()
+                2 -> BandwidthTab()
             }
+
+            Spacer(modifier = Modifier.fillMaxHeight())
         }
     }
 

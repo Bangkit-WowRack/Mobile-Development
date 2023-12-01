@@ -83,7 +83,7 @@ data class VMDetailData(
 	val diskId: String,
 
 	@field:SerializedName("package")
-	val jsonMemberPackage: String,
+	val vmPackage: String,
 
 	@field:SerializedName("os")
 	val os: String,

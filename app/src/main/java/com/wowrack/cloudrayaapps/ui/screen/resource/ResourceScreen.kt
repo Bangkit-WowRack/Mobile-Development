@@ -29,8 +29,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun ResourceScreen(
     navigateToLogin: () -> Unit,
-    navigateToMonitor: (String) -> Unit,
-    navigateToServer: (String) -> Unit,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ResourceViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -46,7 +45,6 @@ fun ResourceScreen(
             ResourceContent(
                 data = (vmListData as UiState.Success).data.data?.servers,
                 navigateToMonitor,
-                navigateToServer,
             )
         }
         is UiState.Error -> {
@@ -61,8 +59,7 @@ fun ResourceScreen(
 @Composable
 fun ResourceContent(
     data: List<ServersItem>?,
-    navigateToMonitor: (String) -> Unit,
-    navigateToServer: (String) -> Unit,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(

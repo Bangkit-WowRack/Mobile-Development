@@ -29,7 +29,7 @@ data class ServersItem(
 	val scheduleType: String? = null,
 
 	@field:SerializedName("local_id")
-	val localId: Int? = null,
+	val localId: Int,
 
 	@field:SerializedName("countrycode")
 	val countrycode: String? = null,

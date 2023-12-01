@@ -15,7 +15,6 @@ suspend fun validateLogin(
 ): Boolean {
     try {
         val key = keyPreference.getKey().first()
-
         if (key.appKey == "" || key.secretKey == "") {
             return false
         }

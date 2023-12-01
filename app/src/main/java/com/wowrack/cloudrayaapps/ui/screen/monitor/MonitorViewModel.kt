@@ -1,23 +1,29 @@
 package com.wowrack.cloudrayaapps.ui.screen.monitor
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.data.repository.ServerRepository
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.BandwidthResponse
+import com.wowrack.cloudrayaapps.data.model.VMDetailResponse
 import com.wowrack.cloudrayaapps.ui.common.UiState
 
 class MonitorViewModel (
     private val repository: ServerRepository
 ) : ViewModel() {
     private val _usageData = mutableStateOf<UiState<UsageResponse>>(UiState.Loading)
-    val usageData: UiState<UsageResponse>
-        get() = _usageData.value
+    val usageData: State<UiState<UsageResponse>>
+        get() = _usageData
 
     private val _bandwidthData = mutableStateOf<UiState<BandwidthResponse>>(UiState.Loading)
-    val bandwidthData: UiState<BandwidthResponse>
-        get() = _bandwidthData.value
+    val bandwidthData: State<UiState<BandwidthResponse>>
+        get() = _bandwidthData
+
+    private val _vmDetail = mutableStateOf<UiState<VMDetailResponse>>(UiState.Loading)
+    val vmDetail: State<UiState<VMDetailResponse>>
+        get() = _vmDetail
 
     fun getUsageData(id: Int) {
         repository.getVMUsage(id).observeForever {
@@ -37,6 +43,17 @@ class MonitorViewModel (
                 is Result.Success -> _bandwidthData.value = UiState.Success(it.data)
                 is Result.Error -> _bandwidthData.value = UiState.Error(it.error)
                 is Result.NotLogged -> _bandwidthData.value = UiState.NotLogged
+            }
+        }
+    }
+
+    fun getVMDetail(id: Int) {
+        repository.getVMDetail(id).observeForever {
+            when (it) {
+                is Result.Loading -> _vmDetail.value = UiState.Loading
+                is Result.Success -> _vmDetail.value = UiState.Success(it.data)
+                is Result.Error -> _vmDetail.value = UiState.Error(it.error)
+                is Result.NotLogged -> _vmDetail.value = UiState.NotLogged
             }
         }
     }

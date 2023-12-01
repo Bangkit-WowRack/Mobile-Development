@@ -117,9 +117,6 @@ fun App(
                     navigateToMonitor = { id ->
                         navController.navigate(Screen.Monitor.createRoute(id))
                     },
-                    navigateToServer = { id ->
-                        navController.navigate(Screen.Server.createRoute(id))
-                    }
                 )
             }
             composable(Screen.Profile.route) {
@@ -135,10 +132,19 @@ fun App(
             }
             composable(
                 route = Screen.Monitor.route,
-                arguments = listOf(navArgument("id") { type = NavType.StringType })
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) {
-                val id = it.arguments?.getString("id") ?: ""
-                MonitorScreen(id)
+                val id = it.arguments?.getInt("id") ?: 0
+                MonitorScreen(
+                    id = id,
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                )
             }
             composable(
                 route = Screen.Server.route,

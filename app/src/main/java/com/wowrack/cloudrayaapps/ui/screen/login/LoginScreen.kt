@@ -172,15 +172,16 @@ fun LoginScreen(
                 enabled = !isLoading,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    disabledContainerColor = Color.LightGray,
                 )
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier
-                            .padding(16.dp)
+                            .padding(12.dp)
                             .size(20.dp),
-                        color = MaterialTheme.colorScheme.onTertiaryContainer
+                        color = Color.White
                     )
                 } else {
                     Text(

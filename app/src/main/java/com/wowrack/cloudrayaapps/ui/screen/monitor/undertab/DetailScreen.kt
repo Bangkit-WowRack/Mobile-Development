@@ -24,11 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
-@Preview(showBackground = true)
 @Composable
 fun DetailContent(
+    data: VMDetailData,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -61,13 +62,13 @@ fun DetailContent(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Hostname",
+                    text = "Project Tag",
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     modifier = modifier,
                 )
                 Text(
-                    text = "VMSeattle12345",
+                    text = data.projectTag ?: "No Project Tag",
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -81,7 +82,7 @@ fun DetailContent(
                     modifier = modifier,
                 )
                 Text(
-                    text = "Active - Running",
+                    text = data.status,
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -95,7 +96,7 @@ fun DetailContent(
                     modifier = modifier,
                 )
                 Text(
-                    text = "2023-11-21 20:39:14",
+                    text = data.launchDate,
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -135,7 +136,7 @@ fun DetailContent(
                     modifier = modifier,
                 )
                 Text(
-                    text = "Jakarta",
+                    text = data.location,
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -151,7 +152,7 @@ fun DetailContent(
                     modifier = modifier,
                 )
                 Text(
-                    text = "Ax-small",
+                    text = data.vmPackage,
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -169,7 +170,7 @@ fun DetailContent(
                             modifier = modifier,
                         )
                         Text(
-                            text = "1 Core",
+                            text = "${data.cpu} Core",
                             fontFamily = poppins,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
@@ -184,7 +185,7 @@ fun DetailContent(
                             modifier = modifier,
                         )
                         Text(
-                            text = "1024 MB",
+                            text = "${data.memory} MB",
                             fontFamily = poppins,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
@@ -199,7 +200,7 @@ fun DetailContent(
                             modifier = modifier,
                         )
                         Text(
-                            text = "20 GB",
+                            text = "${data.rootdiskSize} GB",
                             fontFamily = poppins,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
@@ -217,7 +218,7 @@ fun DetailContent(
                     modifier = modifier,
                 )
                 Text(
-                    text = "Ubuntu 20.04 with cPanel",
+                    text = data.os,
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -240,7 +241,7 @@ fun DetailContent(
                     modifier = modifier,
                 )
                 Text(
-                    text = "163.53.192.66",
+                    text = data.publicIp,
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -252,13 +253,15 @@ fun DetailContent(
                     fontSize = 16.sp,
                     modifier = modifier,
                 )
-                Text(
-                    text = "10.10.19.175",
-                    fontFamily = poppins,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier,
-                )
+                data.privateIp.forEach {
+                    Text(
+                        text = it,
+                        fontFamily = poppins,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = modifier,
+                    )
+                }
             }
         }
     }

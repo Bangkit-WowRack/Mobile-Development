@@ -35,25 +35,25 @@ fun DashboardInfo(
             Spacer(modifier = modifier.width(8.dp))
             CardDashboardItem(
                 icon = R.drawable.ic_map_pin_solid,
-                title = "Total Public IP",
-                value = data.totalIp.toString(),
-                info = "IP"
+                title = "Total Disk",
+                value = "${data.totalDisk} GB",
+                info = "Disk"
             )
         }
         Spacer(modifier = modifier.height(8.dp))
         Row {
             CardDashboardItem(
                 icon = R.drawable.ic_check_circle_solid,
-                title = "Running VMs",
-                value = data.totalActive.toString(),
-                info = "VMs"
+                title = "Total CPU",
+                value = "${data.totalCpu} Cores",
+                info = "CPU"
             )
             Spacer(modifier = modifier.width(8.dp))
             CardDashboardItem(
                 icon = R.drawable.ic_times_circle_solid,
-                title = "Stopped VM",
-                value = data.totalStopped.toString(),
-                info = "VM"
+                title = "Total RAM",
+                value = "${data.totalRam} GB",
+                info = "RAM"
             )
         }
     }
