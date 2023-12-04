@@ -29,6 +29,7 @@ import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.CustomTab
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.DetailContent
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.UsageContent
+import com.wowrack.cloudrayaapps.ui.shimmer.DetailCardShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
@@ -51,8 +52,7 @@ fun MonitorScreen(
 
     when (vmDetail) {
         is UiState.Loading -> {
-//            MonitorScreenShimmering()
-            Text("Loading")
+            DetailCardShimmering()
         }
         is UiState.Success -> {
             MonitorContent(
