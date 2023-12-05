@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -80,15 +82,45 @@ fun DetailCardShimmerItem(brush: Brush) {
                 .fillMaxWidth(fraction = 0.2f)
                 .background(brush)
         )
-        Spacer(modifier = Modifier.padding(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Spacer(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(brush)
+            )
+            Spacer(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(brush)
+            )
+            Spacer(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(brush)
+            )
+            Spacer(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(brush)
+            )
+        }
+        Spacer(modifier = Modifier.padding(8.dp))
         Spacer(
             modifier = Modifier
                 .height(40.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .clip(CircleShape)
                 .fillMaxWidth(fraction = 1f)
                 .background(brush)
         )
-        Spacer(modifier = Modifier.padding(16.dp))
+        Spacer(modifier = Modifier.padding(8.dp))
         Card(
             modifier = Modifier
                 .fillMaxWidth()

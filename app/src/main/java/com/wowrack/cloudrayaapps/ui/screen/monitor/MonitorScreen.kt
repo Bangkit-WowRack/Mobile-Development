@@ -2,12 +2,22 @@ package com.wowrack.cloudrayaapps.ui.screen.monitor
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Monitor
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -96,6 +106,76 @@ fun MonitorContent(
                 fontSize = 16.sp,
                 color = Color.Black
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Row(
+                modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier.size(56.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.White,
+                        containerColor = Color.Green
+                    )
+
+                ) {
+                    Icon(Icons.Filled.PlayArrow,
+                        contentDescription = "Start",
+                        modifier = Modifier
+                        .size(40.dp)
+                    )
+                }
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier.size(56.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.White,
+                        containerColor = Color.Red
+                    )
+
+                ) {
+                    Icon(
+                        Icons.Filled.Stop,
+                        contentDescription = "Stop",
+                        modifier = Modifier
+                            .size(40.dp)
+                    )
+                }
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier.size(56.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.White,
+                        containerColor = Color.Yellow
+                    )
+
+                ) {
+                    Icon(
+                        Icons.Filled.Refresh,
+                        contentDescription = "Reboot",
+                        modifier = Modifier
+                            .size(40.dp)
+                    )
+                }
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier.size(56.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.White,
+                        containerColor = Color.Blue
+                    )
+
+                ) {
+                    Icon(
+                        Icons.Filled.Monitor,
+                        contentDescription = "SSH",
+                        modifier = Modifier
+                            .size(40.dp)
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
