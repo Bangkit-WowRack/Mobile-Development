@@ -20,6 +20,7 @@ import com.wowrack.cloudrayaapps.ui.screen.getstarted.GetStartedScreen
 import com.wowrack.cloudrayaapps.ui.screen.home.HomeScreen
 import com.wowrack.cloudrayaapps.ui.screen.login.LoginScreen
 import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorScreen
+import com.wowrack.cloudrayaapps.ui.screen.otp.OTPScreen
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileScreen
 import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceScreen
 import com.wowrack.cloudrayaapps.ui.screen.server.ServerScreen
@@ -74,7 +75,7 @@ fun App(
                                 inclusive = true
                             }
                         }
-                    }
+                    },
                 )
             }
             composable(Screen.GetStarted.route) {
@@ -87,6 +88,29 @@ fun App(
                     navigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Home.route) {
+                                inclusive = true
+                            }
+                            navController.popBackStack()
+                        }
+                    },
+                    navigateToOTP = { otpToken, key ->
+                        navController.navigate(Screen.OTPScreen.createRoute(otpToken, key)) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
+            }
+            composable(Screen.OTPScreen.route) {
+                val otpToken = it.arguments?.getString("otpToken") ?: ""
+                val key = it.arguments?.getString("key") ?: ""
+                OTPScreen(
+                    otpToken = otpToken,
+                    key = key,
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(navController.graph.id) {
                                 inclusive = true
                             }
                             navController.popBackStack()

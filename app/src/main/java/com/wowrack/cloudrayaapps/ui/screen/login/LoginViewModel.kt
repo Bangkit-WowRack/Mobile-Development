@@ -3,7 +3,6 @@ package com.wowrack.cloudrayaapps.ui.screen.login
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.ui.common.UiState
@@ -12,8 +11,8 @@ class LoginViewModel (
     private val repository: UserRepository
 ) : ViewModel() {
 
-    private val _loginStatus = mutableStateOf<UiState<Boolean>>(UiState.Loading)
-    val loginStatus: State<UiState<Boolean>>
+    private val _loginStatus = mutableStateOf<UiState<String>>(UiState.Loading)
+    val loginStatus: State<UiState<String>>
         get() = _loginStatus
 
     private val _isLoading = mutableStateOf(false)

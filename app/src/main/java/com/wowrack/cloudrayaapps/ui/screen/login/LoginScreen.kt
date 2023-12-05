@@ -46,7 +46,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.gson.Gson
 import com.wowrack.cloudrayaapps.R
+import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
@@ -56,6 +58,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun LoginScreen(
     navigateToHome: () -> Unit,
+    navigateToOTP: (otp: String, key: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -68,19 +71,27 @@ fun LoginScreen(
         viewModel.login(appKey, secretKey)
     }
 
+    var appKey by remember { mutableStateOf("30f15c6d-5350-4756-b9aa-d0606a84a2da") }
+    var secretKey by remember { mutableStateOf("MgKgfgo49UK6GVTBp7hizT9mXn7Hq83w") }
+
     LaunchedEffect(loginStatus) {
         when (loginStatus) {
             is UiState.Success -> {
-                navigateToHome()
+                if ((loginStatus as UiState.Success).data != "Success") {
+                    navigateToOTP(
+                        (loginStatus as UiState.Success).data,
+                        Gson().toJson(Key(appKey, secretKey))
+                    )
+                } else {
+                    navigateToHome()
+                }
             }
+
             else -> {
                 // do nothing
             }
         }
     }
-
-    var appKey by remember { mutableStateOf("") }
-    var secretKey by remember { mutableStateOf("") }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -146,6 +157,7 @@ fun LoginScreen(
                 is UiState.Loading -> {
 
                 }
+
                 is UiState.Error -> {
                     Text(
                         text = (loginStatus as UiState.Error).errorMessage,
@@ -154,6 +166,7 @@ fun LoginScreen(
                         fontFamily = poppins
                     )
                 }
+
                 is UiState.NotLogged -> {
                     Text(
                         text = "Something Went Wrong",
@@ -162,6 +175,7 @@ fun LoginScreen(
                         fontFamily = poppins
                     )
                 }
+
                 else -> {
                     // do nothing
                 }
@@ -200,7 +214,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     CloudRayaAppsTheme {
-        LoginScreen({})
+        LoginScreen({}, { _, _ -> })
     }
 }
 

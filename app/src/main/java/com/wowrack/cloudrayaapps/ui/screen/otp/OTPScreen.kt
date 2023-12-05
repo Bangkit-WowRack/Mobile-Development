@@ -1,5 +1,6 @@
 package com.wowrack.cloudrayaapps.ui.screen.otp
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,81 +37,134 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.gson.Gson
+import com.wowrack.cloudrayaapps.data.model.Key
+import com.wowrack.cloudrayaapps.ui.common.UiState
+import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
-fun OTPScreen() {
-    Surface() {
-        OTPContent()
-    }
-}
-
-@Composable
-fun OTPContent(
-    modifier: Modifier = Modifier
+fun OTPScreen(
+    otpToken: String,
+    key: String,
+    navigateToHome: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: OTPViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
 ) {
-    var otpValue by remember {
-        mutableStateOf("")
+    val userKey = Gson().fromJson(key, Key::class.java)
+
+    val otpStatus by viewModel.otpStatus
+
+    val otpVerifToken by viewModel.otpToken
+
+    var otpValue by remember { mutableStateOf("") }
+
+    LaunchedEffect(true) {
+        viewModel.getOTP(otpToken)
     }
 
-    Column(
-        modifier
-            .padding(24.dp)
-            .fillMaxSize(),
-    ) {
-        Column(
-            modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Enter Verification Code",
-                fontFamily = poppins,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+    LaunchedEffect(otpStatus) {
+        when (otpStatus) {
+            is UiState.Success -> {
+                navigateToHome()
+            }
+            else -> {
+                // do nothing
+            }
         }
+    }
+
+    Surface {
         Column(
-            modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier
+                .padding(24.dp)
+                .fillMaxSize(),
         ) {
-            Text(
-                text = "Enter The OTP",
-                fontFamily = poppins,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "We already send a OTP Code to your email",
-                fontFamily = poppins,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            OTPTextField(
-                otpText = otpValue,
-                onOtpTextChange = { value, otpInputFilled ->
-                    otpValue = value
-                }
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            Button(
-                onClick = {  },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
+            Column(
+                modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Verify",
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    color = Color.White,
-                    fontFamily = poppins
+                    text = "Enter Verification Code",
+                    fontFamily = poppins,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
                 )
+            }
+            Column(
+                modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Enter The OTP",
+                    fontFamily = poppins,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "We already send a OTP Code to your email",
+                    fontFamily = poppins,
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                OTPTextField(
+                    otpText = otpValue,
+                    onOtpTextChange = { value, _ ->
+                        otpValue = value
+                    }
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                when(otpStatus) {
+                    is UiState.Error -> {
+                        Text(
+                            text = (otpStatus as UiState.Error).errorMessage,
+                            fontFamily = poppins,
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    else -> {
+                        // do nothing
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        if (otpValue.length < 6) {
+                            return@Button
+                        }
+                        when (otpVerifToken) {
+                            is UiState.Success -> {
+                                viewModel.verifyOTP(otpValue, (otpVerifToken as UiState.Success<String>).data, userKey)
+                            }
+                            else -> {
+                                // do nothing
+                            }
+                        }
+                    },
+                    enabled = otpValue.length == 6,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        disabledContainerColor = Color.LightGray,
+                    )
+                ) {
+                    Text(
+                        text = "Verify",
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Color.White,
+                        fontFamily = poppins
+                    )
+                }
             }
         }
     }
@@ -122,12 +177,6 @@ fun OTPTextField(
     otpCount: Int = 6,
     onOtpTextChange: (String, Boolean) -> Unit
 ) {
-    LaunchedEffect(Unit) {
-        if (otpText.length > otpCount) {
-            throw IllegalArgumentException("Otp text value must not have more than otpCount: $otpCount characters")
-        }
-    }
-
     BasicTextField(
         modifier = modifier,
         value = TextFieldValue(otpText, selection = TextRange(otpText.length)),
@@ -188,10 +237,10 @@ private fun CharView(
     )
 }
 
-@Preview
-@Composable
-fun OTPPreview() {
-    CloudRayaAppsTheme {
-        OTPScreen()
-    }
-}
+//@Preview
+//@Composable
+//fun OTPPreview() {
+//    CloudRayaAppsTheme {
+//        OTPScreen()
+//    }
+//}

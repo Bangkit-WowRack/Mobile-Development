@@ -18,22 +18,23 @@ class UserPreference private constructor(private val userDataStore: DataStore<Pr
 
     suspend fun saveSession(user: User) {
         userDataStore.edit { preferences ->
-            preferences[bearerToken] = user.bearerToken
-            preferences[username] = user.username
-            preferences[expiredAt] = user.expiredAt
-            preferences[timezone] = user.timezone
-            preferences[refreshToken] = user.refreshToken
+            preferences[bearerToken] = user.bearerToken!!
+            preferences[username] = user.username!!
+            preferences[expiredAt] = user.expiredAt!!
+            preferences[timezone] = user.timezone!!
+            preferences[refreshToken] = user.refreshToken!!
         }
     }
 
     fun getSession(): Flow<User> {
         return userDataStore.data.map { preferences ->
             User(
-                preferences[bearerToken] ?: "",
-                preferences[username] ?: "",
-                preferences[expiredAt] ?: "",
-                preferences[timezone] ?: "",
-                preferences[refreshToken] ?: "",
+                needOtp = false,
+                bearerToken = preferences[bearerToken] ?: "",
+                username = preferences[username] ?: "",
+                expiredAt = preferences[expiredAt] ?: "",
+                timezone = preferences[timezone] ?: "",
+                refreshToken = preferences[refreshToken] ?: "",
             )
         }
     }

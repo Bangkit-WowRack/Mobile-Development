@@ -4,6 +4,9 @@ sealed class Screen(val route: String) {
     object Welcome : Screen("welcome")
     object GetStarted : Screen("get_started")
     object Login : Screen("login")
+    object OTPScreen : Screen("otp_screen/{otpToken}/{key}") {
+        fun createRoute(otpToken: String, key: String) = "otp_screen/$otpToken/$key"
+    }
     object Home : Screen("home")
     object Resource : Screen("resource")
     object Profile : Screen("profile")

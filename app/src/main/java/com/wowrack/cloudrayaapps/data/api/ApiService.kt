@@ -1,8 +1,11 @@
 package com.wowrack.cloudrayaapps.data.api
 
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
+import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
+import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.LoginResponse
+import com.wowrack.cloudrayaapps.data.model.OTPRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.model.VMDetailResponse
 import com.wowrack.cloudrayaapps.data.model.VirtualMachinesResponse
@@ -23,6 +26,18 @@ interface ApiService {
     suspend fun login(
         @Body requestBody: LoginRequest
     ): Response<LoginResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("user/auth/verify-otp")
+    suspend fun verifyOTP(
+        @Body requestBody: OTPRequest
+    ): Response<LoginResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("user/auth/get-otp")
+    suspend fun getOTP(
+        @Body requestBody: GetOTPRequest
+    ): Response<GetOTPResponse>
 
     @GET("user/detail")
     suspend fun getUserDetail(

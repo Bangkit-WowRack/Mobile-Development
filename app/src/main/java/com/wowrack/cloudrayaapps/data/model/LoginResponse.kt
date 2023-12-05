@@ -16,18 +16,24 @@ data class LoginResponse(
 
 data class User(
 
+	@field:SerializedName("need_otp")
+	val needOtp: Boolean,
+
+	@field:SerializedName("otp_request_token")
+	val otpRequestToken: String? = null,
+
 	@field:SerializedName("refresh_token")
-	val refreshToken: String,
+	val refreshToken: String? = null,
 
 	@field:SerializedName("bearer_token")
-	val bearerToken: String,
+	val bearerToken: String? = null,
 
 	@field:SerializedName("timezone")
-	val timezone: String,
+	val timezone: String? = null,
 
 	@field:SerializedName("expired_at")
-	val expiredAt: String,
+	val expiredAt: String? = null,
 
 	@field:SerializedName("username")
-	val username: String
+	val username: String? = null
 )

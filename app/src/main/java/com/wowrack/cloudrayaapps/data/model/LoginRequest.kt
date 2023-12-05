@@ -7,5 +7,8 @@ data class LoginRequest(
     val appKey: String,
 
     @SerializedName("secret_key")
-    val secretKey: String
+    val secretKey: String,
+
+    @SerializedName("device_token")
+    val deviceToken: String,
 )

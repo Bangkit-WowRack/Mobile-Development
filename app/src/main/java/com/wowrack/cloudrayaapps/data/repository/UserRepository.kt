@@ -1,5 +1,6 @@
 package com.wowrack.cloudrayaapps.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
@@ -9,10 +10,14 @@ import com.wowrack.cloudrayaapps.data.pref.UserPreference
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
+import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
+import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
+import com.wowrack.cloudrayaapps.data.model.OTPRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
+import com.wowrack.cloudrayaapps.data.token.DeviceTokenManager
 import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
@@ -42,18 +47,27 @@ class UserRepository(
         }
     }
 
-    fun login(appKey: String, secretKey: String): LiveData<Result<Boolean>> =
+    fun login(appKey: String, secretKey: String): LiveData<Result<String>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                val response = apiService.login(LoginRequest(appKey, secretKey))
+                val response = apiService.login(LoginRequest(
+                    appKey,
+                    secretKey,
+                    deviceToken = DeviceTokenManager.getDeviceToken()
+                ))
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
+                        if (body.data.needOtp) {
+                            emit(Result.Success(body.data.otpRequestToken!!))
+                            return@liveData
+                        }
+
                         startedPreference.setStarted()
                         userPreference.saveSession(body.data)
                         keyPreference.saveKey(Key(appKey, secretKey))
-                        emit(Result.Success(true))
+                        emit(Result.Success("Success"))
                     } else {
                         emit(Result.Error("Login Failed"))
                     }
@@ -69,6 +83,66 @@ class UserRepository(
                         }
                     } else {
                         emit(Result.Error("Login Failed"))
+                    }
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    fun getOTP(otpRequestToken: String) : LiveData<Result<String>> =
+        liveData(Dispatchers.IO) {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getOTP(GetOTPRequest(otpRequestToken))
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        emit(Result.Success(body.data.verifyOtpToken))
+                    } else {
+                        emit(Result.Error("Failed to get OTP"))
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (!errorBody.isNullOrBlank()) {
+                        val gson = Gson()
+                        val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                        emit(Result.Error(errorResponse.message))
+                    } else {
+                        emit(Result.Error("Failed to get OTP"))
+                    }
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    fun verifyOTP(otp: String, otpRequestToken: String, key: Key): LiveData<Result<Boolean>> =
+        liveData(Dispatchers.IO) {
+            emit(Result.Loading)
+            try {
+                val response = apiService.verifyOTP(OTPRequest(
+                    otp,
+                    otpRequestToken,
+                ))
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        startedPreference.setStarted()
+                        userPreference.saveSession(body.data)
+                        keyPreference.saveKey(key)
+                        emit(Result.Success(true))
+                    } else {
+                        emit(Result.Error("Login Failed"))
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (!errorBody.isNullOrBlank()) {
+                        val gson = Gson()
+                        val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                        emit(Result.Error(errorResponse.message))
+                    } else {
+                        emit(Result.Error("Wrong OTP"))
                     }
                 }
             } catch (e: Exception) {
