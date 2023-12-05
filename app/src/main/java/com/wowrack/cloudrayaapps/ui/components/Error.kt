@@ -19,6 +19,7 @@ import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 
 @Composable
 fun Error(
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -34,13 +35,13 @@ fun Error(
                 .padding(bottom = 16.dp),
         )
         Button(
-            onClick = {  },
+            onClick = onRetry,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ),
             modifier = modifier
-                .width(120.dp)
+                .width(90.dp)
                 .height(IntrinsicSize.Min)
         ) {
             Text(text = "Retry")
@@ -48,10 +49,10 @@ fun Error(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ErrorPreview() {
     CloudRayaAppsTheme {
-        Error()
+        Error({})
     }
 }

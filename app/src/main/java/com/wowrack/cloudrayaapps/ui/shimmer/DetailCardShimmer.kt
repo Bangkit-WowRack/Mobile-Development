@@ -38,7 +38,7 @@ fun DetailCardShimmering() {
         Color.LightGray.copy(alpha = 0.6f),
     )
 
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "detailCard")
     val translateAnim = transition.animateFloat(
         initialValue = 0f,
         targetValue = 1000f,
@@ -48,7 +48,7 @@ fun DetailCardShimmering() {
                 easing = FastOutSlowInEasing
             ),
             repeatMode = RepeatMode.Reverse
-        )
+        ), label = "detailCard"
     )
 
     val brush = Brush.linearGradient(
