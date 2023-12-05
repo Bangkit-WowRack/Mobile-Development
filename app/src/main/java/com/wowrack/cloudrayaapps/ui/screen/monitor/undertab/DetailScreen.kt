@@ -88,7 +88,7 @@ fun DetailContent(
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Launch Date",
                     fontFamily = poppins,
@@ -142,9 +142,9 @@ fun DetailContent(
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Divider()
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Type Package",
                     fontFamily = poppins,
@@ -208,9 +208,9 @@ fun DetailContent(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Divider()
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Operating System",
                     fontFamily = poppins,
@@ -224,16 +224,16 @@ fun DetailContent(
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Divider()
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Main Public and Private IP",
                     fontFamily = poppins,
                     fontSize = 16.sp,
                     modifier = modifier,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Public IP",
                     fontFamily = poppins,
