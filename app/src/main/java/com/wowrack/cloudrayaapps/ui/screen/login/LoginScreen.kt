@@ -1,7 +1,8 @@
 package com.wowrack.cloudrayaapps.ui.screen.login
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AppBlocking
 import androidx.compose.material.icons.outlined.Key
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Smartphone
@@ -33,12 +33,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
@@ -95,64 +94,78 @@ fun LoginScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.primary
+
     ) {
         Column(
             modifier
                 .padding(24.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(
-                16.dp,
-                alignment = Alignment.CenterVertically
-            ),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.Center
         ) {
 
-            Image(
-                painter = painterResource(R.drawable.cloudraya_login_logo),
-                contentDescription = "dummy logo",
-                modifier.size(200.dp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Login",
                 fontFamily = poppins,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 45.sp,
+                fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.height(4.dp))
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = appKey,
-                onValueChange = { appKey = it },
-                leadingIcon = { Icon(imageVector = InputType.AppKey.icon, null) },
-                placeholder = { Text(text = InputType.AppKey.label, fontFamily = poppins) },
-                singleLine = true,
-                shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                )
+            Text(
+                text = "Welcome! Log in using your App Key and Secret Key. Find these keys on Cludraya website for access",
+                fontFamily = poppins,
+                fontSize = 16.sp,
+                color = Color.Black
             )
-            TextField(
+            Spacer(modifier = Modifier.height(40.dp))
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                value = secretKey,
-                onValueChange = { secretKey = it },
-                leadingIcon = { Icon(imageVector = InputType.SecretKey.icon, null) },
-                placeholder = { Text(text = InputType.SecretKey.label, fontFamily = poppins) },
-                singleLine = true,
-                shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
+                    .fillMaxWidth()
+                    .border(1.dp, Color.Black, RoundedCornerShape(16.dp))
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = appKey,
+                    onValueChange = { appKey = it },
+                    leadingIcon = { Icon(imageVector = InputType.AppKey.icon, null) },
+                    placeholder = { Text(text = InputType.AppKey.label, fontFamily = poppins, color = Color.DarkGray) },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    textStyle = TextStyle(color = Color.Black),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    )
                 )
-            )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, Color.Black, RoundedCornerShape(16.dp))
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = secretKey,
+                    onValueChange = { secretKey = it },
+                    leadingIcon = { Icon(imageVector = InputType.SecretKey.icon, null) },
+                    placeholder = { Text(text = InputType.SecretKey.label, fontFamily = poppins, color = Color.DarkGray) },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    textStyle = TextStyle(color = Color.Black),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(32.dp))
+
             when (loginStatus) {
                 is UiState.Loading -> {
 
@@ -180,13 +193,14 @@ fun LoginScreen(
                     // do nothing
                 }
             }
+
             Button(
                 onClick = { onLogin(appKey, secretKey) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isLoading,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
+                    containerColor = MaterialTheme.colorScheme.primary,
                     disabledContainerColor = Color.LightGray,
                 )
             ) {
@@ -201,7 +215,6 @@ fun LoginScreen(
                     Text(
                         text = "Login",
                         modifier = Modifier.padding(vertical = 8.dp),
-                        color = Color.DarkGray,
                         fontFamily = poppins
                     )
                 }
