@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,14 +52,20 @@ fun ServerScreen(
         WebView(context).apply {
             webViewClient = WebViewClient()
 
-//            loadUrl((sshUrl as UiState.Success<String>).data)
-            loadUrl("https://vjak2.wowrack.cloud/resource/noVNC/vnc.html?autoconnect=true&port=8443&token=VV0r5Rfn3KirOqTZ5Njki5+rTZknqdNalsqxeymVZAbLg/9Y/X6y8DjZ93IH4hgfrZT3nJ2tuSxQ0zWdsZHV42fpce2G0Z1dLSHhIy5OuFH2ZyGHxLVxyoMDCubckN5Dv4H63Wf+y+4PdINBvI0fmU5GtV3ITpoHsKvDaXrAtJayC/vg5RsvXIv9ht3RUC/Tkk4fpYHdAug0b1zEmkVQm/lYtzrvGQvEtPb5TpzdufPJYyBZ+Gz3IvJDZTOoxVbBseyovKO708+RPyfIC0PpQpA94AeYcNT0TDUJrenlntX+Q/+NC5thmZlM20cSbp4c7nJ6yZ5emqQE3qVNqVX4wosI+QE8M0MGU0s101j20f/cvrKvMmf0zn/1PlPzpyen/rUp7BdkljcCo1UFcwl7czbM1kOf40Po+q5mA5lQPBvsEDJHEeb2Ub8CikDHp6BczZvKt+NJU42bbsUSbRH85eZNjmiw5qpyDCsKzY1/IsSt1mwQRsQtTevgu7kZispPSAH/dsPVShMSELlqRWVxPeG9HZShCv0Px/YRkSOsXTZlCQ==")
+            loadUrl((sshUrl as UiState.Success<String>).data)
         }
     })
 
+//    DisposableEffect(id) {
+//        viewModel.getSshUrl(id)
+//        onDispose {
+//
+//        }
+//    }
+//
 //    when (sshUrl) {
 //        is UiState.Loading -> {
-//
+//            Text("Loading")
 //        }
 //        is UiState.Success -> {
 //            AndroidView(factory = {

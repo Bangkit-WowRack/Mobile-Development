@@ -26,51 +26,51 @@ import retrofit2.http.Path
 
 interface ApiService {
     @Headers("Content-Type: application/json")
-    @POST("user/auth")
+    @POST("auth")
     suspend fun login(
         @Body requestBody: LoginRequest
     ): Response<LoginResponse>
 
     @Headers("Content-Type: application/json")
-    @POST("user/auth/verify-otp")
+    @POST("auth/verify-otp")
     suspend fun verifyOTP(
         @Body requestBody: OTPRequest
     ): Response<LoginResponse>
 
     @Headers("Content-Type: application/json")
-    @POST("user/auth/get-otp")
+    @POST("auth/get-otp")
     suspend fun getOTP(
         @Body requestBody: GetOTPRequest
     ): Response<GetOTPResponse>
 
-    @GET("user/detail")
+    @GET("detail")
     suspend fun getUserDetail(
         @Header("Authorization") token: String,
     ): Response<UserDetailResponse>
 
-    @GET("user/dashboard/list")
+    @GET("dashboard/list")
     suspend fun getUserDashboard(
         @Header("Authorization") token: String,
     ): Response<DashboardResponse>
 
-    @GET("user/virtualmachines")
+    @GET("virtualmachines")
     suspend fun getVMList(
         @Header("Authorization") token: String,
     ): Response<VirtualMachinesResponse>
 
-    @GET("user/virtualmachines/{id}")
+    @GET("virtualmachines/{id}")
     suspend fun getVMDetail(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Response<VMDetailResponse>
 
-    @POST("user/virtualmachines/action")
+    @POST("virtualmachines/action")
     suspend fun actionVM(
         @Header("Authorization") token: String,
         @Body requestBody: ActionVMRequest
     ): Response<ActionVMResponse>
 
-    @POST("virtualmachine/open-console")
+    @POST("virtualmachines/open-console")
     suspend fun openConsole(
         @Header("Authorization") token: String,
         @Body requestBody: ConsoleRequest

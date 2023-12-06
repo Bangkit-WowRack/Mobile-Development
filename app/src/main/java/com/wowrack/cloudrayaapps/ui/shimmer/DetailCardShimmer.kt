@@ -23,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -67,21 +68,38 @@ fun DetailCardShimmerItem(brush: Brush) {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
-        Spacer(
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .height(30.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .fillMaxWidth(fraction = 0.4f)
-                .background(brush)
-        )
-        Spacer(modifier = Modifier.padding(5.dp))
-        Spacer(
-            modifier = Modifier
-                .height(25.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .fillMaxWidth(fraction = 0.2f)
-                .background(brush)
-        )
+                .fillMaxWidth()
+        ) {
+            Column {
+                Spacer(
+                    modifier = Modifier
+                        .height(30.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .fillMaxWidth(fraction = 0.4f)
+                        .background(brush)
+                )
+                Spacer(modifier = Modifier.padding(5.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(25.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .fillMaxWidth(fraction = 0.2f)
+                        .background(brush)
+                )
+            }
+            Spacer(
+                modifier = Modifier
+                    .padding(end = 6.dp)
+                    .height(30.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .fillMaxWidth(fraction = 0.6f)
+                    .background(brush)
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
