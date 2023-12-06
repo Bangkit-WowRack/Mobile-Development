@@ -14,6 +14,6 @@ sealed class Screen(val route: String) {
         fun createRoute(id: Int) = "monitor/$id"
     }
     object Server : Screen("server/{id}") {
-        fun createRoute(id: String) = "server/$id"
+        fun createRoute(id: Int) = "server/$id"
     }
 }

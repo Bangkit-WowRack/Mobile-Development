@@ -21,7 +21,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun ServerScreen(
-    id: String,
+    id: Int,
     modifier: Modifier = Modifier,
     viewModel: ServerViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -55,6 +55,6 @@ fun ServerContent(
 @Composable
 fun ServerScreenPreview() {
     CloudRayaAppsTheme {
-        ServerScreen("1")
+        ServerScreen(1)
     }
 }

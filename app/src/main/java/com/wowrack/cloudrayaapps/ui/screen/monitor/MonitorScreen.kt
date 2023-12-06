@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wowrack.cloudrayaapps.data.model.VMAction
 import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
@@ -42,11 +43,14 @@ import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.DetailContent
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.UsageContent
 import com.wowrack.cloudrayaapps.ui.shimmer.DetailCardShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import kotlinx.coroutines.Job
 
 @Composable
 fun MonitorScreen(
     id: Int,
     navigateToLogin: () -> Unit,
+    navigateToServer: (Int) -> Unit,
+    snackbar: (String) -> Job,
     modifier: Modifier = Modifier,
     viewModel: MonitorViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -68,6 +72,9 @@ fun MonitorScreen(
         is UiState.Success -> {
             MonitorContent(
                 data = (vmDetail as UiState.Success).data.data,
+                navigateToServer = navigateToServer,
+                viewModel = viewModel,
+                snackbar = snackbar
             )
         }
         is UiState.Error -> {
@@ -85,9 +92,34 @@ fun MonitorScreen(
 @Composable
 fun MonitorContent(
     data: VMDetailData,
+    navigateToServer: (Int) -> Unit,
+    viewModel: MonitorViewModel,
+    snackbar: (String) -> Job,
     modifier: Modifier = Modifier
 ) {
+    val vmActionStatus by viewModel.actionVMStatus
+
     var selected by remember { mutableIntStateOf(0) }
+
+    DisposableEffect(key1 = vmActionStatus) {
+        when (vmActionStatus) {
+            is UiState.Loading -> {
+                viewModel.getVMDetail(data.vpcId)
+            }
+            is UiState.Success -> {
+                viewModel.getVMDetail(data.vpcId)
+            }
+            is UiState.Error -> {
+                snackbar(((vmActionStatus as UiState.Error).errorMessage))
+            }
+            is UiState.NotLogged -> {
+                // do nothing
+            }
+        }
+        onDispose {
+
+        }
+    }
 
     Column(
         modifier = modifier
@@ -113,70 +145,79 @@ fun MonitorContent(
             Spacer(modifier = Modifier.height(8.dp))
             
             Row(
-                modifier.fillMaxWidth(),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier.size(56.dp),
+                    onClick = { viewModel.doVMAction(data.vpcId, VMAction.START) },
+                    enabled = data.status == "Stopped",
+                    modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        containerColor = Color.Green
+                        disabledContainerColor = Color.Gray,
+                        containerColor = Color(0xFF34D399)
                     )
-
                 ) {
                     Icon(Icons.Filled.PlayArrow,
                         contentDescription = "Start",
                         modifier = Modifier
-                        .size(40.dp)
+                        .size(37.dp)
                     )
                 }
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier.size(56.dp),
+                    onClick = { viewModel.doVMAction(data.vpcId, VMAction.STOP) },
+                    enabled = data.status == "Running",
+                    modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        containerColor = Color.Red
+                        disabledContainerColor = Color.Gray,
+                        containerColor = Color(0xFFEF4444)
                     )
-
                 ) {
                     Icon(
                         Icons.Filled.Stop,
                         contentDescription = "Stop",
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(37.dp)
                     )
                 }
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier.size(56.dp),
+                    onClick = { viewModel.doVMAction(data.vpcId, VMAction.REBOOT) },
+                    enabled = data.status == "Stopped" || data.status == "Running",
+                    modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        containerColor = Color.Yellow
+                        disabledContainerColor = Color.Gray,
+                        containerColor = Color(0xFFFFC107)
                     )
-
                 ) {
                     Icon(
                         Icons.Filled.Refresh,
                         contentDescription = "Reboot",
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(37.dp)
                     )
                 }
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier.size(56.dp),
+                    onClick = { navigateToServer(data.vpcId) },
+                    enabled = data.status == "Running",
+                    modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        containerColor = Color.Blue
+                        disabledContainerColor = Color.Gray,
+                        containerColor = Color(0xFF06B6D4)
                     )
-
                 ) {
                     Icon(
                         Icons.Filled.Monitor,
                         contentDescription = "SSH",
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(37.dp)
                     )
                 }
             }

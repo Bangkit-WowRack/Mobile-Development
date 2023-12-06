@@ -2,6 +2,8 @@ package com.wowrack.cloudrayaapps.data.api
 
 import com.wowrack.cloudrayaapps.data.model.ActionVMRequest
 import com.wowrack.cloudrayaapps.data.model.ActionVMResponse
+import com.wowrack.cloudrayaapps.data.model.ConsoleRequest
+import com.wowrack.cloudrayaapps.data.model.ConsoleResponse
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
 import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
@@ -67,4 +69,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body requestBody: ActionVMRequest
     ): Response<ActionVMResponse>
+
+    @POST("virtualmachine/open-console")
+    suspend fun openConsole(
+        @Header("Authorization") token: String,
+        @Body requestBody: ConsoleRequest
+    ): Response<ConsoleResponse>
 }

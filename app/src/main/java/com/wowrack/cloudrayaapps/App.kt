@@ -2,8 +2,12 @@ package com.wowrack.cloudrayaapps
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -27,6 +31,7 @@ import com.wowrack.cloudrayaapps.ui.screen.server.ServerScreen
 import com.wowrack.cloudrayaapps.ui.screen.welcome.WelcomeScreen
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.utils.showBottomBar
+import kotlinx.coroutines.launch
 
 @Composable
 fun App(
@@ -36,7 +41,19 @@ fun App(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val showSnackBar = { message: String ->
+        scope.launch {
+            snackbarHostState.showSnackbar(message)
+        }
+    }
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         bottomBar = {
             if (currentRoute.showBottomBar()) {
                 BottomBar(
@@ -168,13 +185,17 @@ fun App(
                             }
                         }
                     },
+                    navigateToServer = { vmId ->
+                        navController.navigate(Screen.Server.createRoute(vmId))
+                    },
+                    snackbar = showSnackBar
                 )
             }
             composable(
                 route = Screen.Server.route,
-                arguments = listOf(navArgument("id") { type = NavType.StringType })
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) {
-                val id = it.arguments?.getString("id") ?: ""
+                val id = it.arguments?.getInt("id") ?: 0
                 ServerScreen(id)
             }
         }
