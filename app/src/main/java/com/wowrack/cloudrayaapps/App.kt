@@ -138,6 +138,7 @@ fun App(
             composable(Screen.Home.route) {
                 HomeScreen(
                     navigateToLogin = {
+                        showSnackBar("Login Session Expired")
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.id) {
                                 inclusive = true
@@ -149,6 +150,7 @@ fun App(
             composable(Screen.Resource.route) {
                 ResourceScreen(
                     navigateToLogin = {
+                        showSnackBar("Login Session Expired")
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.id) {
                                 inclusive = true
@@ -179,6 +181,7 @@ fun App(
                 MonitorScreen(
                     id = id,
                     navigateToLogin = {
+                        showSnackBar("Login Session Expired")
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.id) {
                                 inclusive = true
@@ -199,6 +202,7 @@ fun App(
                 ServerScreen(
                     id = id,
                     navigateToLogin = {
+                        showSnackBar("Login Session Expired")
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.id) {
                                 inclusive = true
