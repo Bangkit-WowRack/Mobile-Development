@@ -1,6 +1,8 @@
 package com.wowrack.cloudrayaapps.ui.screen.monitor
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +20,13 @@ import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -69,20 +73,24 @@ fun MonitorScreen(
         is UiState.Loading -> {
             DetailCardShimmering()
         }
+
         is UiState.Success -> {
             MonitorContent(
+                id = id,
                 data = (vmDetail as UiState.Success).data.data,
                 navigateToServer = navigateToServer,
                 viewModel = viewModel,
                 snackbar = snackbar
             )
         }
+
         is UiState.Error -> {
             ErrorMessage(
                 message = (vmDetail as UiState.Error).errorMessage,
                 onRetry = { viewModel.getVMDetail(id) }
             )
         }
+
         is UiState.NotLogged -> {
             navigateToLogin()
         }
@@ -91,6 +99,7 @@ fun MonitorScreen(
 
 @Composable
 fun MonitorContent(
+    id: Int,
     data: VMDetailData,
     navigateToServer: (Int) -> Unit,
     viewModel: MonitorViewModel,
@@ -103,16 +112,15 @@ fun MonitorContent(
 
     DisposableEffect(key1 = vmActionStatus) {
         when (vmActionStatus) {
-            is UiState.Loading -> {
-                viewModel.getVMDetail(data.vpcId)
-            }
             is UiState.Success -> {
-                viewModel.getVMDetail(data.vpcId)
+                viewModel.getVMDetail(id)
             }
+
             is UiState.Error -> {
                 snackbar(((vmActionStatus as UiState.Error).errorMessage))
             }
-            is UiState.NotLogged -> {
+
+            else -> {
                 // do nothing
             }
         }
@@ -129,21 +137,54 @@ fun MonitorContent(
         horizontalAlignment = Alignment.Start
     ) {
         Column {
-            Text(
-                text = "Vm Detail",
-                fontFamily = poppins,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = modifier
+                    .fillMaxWidth()
+            ) {
+                Column {
+                    Text(
+                        text = "Vm Detail",
+                        fontFamily = poppins,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-            Text(
-                text = data.hostname,
-                fontFamily = poppins,
-                fontSize = 16.sp,
-                color = Color.Black
-            )
+                    Text(
+                        text = data.hostname,
+                        fontFamily = poppins,
+                        fontSize = 16.sp,
+                        color = Color.Black
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .background(
+                            color = when (data.state) {
+                                "Running" -> Color(0xFF68D391)
+                                "Stopped" -> Color(0xFFF87171)
+                                else -> Color(0xFFA0AEC0)
+                            },
+                            shape = MaterialTheme.shapes.small
+                        )
+                ) {
+                    Text(
+                        text = "${data.status.capitalize()} - ${data.state}",
+                        fontSize = 16.sp,
+                        color = Color.White,
+                        modifier = modifier.padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 6.dp,
+                            bottom = 6.dp
+                        )
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Row(
                 modifier = modifier
                     .fillMaxWidth()
@@ -154,28 +195,29 @@ fun MonitorContent(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
-                    onClick = { viewModel.doVMAction(data.vpcId, VMAction.START) },
-                    enabled = data.status == "Stopped",
+                    onClick = { viewModel.doVMAction(id, VMAction.start) },
+                    enabled = data.state == "Stopped",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
+                        disabledContainerColor = Color(0xFFA0AEC0),
                         containerColor = Color(0xFF34D399)
                     )
                 ) {
-                    Icon(Icons.Filled.PlayArrow,
+                    Icon(
+                        Icons.Filled.PlayArrow,
                         contentDescription = "Start",
                         modifier = Modifier
-                        .size(37.dp)
+                            .size(37.dp)
                     )
                 }
                 IconButton(
-                    onClick = { viewModel.doVMAction(data.vpcId, VMAction.STOP) },
-                    enabled = data.status == "Running",
+                    onClick = { viewModel.doVMAction(id, VMAction.stop) },
+                    enabled = data.state == "Running",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
+                        disabledContainerColor = Color(0xFFA0AEC0),
                         containerColor = Color(0xFFEF4444)
                     )
                 ) {
@@ -187,12 +229,12 @@ fun MonitorContent(
                     )
                 }
                 IconButton(
-                    onClick = { viewModel.doVMAction(data.vpcId, VMAction.REBOOT) },
-                    enabled = data.status == "Stopped" || data.status == "Running",
+                    onClick = { viewModel.doVMAction(id, VMAction.reboot) },
+                    enabled = data.state == "Running",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
+                        disabledContainerColor = Color(0xFFA0AEC0),
                         containerColor = Color(0xFFFFC107)
                     )
                 ) {
@@ -204,12 +246,12 @@ fun MonitorContent(
                     )
                 }
                 IconButton(
-                    onClick = { navigateToServer(data.vpcId) },
-                    enabled = data.status == "Running",
+                    onClick = { navigateToServer(id) },
+                    enabled = data.state == "Running",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
+                        disabledContainerColor = Color(0xFFA0AEC0),
                         containerColor = Color(0xFF06B6D4)
                     )
                 ) {
@@ -217,7 +259,7 @@ fun MonitorContent(
                         Icons.Filled.Monitor,
                         contentDescription = "SSH",
                         modifier = Modifier
-                            .size(37.dp)
+                            .size(34.dp)
                     )
                 }
             }
@@ -241,6 +283,7 @@ fun MonitorContent(
                 0 -> DetailContent(
                     data = data,
                 )
+
                 1 -> UsageContent()
             }
         }

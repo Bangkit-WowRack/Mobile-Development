@@ -196,7 +196,16 @@ fun App(
                 arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) {
                 val id = it.arguments?.getInt("id") ?: 0
-                ServerScreen(id)
+                ServerScreen(
+                    id = id,
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                )
             }
         }
     }

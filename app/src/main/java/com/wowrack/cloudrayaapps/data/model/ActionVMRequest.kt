@@ -14,8 +14,8 @@ data class ActionVMRequest (
     val releaseIp: Boolean,
 )
 
-enum class VMAction(val actionName: String) {
-    START("start"),
-    STOP("stop"),
-    REBOOT("reboot")
+enum class VMAction() {
+    start,
+    stop,
+    reboot
 }

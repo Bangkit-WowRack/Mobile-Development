@@ -161,7 +161,7 @@ class ServerRepository(
         }
     }
 
-    fun openConsole(id: Int): LiveData<Result<ConsoleResponse>> = liveData(Dispatchers.IO) {
+    fun openConsole(id: Int): LiveData<Result<String>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
 
         try {
@@ -176,7 +176,7 @@ class ServerRepository(
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    emit(Result.Success(body))
+                    emit(Result.Success(body.data))
                 } else {
                     emit(Result.Error("Something went wrong"))
                 }
