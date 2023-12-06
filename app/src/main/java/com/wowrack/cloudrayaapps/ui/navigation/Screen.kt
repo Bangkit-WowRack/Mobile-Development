@@ -16,4 +16,7 @@ sealed class Screen(val route: String) {
     object Server : Screen("server/{id}") {
         fun createRoute(id: Int) = "server/$id"
     }
+    object Notification : Screen("notification")
+
+    object Setting : Screen("Setting")
 }
