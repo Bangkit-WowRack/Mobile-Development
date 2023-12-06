@@ -41,6 +41,7 @@ import com.wowrack.cloudrayaapps.data.model.DetailData
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
+import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.shimmer.ProfileScreenShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
@@ -75,7 +76,10 @@ fun ProfileScreen(
                 )
             }
             is UiState.Error -> {
-                Text(text = (profileData as UiState.Error).errorMessage)
+                ErrorMessage(
+                    message = (profileData as UiState.Error).errorMessage,
+                    onRetry = { viewModel.getProfileData() }
+                )
             }
             is UiState.NotLogged -> {
                 navigateToLogin()

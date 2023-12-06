@@ -27,6 +27,7 @@ import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.CustomTab
+import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.DetailContent
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.UsageContent
 import com.wowrack.cloudrayaapps.ui.shimmer.DetailCardShimmering
@@ -60,7 +61,10 @@ fun MonitorScreen(
             )
         }
         is UiState.Error -> {
-            Text(text = (vmDetail as UiState.Error).errorMessage)
+            ErrorMessage(
+                message = (vmDetail as UiState.Error).errorMessage,
+                onRetry = { viewModel.getVMDetail(id) }
+            )
         }
         is UiState.NotLogged -> {
             navigateToLogin()

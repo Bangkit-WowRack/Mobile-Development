@@ -22,98 +22,84 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 
 @Composable
 fun CPUTab(modifier: Modifier = Modifier) {
-    Column(
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .height(IntrinsicSize.Min)
+            .shadow(8.dp, RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
     ) {
-        Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .shadow(8.dp, RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-        ) {
-            Column(modifier = Modifier
+        Column(
+            modifier = Modifier
                 .padding(16.dp)
-            ) {
-                Text(
-                    text = "CPU",
-                    fontFamily = poppins,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                LineChartList()
-            }
+        ) {
+            Text(
+                text = "CPU",
+                fontFamily = poppins,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            LineChartList()
         }
     }
+
 }
 
 @Composable
 fun MemoryTab(modifier: Modifier = Modifier) {
-    Column(
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .height(IntrinsicSize.Min)
+            .shadow(8.dp, RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
     ) {
-        Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .shadow(8.dp, RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-        ) {
-            Column(modifier = Modifier
+        Column(
+            modifier = Modifier
                 .padding(16.dp)
-            ) {
-                Text(
-                    text = "Memory",
-                    fontFamily = poppins,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                LineChartList()
-            }
+        ) {
+            Text(
+                text = "Memory",
+                fontFamily = poppins,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            LineChartList()
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
 fun BandwidthTab(modifier: Modifier = Modifier) {
-    Column(
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .height(IntrinsicSize.Min)
+            .shadow(8.dp, RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
     ) {
-        Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .shadow(8.dp, RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-        ) {
-            Column(modifier = Modifier
+        Column(
+            modifier = Modifier
                 .padding(16.dp)
-            ) {
-                Text(
-                    text = "Bandwidth",
-                    fontFamily = poppins,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                LineChartList()
-            }
+        ) {
+            Text(
+                text = "Bandwidth",
+                fontFamily = poppins,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            LineChartList()
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }

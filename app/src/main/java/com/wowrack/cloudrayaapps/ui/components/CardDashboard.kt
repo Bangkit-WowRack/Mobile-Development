@@ -68,7 +68,7 @@ fun CardDashboardItem(
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
+                    Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(

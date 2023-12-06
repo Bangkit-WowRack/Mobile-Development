@@ -20,7 +20,7 @@ class ResourceViewModel (
         getVMList()
     }
 
-    private fun getVMList() {
+    fun getVMList() {
         repository.getVMList().observeForever {
             when (it) {
                 is Result.Loading -> _vmListData.value = UiState.Loading

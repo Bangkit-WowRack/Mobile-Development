@@ -18,7 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 
 @Composable
-fun Error(
+fun ErrorMessage(
+    message: String,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -29,7 +30,7 @@ fun Error(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Error Please Retry",
+            text = "Error $message",
             modifier = modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
@@ -53,6 +54,6 @@ fun Error(
 @Composable
 fun ErrorPreview() {
     CloudRayaAppsTheme {
-        Error({})
+        ErrorMessage("Something Went Wrong", {})
     }
 }

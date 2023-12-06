@@ -22,7 +22,7 @@ class ProfileViewModel (
         getProfileData()
     }
 
-    private fun getProfileData() {
+    fun getProfileData() {
         repository.getUserDetail().observeForever {
             when (it) {
                 is Result.Loading -> _profileData.value = UiState.Loading

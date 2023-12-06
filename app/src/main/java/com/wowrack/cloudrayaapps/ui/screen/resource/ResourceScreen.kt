@@ -21,6 +21,7 @@ import com.wowrack.cloudrayaapps.data.model.ServersItem
 import com.wowrack.cloudrayaapps.data.model.VirtualMachineData
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
+import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.components.ProjectList
 import com.wowrack.cloudrayaapps.ui.shimmer.ResourceScreenShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
@@ -48,7 +49,10 @@ fun ResourceScreen(
             )
         }
         is UiState.Error -> {
-            Text(text = "Error")
+            ErrorMessage(
+                message = (vmListData as UiState.Error).errorMessage,
+                onRetry = { viewModel.getVMList() }
+            )
         }
         is UiState.NotLogged -> {
             navigateToLogin()
