@@ -52,6 +52,7 @@ import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,9 +106,9 @@ fun LoginScreen(
 
             Text(
                 text = "Login",
-                fontFamily = poppins,
+                fontFamily = poppinsBold,
                 fontSize = 45.sp,
-                fontWeight = FontWeight.ExtraBold
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(

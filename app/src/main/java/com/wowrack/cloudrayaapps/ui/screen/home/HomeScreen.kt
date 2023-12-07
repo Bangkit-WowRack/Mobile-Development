@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,11 +36,11 @@ import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.ArticleList
 import com.wowrack.cloudrayaapps.ui.components.DashboardInfo
-import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.components.NotificationListHome
 import com.wowrack.cloudrayaapps.ui.shimmer.ArticleShimmering
 import com.wowrack.cloudrayaapps.ui.shimmer.HomeDataShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun HomeScreen(
@@ -80,7 +78,7 @@ fun HomeScreen(
         ) {
             Text(
                 text = "Dashboard",
-                fontFamily = poppins,
+                fontFamily = poppinsBold,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -132,7 +130,7 @@ fun HomeScreen(
         }
         Text(
             text = "News",
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
@@ -156,7 +154,7 @@ fun HomeScreen(
         Spacer(modifier = modifier.height(8.dp))
         Text(
             text = "Notification",
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )

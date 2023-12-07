@@ -1,14 +1,25 @@
 package com.wowrack.cloudrayaapps.ui.components
 
+import android.graphics.Paint
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.linechart.LineChart
@@ -22,97 +33,164 @@ import co.yml.charts.ui.linechart.model.LineType
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import kotlin.math.round
 
 @Composable
-fun LineChartList() {
-    val steps = 10
-    val pointData = listOf(
-        Point(0f, 0f),
-        Point(1f, 17f),
-        Point(2f, 20f),
-        Point(3f, 30f),
-        Point(4f, 40f),
-        Point(5f, 50f),
-        Point(6f, 60f),
-        Point(7f, 70f),
-        Point(8f, 80f),
-        Point(9f, 90f),
-        Point(10f, 100f),
-        Point(11f, 0f),
-        Point(12f, 10f),
-        Point(13f, 30f),
-        Point(14f, 40f),
-        Point(15f, 50f),
-        Point(16f, 60f),
-        Point(17f, 70f),
-        Point(18f, 80f),
-        Point(19f, 90f),
-        Point(20f, 100f),
-    )
+fun LineChart(
+    data: List<Pair<Int, Double>> = emptyList(),
+    modifier: Modifier = Modifier
+) {
+    val spacing = 100f
+    val graphColor = MaterialTheme.colorScheme.primary
+    val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
+    val upperValue = remember { (100.0) }
+    val lowerValue = remember { (0.0) }
+    val density = LocalDensity.current
 
-    val xAxisData = AxisData.Builder()
-        .axisStepSize(30.dp)
-        .backgroundColor(Color.Transparent)
-        .steps(pointData.size - 1)
-        .labelData { i -> i.toString() }
-        .labelAndAxisLinePadding(15.dp)
-        .axisLineColor(MaterialTheme.colorScheme.primary)
-        .axisLabelColor(MaterialTheme.colorScheme.primary)
-        .build()
-
-    val yAxisData = AxisData.Builder()
-        .steps(steps)
-        .backgroundColor(Color.Transparent)
-        .labelAndAxisLinePadding(25.dp)
-        .labelData { i ->
-            val yScale = 100 / steps
-            val result = (i * yScale).toString()
-            "$result%"
+    val textPaint = remember(density) {
+        Paint().apply {
+            color = android.graphics.Color.BLACK
+            textAlign = Paint.Align.CENTER
+            textSize = density.run { 10.sp.toPx() }
         }
-        .axisLineColor(MaterialTheme.colorScheme.primary)
-        .axisLabelColor(MaterialTheme.colorScheme.primary)
-        .build()
+    }
 
-    val lineChartData = LineChartData(
-        linePlotData = LinePlotData(
-            lines = listOf(
-                Line(
-                    dataPoints = pointData,
-                    LineStyle(
-                        color = MaterialTheme.colorScheme.primary,
-                        lineType = LineType.SmoothCurve(isDotted = false)
-                    ),
-                    IntersectionPoint(color = MaterialTheme.colorScheme.primary,),
-                    SelectionHighlightPoint(MaterialTheme.colorScheme.primary,),
-                    ShadowUnderLine(
-                        alpha = 0.5f,
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.inversePrimary,
-                                Color.Transparent
-                            )
-                        )
-                    ),
-                    SelectionHighlightPopUp()
+    Canvas(modifier = modifier) {
+        if (data.size >= 24) {
+            val spacePerHour = (size.width - spacing) / 24
+
+            val startIndex = data.size - 24
+            val endIndex = data.size
+            for (i in startIndex until endIndex step 2) {
+                val hour = data[i].first
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        hour.toString(),
+                        spacing + (i - startIndex) * spacePerHour,
+                        size.height,
+                        textPaint
+                    )
+                }
+            }
+
+            val percentageStep = (upperValue - lowerValue) / 5f
+            (0..5).forEach { i ->
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        round(lowerValue + percentageStep * i).toString(),
+                        30f,
+                        size.height - spacing - i * size.height / 5f,
+                        textPaint
+                    )
+                }
+            }
+
+            val strokePath = Path().apply {
+                val height = size.height
+                data.indices.forEach { i ->
+                    val info = data[i]
+                    val ratio = (info.second - lowerValue) / (upperValue - lowerValue)
+
+                    val x1 = spacing + i * spacePerHour
+                    val y1 = height - spacing - (ratio * height).toFloat()
+
+                    if (i == 0) { moveTo(x1, y1) }
+                    lineTo(x1, y1)
+                }
+            }
+
+            drawPath(
+                path = strokePath,
+                color = graphColor,
+                style = Stroke(
+                    width = 2.dp.toPx(),
+                    cap = StrokeCap.Round
                 )
-            ),
-        ),
-        backgroundColor = MaterialTheme.colorScheme.surface,
-        xAxisData = xAxisData,
-        yAxisData = yAxisData,
-        gridLines = GridLines(color = MaterialTheme.colorScheme.outlineVariant)
-    )
+            )
 
-    LineChart(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp),
-        lineChartData = lineChartData
-    )
-}
+            val fillPath = android.graphics.Path(strokePath.asAndroidPath()).asComposePath().apply {
+                lineTo(size.width - spacePerHour, size.height - spacing)
+                lineTo(spacing, size.height - spacing)
+                close()
+            }
 
-@Preview(showBackground = true)
-@Composable
-fun LineChartListPreview() {
-    LineChartList()
+            drawPath(
+                path = fillPath,
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        transparentGraphColor,
+                        Color.Transparent
+                    ),
+                    endY = size.height - spacing
+                )
+            )
+        } else {
+            val spacePerHour = (size.width - spacing) / data.size
+
+            (data.indices).forEach { i ->
+                val hour = data[i].first
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        hour.toString(),
+                        spacing + i * spacePerHour,
+                        size.height,
+                        textPaint
+                    )
+                }
+            }
+
+            val percentageStep = (upperValue - lowerValue) / 5f
+            (0..5).forEach { i ->
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        round(lowerValue + percentageStep * i).toString(),
+                        30f,
+                        size.height - spacing - i * size.height / 5f,
+                        textPaint
+                    )
+                }
+            }
+
+            val strokePath = Path().apply {
+                val height = size.height
+                data.indices.forEach { i ->
+                    val info = data[i]
+                    val ratio = (info.second - lowerValue) / (upperValue - lowerValue)
+
+                    val x1 = spacing + i * spacePerHour
+                    val y1 = height - spacing - (ratio * height).toFloat()
+
+                    if (i == 0) { moveTo(x1, y1) }
+                    lineTo(x1, y1)
+                }
+            }
+
+            drawPath(
+                path = strokePath,
+                color = graphColor,
+                style = Stroke(
+                    width = 2.dp.toPx(),
+                    cap = StrokeCap.Round
+                )
+            )
+
+            val fillPath = android.graphics.Path(strokePath.asAndroidPath()).asComposePath().apply {
+                lineTo(size.width - spacePerHour, size.height - spacing)
+                lineTo(spacing, size.height - spacing)
+                close()
+            }
+
+            drawPath(
+                path = fillPath,
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        transparentGraphColor,
+                        Color.Transparent
+                    ),
+                    endY = size.height - spacing
+                )
+            )
+        }
+
+    }
 }

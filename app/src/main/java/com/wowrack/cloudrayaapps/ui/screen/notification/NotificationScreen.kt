@@ -19,6 +19,7 @@ import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun NotificationScreen(
@@ -38,7 +39,7 @@ fun NotificationContent(
     ) {
         Text(
             text = "Notification",
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp)

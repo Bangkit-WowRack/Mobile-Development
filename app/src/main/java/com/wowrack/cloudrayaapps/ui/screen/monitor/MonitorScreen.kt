@@ -49,6 +49,7 @@ import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.DetailContent
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.UsageContent
 import com.wowrack.cloudrayaapps.ui.shimmer.DetailCardShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import kotlinx.coroutines.Job
 
 @Composable
@@ -87,7 +88,7 @@ fun MonitorScreen(
                     startAlert.value = false
                 },
                 dialogTitle = "Start this VM?",
-                dialogText = "Your VM will Start",
+                dialogText = "Are you sure you want to start the Virtual Machine?",
                 confirmText = "Start VM",
                 icon = Icons.Default.Info
             )
@@ -102,7 +103,7 @@ fun MonitorScreen(
                     stopAlert.value = false
                 },
                 dialogTitle = "Stop this VM?",
-                dialogText = "Your VM will Stop",
+                dialogText = "Are you sure you want to stop the Virtual Machine?",
                 confirmText = "Stop VM",
                 icon = Icons.Default.Info
             )
@@ -117,7 +118,7 @@ fun MonitorScreen(
                     rebootAlert.value = false
                 },
                 dialogTitle = "Restart this VM?",
-                dialogText = "Your VM will Restarted",
+                dialogText = "Are you sure you want to restart the Virtual Machine?",
                 confirmText = "Restart VM",
                 icon = Icons.Default.Info
             )
@@ -213,7 +214,7 @@ fun MonitorContent(
                 Column {
                     Text(
                         text = "Vm Detail",
-                        fontFamily = poppins,
+                        fontFamily = poppinsBold,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )

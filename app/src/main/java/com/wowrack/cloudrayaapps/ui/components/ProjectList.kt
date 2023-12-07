@@ -39,6 +39,7 @@ import com.wowrack.cloudrayaapps.R
 import com.wowrack.cloudrayaapps.data.model.ServersItem
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 
 @Composable
@@ -75,13 +76,13 @@ fun ProjectList(
                     text = data.name,
                     fontFamily = poppins,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Normal,
                     color = Color.Black
                 )
                 Text(
                     text = data.status,
-                    fontFamily = poppins,
-                    fontSize = 10.sp,
+                    fontFamily = poppinsBold,
+                    fontSize = 14.sp,
                     color = Color.Black
                 )
             }

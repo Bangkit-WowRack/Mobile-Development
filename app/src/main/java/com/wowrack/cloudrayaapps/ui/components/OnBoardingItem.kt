@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.ui.common.Page
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun OnboardingItem(page: Page) {
@@ -37,7 +38,7 @@ fun OnboardingItem(page: Page) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = page.title,
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,

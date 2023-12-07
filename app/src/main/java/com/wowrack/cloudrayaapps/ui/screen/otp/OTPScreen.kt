@@ -47,6 +47,7 @@ import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import kotlinx.coroutines.delay
 
 @Composable
@@ -111,7 +112,7 @@ fun OTPScreen(
             ) {
                 Text(
                     text = "Enter Verification Code",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -123,7 +124,7 @@ fun OTPScreen(
             ) {
                 Text(
                     text = "Enter The OTP",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )

@@ -45,6 +45,7 @@ import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.shimmer.ProfileScreenShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import com.wowrack.cloudrayaapps.utils.getStatus
 
 @Composable
@@ -113,7 +114,7 @@ fun ProfileContent(
         }
         Text(
             text = data.firstname + " " + data.lastname,
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
@@ -125,7 +126,7 @@ fun ProfileContent(
             ) {
                 Text(
                     text = "Status",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     style = TextStyle(fontWeight = FontWeight.Bold)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -152,7 +153,7 @@ fun ProfileContent(
             ) {
                 Text(
                     text = "Billing Type",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     style = TextStyle(fontWeight = FontWeight.Bold)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -226,7 +227,7 @@ fun ProfileSection(
     ){
         Text(
             text = title,
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black

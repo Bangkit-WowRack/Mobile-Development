@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun DetailContent(
@@ -52,7 +53,7 @@ fun DetailContent(
             ) {
                 Text(
                     text = "VM Information",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
@@ -120,7 +121,7 @@ fun DetailContent(
             ) {
                 Text(
                     text = "VM Detail",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,

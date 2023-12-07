@@ -26,6 +26,7 @@ import com.wowrack.cloudrayaapps.ui.components.ProjectList
 import com.wowrack.cloudrayaapps.ui.shimmer.ResourceScreenShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun ResourceScreen(
@@ -74,7 +75,7 @@ fun ResourceContent(
     ) {
         Text(
             text = "VM List",
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
