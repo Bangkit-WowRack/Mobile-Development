@@ -10,10 +10,12 @@ import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.ui.screen.home.HomeViewModel
 import com.wowrack.cloudrayaapps.ui.screen.login.LoginViewModel
 import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorViewModel
+import com.wowrack.cloudrayaapps.ui.screen.notification.NotificationViewModel
 import com.wowrack.cloudrayaapps.ui.screen.otp.OTPViewModel
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileViewModel
 import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceViewModel
 import com.wowrack.cloudrayaapps.ui.screen.server.ServerViewModel
+import com.wowrack.cloudrayaapps.ui.screen.setting.SettingViewModel
 import com.wowrack.cloudrayaapps.ui.screen.welcome.WelcomeViewModel
 
 class ViewModelFactory(
@@ -42,6 +44,10 @@ class ViewModelFactory(
                 ServerViewModel(serverRepository) as T
             modelClass.isAssignableFrom(OTPViewModel::class.java) ->
                 OTPViewModel(userRepository) as T
+            modelClass.isAssignableFrom(SettingViewModel::class.java) ->
+                SettingViewModel() as T
+            modelClass.isAssignableFrom(NotificationViewModel::class.java) ->
+                NotificationViewModel() as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }
