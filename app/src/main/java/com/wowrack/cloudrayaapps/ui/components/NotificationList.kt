@@ -7,16 +7,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
@@ -33,6 +37,7 @@ import com.wowrack.cloudrayaapps.data.dummy.getDummyNotification
 import com.wowrack.cloudrayaapps.data.model.Notification
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import com.wowrack.cloudrayaapps.utils.truncateText
 
 @Composable
@@ -62,7 +67,9 @@ fun NotificationItem(
     modifier: Modifier = Modifier,
 ) {
    Column(
-       Modifier.fillMaxWidth().background(color = Color(0x30009EFB))
+       Modifier
+           .fillMaxWidth()
+           .background(color = Color(0x30009EFB))
    ){
        Text(
            text = notification.title,
@@ -92,11 +99,14 @@ fun NotificationItemHome(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        Modifier.fillMaxWidth().background(color = Color(0x30009EFB))
+        Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .fillMaxWidth()
+            .background(color = Color(0x30009EFB)),
     ){
         Text(
             text = notification.title,
-            fontFamily = poppins,
+            fontFamily = poppinsBold,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp)
@@ -121,21 +131,38 @@ fun NotificationListHome() {
     val dummyNotification = getDummyNotification()
 
     LazyColumn(
-//        state = listState,
+        // state = listState,
     ) {
         items(3) { index ->
             val notification = dummyNotification[index]
             Column {
                 key(notification.id) {
                     NotificationItemHome(notification)
-                    if (index < dummyNotification.size - 1) {
-                        Divider() // Your Divider composable here
+
+                    if (index < 2) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                    }
+                }
+
+                if (index == 2) {
+                    TextButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Show More",
+                            fontFamily = poppins,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
                     }
                 }
             }
         }
     }
 }
+
+
 
 
 @Preview(showBackground = true)

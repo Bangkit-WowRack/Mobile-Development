@@ -31,7 +31,7 @@ fun UsageContent(
 
     Column(
         modifier
-            .verticalScroll(state = scrollState)
+//            .verticalScroll(state = scrollState)
     ) {
         Column(
             modifier = Modifier,

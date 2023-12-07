@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
@@ -21,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -54,6 +57,7 @@ fun HomeScreen(
 ) {
     val dashboardData by viewModel.dashboardData
     val articleData by viewModel.articleData
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = true) {
         if (dashboardData is UiState.Loading) {
@@ -66,6 +70,7 @@ fun HomeScreen(
 
     Column(
         modifier
+            .verticalScroll(state = scrollState)
             .padding(16.dp)
             .fillMaxSize(),
         verticalArrangement =  Arrangement.spacedBy(8.dp)
@@ -160,13 +165,18 @@ fun HomeScreen(
         )
         Card(
             modifier = modifier
+                .height(200.dp)
                 .shadow(8.dp, RoundedCornerShape(8.dp)),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.background,
             ),
         ) {
-            NotificationListHome()
+            Column(
+                modifier.padding(8.dp)
+            ) {
+                NotificationListHome()
+            }
         }
 
 

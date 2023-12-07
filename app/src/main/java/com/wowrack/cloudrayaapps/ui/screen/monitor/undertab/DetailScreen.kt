@@ -37,7 +37,7 @@ fun DetailContent(
 
     Column(
         modifier
-            .verticalScroll(state = scrollState)
+//            .verticalScroll(state = scrollState)
     ) {
         Card(
             modifier = modifier
