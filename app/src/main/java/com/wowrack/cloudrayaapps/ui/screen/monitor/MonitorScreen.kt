@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Monitor
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
@@ -42,6 +43,7 @@ import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.CustomTab
+import com.wowrack.cloudrayaapps.ui.components.Dialog
 import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.DetailContent
 import com.wowrack.cloudrayaapps.ui.screen.monitor.undertab.UsageContent
@@ -62,6 +64,69 @@ fun MonitorScreen(
 ) {
     val vmDetail by viewModel.vmDetail
 
+    val startAlert = remember { mutableStateOf(false) }
+    val stopAlert = remember { mutableStateOf(false) }
+    val rebootAlert = remember { mutableStateOf(false) }
+
+    val openAlert = { action: VMAction ->
+        when (action) {
+            VMAction.start -> startAlert.value = true
+            VMAction.stop -> stopAlert.value = true
+            VMAction.reboot -> rebootAlert.value = true
+        }
+    }
+
+    when {
+        startAlert.value -> {
+            Dialog(
+                onDismissRequest = {
+                    startAlert.value = false
+                },
+                onConfirmation = {
+                    viewModel.doVMAction(id, VMAction.start)
+                    startAlert.value = false
+                },
+                dialogTitle = "Start this VM?",
+                dialogText = "Your VM will Start",
+                confirmText = "Start VM",
+                icon = Icons.Default.Info
+            )
+        }
+        stopAlert.value -> {
+            Dialog(
+                onDismissRequest = {
+                    stopAlert.value = false
+                },
+                onConfirmation = {
+                    viewModel.doVMAction(id, VMAction.stop)
+                    stopAlert.value = false
+                },
+                dialogTitle = "Stop this VM?",
+                dialogText = "Your VM will Stop",
+                confirmText = "Stop VM",
+                icon = Icons.Default.Info
+            )
+        }
+        rebootAlert.value -> {
+            Dialog(
+                onDismissRequest = {
+                    rebootAlert.value = false
+                },
+                onConfirmation = {
+                    viewModel.doVMAction(id, VMAction.reboot)
+                    rebootAlert.value = false
+                },
+                dialogTitle = "Restart this VM?",
+                dialogText = "Your VM will Restarted",
+                confirmText = "Restart VM",
+                icon = Icons.Default.Info
+            )
+        }
+        else -> {
+
+        }
+    }
+
     DisposableEffect(key1 = id) {
         viewModel.getVMDetail(id)
         onDispose {
@@ -80,7 +145,8 @@ fun MonitorScreen(
                 data = (vmDetail as UiState.Success).data.data,
                 navigateToServer = navigateToServer,
                 viewModel = viewModel,
-                snackbar = snackbar
+                snackbar = snackbar,
+                openAlert = openAlert,
             )
         }
 
@@ -104,6 +170,7 @@ fun MonitorContent(
     navigateToServer: (Int) -> Unit,
     viewModel: MonitorViewModel,
     snackbar: (String) -> Job,
+    openAlert: (VMAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val vmActionStatus by viewModel.actionVMStatus
@@ -195,7 +262,7 @@ fun MonitorContent(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
-                    onClick = { viewModel.doVMAction(id, VMAction.start) },
+                    onClick = { openAlert(VMAction.start) },
                     enabled = data.state == "Stopped",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
@@ -212,7 +279,7 @@ fun MonitorContent(
                     )
                 }
                 IconButton(
-                    onClick = { viewModel.doVMAction(id, VMAction.stop) },
+                    onClick = { openAlert(VMAction.stop) },
                     enabled = data.state == "Running",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
@@ -229,7 +296,7 @@ fun MonitorContent(
                     )
                 }
                 IconButton(
-                    onClick = { viewModel.doVMAction(id, VMAction.reboot) },
+                    onClick = { openAlert(VMAction.reboot) },
                     enabled = data.state == "Running",
                     modifier = modifier.size(53.dp),
                     colors = IconButtonDefaults.iconButtonColors(
