@@ -17,6 +17,7 @@ fun WelcomeScreen(
     ),
     navigateToLogin: () -> Unit,
     navigateToHome: () -> Unit,
+    navigateToStarted: () -> Unit,
 ) {
     val isLogin by viewModel.isLogin
 
@@ -26,7 +27,11 @@ fun WelcomeScreen(
                 navigateToHome()
             }
             is UiState.NotLogged -> {
-                navigateToLogin()
+                if (viewModel.isStarted()) {
+                    navigateToStarted()
+                } else {
+                    navigateToLogin()
+                }
             }
             is UiState.Error -> {
                 navigateToLogin()

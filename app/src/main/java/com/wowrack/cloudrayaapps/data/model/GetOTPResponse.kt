@@ -16,5 +16,8 @@ data class GetOTPResponse (
 
 data class OTPData (
     @field:SerializedName("verify_otp_token")
-    val verifyOtpToken: String
+    val verifyOtpToken: String,
+
+    @field:SerializedName("user_email")
+    val email: String
 )

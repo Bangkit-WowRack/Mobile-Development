@@ -25,7 +25,7 @@ class StartedPreference private constructor(private val startDataStore: DataStor
             startDataStore.data.map { preferences ->
                 preferences[isNew]
             }.first()
-        } != null
+        } == null
     }
 
     companion object {

@@ -14,6 +14,7 @@ import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
 import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
+import com.wowrack.cloudrayaapps.data.model.OTPData
 import com.wowrack.cloudrayaapps.data.model.OTPRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
@@ -90,7 +91,7 @@ class UserRepository(
             }
         }
 
-    fun getOTP(otpRequestToken: String) : LiveData<Result<String>> =
+    fun getOTP(otpRequestToken: String) : LiveData<Result<OTPData>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
@@ -98,7 +99,7 @@ class UserRepository(
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
-                        emit(Result.Success(body.data.verifyOtpToken))
+                        emit(Result.Success(body.data))
                     } else {
                         emit(Result.Error("Failed to get OTP"))
                     }
@@ -149,13 +150,6 @@ class UserRepository(
                 emit(Result.Error(e.message.toString()))
             }
         }
-
-    fun isLogin(): Boolean {
-        val token = runBlocking {
-            userPreference.getToken().firstOrNull()
-        }
-        return token != null
-    }
 
     fun getUserDetail(): LiveData<Result<UserDetailResponse>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)

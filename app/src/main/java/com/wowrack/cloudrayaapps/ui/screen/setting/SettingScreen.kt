@@ -63,7 +63,7 @@ fun SettingContent() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SettingPreview() {
     CloudRayaAppsTheme {

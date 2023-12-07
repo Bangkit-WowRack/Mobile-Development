@@ -28,4 +28,6 @@ class WelcomeViewModel(
             }
         }
     }
+
+    fun isStarted() = repository.isStarted()
 }

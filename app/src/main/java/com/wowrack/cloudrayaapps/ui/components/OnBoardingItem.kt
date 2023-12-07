@@ -17,9 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wowrack.cloudrayaapps.R
+import com.wowrack.cloudrayaapps.ui.common.Page
 import com.wowrack.cloudrayaapps.ui.theme.poppins
-import com.wowrack.cloudrayaapps.utils.Page
 
 @Composable
 fun OnboardingItem(page: Page) {
@@ -31,9 +30,9 @@ fun OnboardingItem(page: Page) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(R.drawable.cloudraya_login_logo),
-            contentDescription = "dummy logo",
-            Modifier.size(200.dp)
+            painter = painterResource(page.image),
+            contentDescription = "image",
+            Modifier.size(300.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(

@@ -2,6 +2,7 @@ package com.wowrack.cloudrayaapps.ui.screen.otp
 
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,10 +42,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.gson.Gson
 import com.wowrack.cloudrayaapps.data.model.Key
+import com.wowrack.cloudrayaapps.data.model.OTPData
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import kotlinx.coroutines.delay
 
 @Composable
 fun OTPScreen(
@@ -59,12 +63,28 @@ fun OTPScreen(
 
     val otpStatus by viewModel.otpStatus
 
-    val otpVerifToken by viewModel.otpToken
+    val otpData by viewModel.otpData
 
     var otpValue by remember { mutableStateOf("") }
+    var countdownValue by remember { mutableIntStateOf(180) }
 
-    LaunchedEffect(true) {
+    val minutes = countdownValue / 60
+    val seconds = countdownValue % 60
+    val timerText = String.format("%02d:%02d", minutes, seconds)
+
+    val resendOtp = {
         viewModel.getOTP(otpToken)
+        countdownValue = 180
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.getOTP(otpToken)
+        while (true) {
+            if (countdownValue >= 0) {
+                delay(1000)
+                countdownValue--
+            }
+        }
     }
 
     LaunchedEffect(otpStatus) {
@@ -114,6 +134,20 @@ fun OTPScreen(
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center,
                 )
+                when (otpData) {
+                    is UiState.Success -> {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = (otpData as UiState.Success<OTPData>).data.email,
+                            fontFamily = poppins,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                    else -> {
+                        // do nothing
+                    }
+                }
                 Spacer(modifier = Modifier.height(32.dp))
                 OTPTextField(
                     otpText = otpValue,
@@ -141,9 +175,9 @@ fun OTPScreen(
                         if (otpValue.length < 6) {
                             return@Button
                         }
-                        when (otpVerifToken) {
+                        when (otpData) {
                             is UiState.Success -> {
-                                viewModel.verifyOTP(otpValue, (otpVerifToken as UiState.Success<String>).data, userKey)
+                                viewModel.verifyOTP(otpValue, (otpData as UiState.Success<OTPData>).data.verifyOtpToken, userKey)
                             }
                             else -> {
                                 // do nothing
@@ -163,6 +197,32 @@ fun OTPScreen(
                         modifier = Modifier.padding(vertical = 8.dp),
                         color = Color.White,
                         fontFamily = poppins
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Didn't receive the code? ",
+                        color = Color.Gray,
+                        fontFamily = poppins,
+                        fontSize = 14.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                    Text(
+                        text = if (countdownValue == 0) "Resend" else "Resend in $timerText",
+                        color = if (countdownValue == 0) MaterialTheme.colorScheme.primary else Color.Gray,
+                        fontFamily = poppins,
+                        fontSize = 14.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(start = 4.dp)
+                            .clickable {
+                                resendOtp()
+                            }
                     )
                 }
             }

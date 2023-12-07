@@ -40,6 +40,4 @@ class LoginViewModel (
             }
         }
     }
-
-    fun isStarted() = repository.isStarted()
 }

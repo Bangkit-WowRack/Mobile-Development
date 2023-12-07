@@ -24,10 +24,12 @@ import com.wowrack.cloudrayaapps.ui.screen.getstarted.GetStartedScreen
 import com.wowrack.cloudrayaapps.ui.screen.home.HomeScreen
 import com.wowrack.cloudrayaapps.ui.screen.login.LoginScreen
 import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorScreen
+import com.wowrack.cloudrayaapps.ui.screen.notification.NotificationScreen
 import com.wowrack.cloudrayaapps.ui.screen.otp.OTPScreen
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileScreen
 import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceScreen
 import com.wowrack.cloudrayaapps.ui.screen.server.ServerScreen
+import com.wowrack.cloudrayaapps.ui.screen.setting.SettingScreen
 import com.wowrack.cloudrayaapps.ui.screen.welcome.WelcomeScreen
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.utils.showBottomBar
@@ -93,11 +95,24 @@ fun App(
                             }
                         }
                     },
+                    navigateToStarted = {
+                        navController.navigate(Screen.GetStarted.route) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 )
             }
             composable(Screen.GetStarted.route) {
                 GetStartedScreen(
-
+                    navigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    },
                 )
             }
             composable(Screen.Login.route) {
@@ -145,6 +160,22 @@ fun App(
                             }
                         }
                     },
+                    navigateToNotification = {
+                        navController.navigate(Screen.Notification.route)
+                    },
+                    navigateToSetting = {
+                        navController.navigate(Screen.Setting.route)
+                    },
+                )
+            }
+            composable(Screen.Notification.route) {
+                NotificationScreen(
+
+                )
+            }
+            composable(Screen.Setting.route) {
+                SettingScreen(
+
                 )
             }
             composable(Screen.Resource.route) {

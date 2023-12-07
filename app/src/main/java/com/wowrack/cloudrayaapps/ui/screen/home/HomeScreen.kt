@@ -47,6 +47,8 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 @Composable
 fun HomeScreen(
     navigateToLogin: () -> Unit,
+    navigateToNotification: () -> Unit,
+    navigateToSetting: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -84,8 +86,8 @@ fun HomeScreen(
             )
             Row {
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier.size(25.dp),
+                    onClick = navigateToNotification,
+                    modifier.size(38.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = MaterialTheme.colorScheme.primary
                     )
@@ -97,10 +99,10 @@ fun HomeScreen(
                             .size(25.dp)
                     )
                 }
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(12.dp))
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier.size(25.dp),
+                    onClick = navigateToSetting,
+                    modifier.size(38.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = MaterialTheme.colorScheme.primary
                     )

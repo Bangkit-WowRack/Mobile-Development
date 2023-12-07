@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.Key
+import com.wowrack.cloudrayaapps.data.model.OTPData
 import com.wowrack.cloudrayaapps.ui.common.UiState
 
 class OTPViewModel(
@@ -16,9 +17,9 @@ class OTPViewModel(
     val otpStatus: State<UiState<Boolean>>
         get() = _otpStatus
 
-    private val _otpToken = mutableStateOf<UiState<String>>(UiState.Loading)
-    val otpToken: State<UiState<String>>
-        get() = _otpToken
+    private val _otpData = mutableStateOf<UiState<OTPData>>(UiState.Loading)
+    val otpData: State<UiState<OTPData>>
+        get() = _otpData
 
     fun verifyOTP(otp: String, verifyOTPToken: String, key: Key) {
         userRepository.verifyOTP(otp, verifyOTPToken, key).observeForever {
@@ -43,16 +44,16 @@ class OTPViewModel(
         userRepository.getOTP(otpRequestToken).observeForever {
             when (it) {
                 is Result.Loading -> {
-                    _otpToken.value = UiState.Loading
+                    _otpData.value = UiState.Loading
                 }
                 is Result.Success -> {
-                    _otpToken.value = UiState.Success(it.data)
+                    _otpData.value = UiState.Success(it.data)
                 }
                 is Result.Error -> {
-                    _otpToken.value = UiState.Error(it.error)
+                    _otpData.value = UiState.Error(it.error)
                 }
                 is Result.NotLogged -> {
-                    _otpToken.value = UiState.NotLogged
+                    _otpData.value = UiState.NotLogged
                 }
             }
         }
