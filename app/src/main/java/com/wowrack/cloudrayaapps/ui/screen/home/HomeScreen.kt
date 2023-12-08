@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -46,6 +47,7 @@ import com.wowrack.cloudrayaapps.ui.shimmer.HomeDataShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
+@Deprecated("Slice data for demo purpose")
 @Composable
 fun HomeScreen(
     navigateToLogin: () -> Unit,
@@ -151,6 +153,37 @@ fun HomeScreen(
         }
         Spacer(modifier = modifier.height(8.dp))
         Text(
+            text = "News",
+            fontFamily = poppinsBold,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+        when (articleData) {
+            is UiState.Loading -> {
+                ArticleShimmering()
+            }
+
+            is UiState.Success -> {
+                val data = (articleData as UiState.Success).data.data
+                ArticleList(data)
+            }
+
+            is UiState.Error -> {
+                ErrorMessage(
+                    message = (articleData as UiState.Error).errorMessage,
+                    onRetry = {
+                        viewModel.getArticleData()
+                    }
+                )
+            }
+
+            is UiState.NotLogged -> {
+                navigateToLogin()
+            }
+        }
+        Spacer(modifier = modifier.height(8.dp))
+        Text(
             text = "Notification",
             fontFamily = poppinsBold,
             fontSize = 18.sp,
@@ -158,13 +191,13 @@ fun HomeScreen(
             color = MaterialTheme.colorScheme.primary
 
         )
-
         when (notificationList) {
             is UiState.Loading -> {
                 HomeDataShimmering()
             }
             is UiState.Success -> {
-                val data = (notificationList as UiState.Success).data
+
+                val data = (notificationList as UiState.Success).data.slice(0..2)
 
                 Card(
                     modifier = modifier
@@ -197,38 +230,5 @@ fun HomeScreen(
                 navigateToLogin()
             }
         }
-        Spacer(modifier = modifier.height(8.dp))
-        Text(
-            text = "News",
-            fontFamily = poppinsBold,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        when (articleData) {
-            is UiState.Loading -> {
-                ArticleShimmering()
-            }
-
-            is UiState.Success -> {
-                val data = (articleData as UiState.Success).data.data
-                ArticleList(data)
-            }
-
-            is UiState.Error -> {
-                ErrorMessage(
-                    message = (articleData as UiState.Error).errorMessage,
-                    onRetry = {
-                        viewModel.getArticleData()
-                    }
-                )
-            }
-
-            is UiState.NotLogged -> {
-                navigateToLogin()
-            }
-        }
-
-
     }
 }
