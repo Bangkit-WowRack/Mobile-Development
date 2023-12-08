@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "702578812917",
+    "project_id": "cicd-cloudraya-app",
+    "storage_bucket": "cicd-cloudraya-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702578812917:android:37ac79e21870f5686fa2bc",
+        "android_client_info": {
+          "package_name": "com.wowrack.cloudrayaapps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoSMqXOMS479cuXVAtlGwF_Z9QxOhVmMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

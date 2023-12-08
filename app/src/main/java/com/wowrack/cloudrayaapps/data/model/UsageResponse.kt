@@ -5,38 +5,23 @@ import com.google.gson.annotations.SerializedName
 data class UsageResponse(
 
 	@field:SerializedName("code")
-	val code: Int? = null,
+	val code: Int,
 
 	@field:SerializedName("data")
-	val data: List<UsageData>? = null,
+	val data: List<DataCpu>,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String
 )
 
-data class UsageData(
+data class DataCpu(
 
-	@field:SerializedName("date")
-	val date: String? = null,
+	@field:SerializedName("cpuUsed")
+	val cpuUsed: Float,
 
-	@field:SerializedName("cpu_used")
-	val cpuUsed: String? = null,
+	@field:SerializedName("memoryUsed")
+	val memoryUsed: Float,
 
-	@field:SerializedName("diskio_write")
-	val diskioWrite: String? = null,
-
-	@field:SerializedName("hour")
-	val hour: Int? = null,
-
-	@field:SerializedName("converted_hour")
-	val convertedHour: Int? = null,
-
-	@field:SerializedName("memory_used")
-	val memoryUsed: String? = null,
-
-	@field:SerializedName("diskio_read")
-	val diskioRead: String? = null,
-
-	@field:SerializedName("converted_day")
-	val convertedDay: Int? = null
+	@field:SerializedName("timestamp")
+	val timestamp: String
 )

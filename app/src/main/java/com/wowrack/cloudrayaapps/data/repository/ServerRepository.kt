@@ -7,16 +7,16 @@ import com.wowrack.cloudrayaapps.data.api.ApiService
 import com.wowrack.cloudrayaapps.data.model.VirtualMachinesResponse
 import com.wowrack.cloudrayaapps.data.pref.UserPreference
 import com.wowrack.cloudrayaapps.data.common.Result
-import com.wowrack.cloudrayaapps.data.dummy.getDummyBandwidthResponse
 import com.wowrack.cloudrayaapps.data.dummy.getDummyNotification
-import com.wowrack.cloudrayaapps.data.dummy.getDummyUsageResponse
 import com.wowrack.cloudrayaapps.data.model.ActionVMRequest
 import com.wowrack.cloudrayaapps.data.model.ActionVMResponse
+import com.wowrack.cloudrayaapps.data.model.BandwidthRequest
 import com.wowrack.cloudrayaapps.data.model.BandwidthResponse
 import com.wowrack.cloudrayaapps.data.model.ConsoleRequest
 import com.wowrack.cloudrayaapps.data.model.ConsoleResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
 import com.wowrack.cloudrayaapps.data.model.Notification
+import com.wowrack.cloudrayaapps.data.model.UsageRequest
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.data.model.VMAction
 import com.wowrack.cloudrayaapps.data.model.VMDetailResponse
@@ -109,7 +109,35 @@ class ServerRepository(
         emit(Result.Loading)
 
         try {
-            emit(Result.Success(getDummyUsageResponse()))
+            val token = getTokenAndValidate(userPreference, validateLogin)
+
+            if (token == null) {
+                emit(Result.NotLogged)
+                return@liveData
+            }
+
+            val response = apiService.getVMUsage(token, UsageRequest(id))
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    emit(Result.Success(body))
+                } else {
+                    emit(Result.Error("Something went wrong"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (!errorBody.isNullOrBlank()) {
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                    if (errorResponse.code == 401) {
+                        emit(Result.NotLogged)
+                    } else {
+                        emit(Result.Error(errorResponse.message))
+                    }
+                } else {
+                    emit(Result.Error("Something went wrong"))
+                }
+            }
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
@@ -119,7 +147,35 @@ class ServerRepository(
         emit(Result.Loading)
 
         try {
-            emit(Result.Success(getDummyBandwidthResponse()))
+            val token = getTokenAndValidate(userPreference, validateLogin)
+
+            if (token == null) {
+                emit(Result.NotLogged)
+                return@liveData
+            }
+
+            val response = apiService.getVMBandwidth(token, BandwidthRequest(id))
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    emit(Result.Success(body))
+                } else {
+                    emit(Result.Error("Something went wrong"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (!errorBody.isNullOrBlank()) {
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                    if (errorResponse.code == 401) {
+                        emit(Result.NotLogged)
+                    } else {
+                        emit(Result.Error(errorResponse.message))
+                    }
+                } else {
+                    emit(Result.Error("Something went wrong"))
+                }
+            }
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
@@ -205,6 +261,7 @@ class ServerRepository(
         emit(Result.Loading)
 
         try {
+//            emit(Result.Success(getDummyNotification()))
             emit(Result.Success(getDummyNotification()))
 //            val token = getTokenAndValidate(userPreference, validateLogin)
 //

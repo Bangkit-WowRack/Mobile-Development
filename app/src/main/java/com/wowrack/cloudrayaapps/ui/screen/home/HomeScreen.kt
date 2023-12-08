@@ -164,7 +164,8 @@ fun HomeScreen(
                 HomeDataShimmering()
             }
             is UiState.Success -> {
-                val data = (notificationList as UiState.Success).data.slice(0..2)
+                val data = (notificationList as UiState.Success).data
+
                 Card(
                     modifier = modifier
                         .height(200.dp)
