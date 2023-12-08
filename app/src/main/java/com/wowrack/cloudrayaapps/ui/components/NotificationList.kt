@@ -1,51 +1,37 @@
 package com.wowrack.cloudrayaapps.ui.components
 
-import android.provider.CalendarContract.Colors
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.wowrack.cloudrayaapps.data.dummy.getDummyNotification
 import com.wowrack.cloudrayaapps.data.model.Notification
-import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
-import com.wowrack.cloudrayaapps.utils.truncateText
 
 @Composable
 fun NotificationList() {
     val dummyNotification = getDummyNotification()
 
     LazyColumn(
-//        state = listState,
+        state = rememberLazyListState(),
     ) {
         items(dummyNotification.size) { index ->
             val notification = dummyNotification[index]
@@ -126,49 +112,41 @@ fun NotificationItemHome(
         )
     }
 }
+
 @Composable
-fun NotificationListHome() {
-    val dummyNotification = getDummyNotification()
-
+fun NotificationListHome(
+    data: List<Notification>,
+    navigateToNotification: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
-        // state = listState,
+        state = rememberLazyListState(),
     ) {
-        items(3) { index ->
-            val notification = dummyNotification[index]
-            Column {
-                key(notification.id) {
-                    NotificationItemHome(notification)
+        items(data, key = { it.id }) { notification ->
+            NotificationItemHome(notification)
+            Spacer(modifier = Modifier.height(2.dp))
+        }
 
-                    if (index < 2) {
-                        Spacer(modifier = Modifier.height(2.dp))
-                    }
-                }
-
-                if (index == 2) {
-                    TextButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "Show More",
-                            fontFamily = poppins,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                }
+        item {
+            TextButton(
+                onClick = navigateToNotification,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Show More",
+                    fontFamily = poppins,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                )
             }
         }
     }
 }
 
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun NotificationPreview() {
-    CloudRayaAppsTheme {
-        NotificationList()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun NotificationPreview() {
+//    CloudRayaAppsTheme {
+//        NotificationList()
+//    }
+//}

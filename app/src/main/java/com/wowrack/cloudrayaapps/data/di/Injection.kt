@@ -5,13 +5,16 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.wowrack.cloudrayaapps.data.api.ApiConfig
 import com.wowrack.cloudrayaapps.data.pref.KeyPreference
+import com.wowrack.cloudrayaapps.data.pref.SettingPreferences
 import com.wowrack.cloudrayaapps.data.pref.StartedPreference
 import com.wowrack.cloudrayaapps.data.pref.UserPreference
 import com.wowrack.cloudrayaapps.data.pref.keyDataStore
+import com.wowrack.cloudrayaapps.data.pref.settingData
 import com.wowrack.cloudrayaapps.data.pref.startDataStore
 import com.wowrack.cloudrayaapps.data.pref.userDataStore
 import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
 import com.wowrack.cloudrayaapps.data.repository.ServerRepository
+import com.wowrack.cloudrayaapps.data.repository.SettingRepository
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.data.utils.validateLogin
 
@@ -36,6 +39,11 @@ object Injection {
     fun provideArticleRepository() : ArticleRepository {
         val apiService = ApiConfig.getApiService()
         return ArticleRepository.getInstance(apiService)
+    }
+
+    fun provideSettingRepository(context: Context): SettingRepository {
+        val settingPref = SettingPreferences.getInstance(context.settingData)
+        return SettingRepository.getInstance(settingPref)
     }
 
 //    suspend fun provideValidateLogin(context: Context): suspend () -> Boolean {

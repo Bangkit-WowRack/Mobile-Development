@@ -33,22 +33,19 @@ import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun SettingScreen(
-    viewModel : SettingViewModel = viewModel(
-        factory = getViewModelFactory(context = LocalContext.current)
-    ),
+    themeSetting: Boolean,
+    notificationSetting: Boolean,
+    biometricSetting: Boolean,
+    changeThemeSetting: (Boolean) -> Unit,
+    changeNotificationSetting: (Boolean) -> Unit,
+    changeBiometricSetting: (Boolean) -> Unit,
 ) {
-    SettingContent()
-}
 
-@Composable
-fun SettingContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        var checked by remember { mutableStateOf(true) }
-
         Text(
             text = "Setting",
             fontFamily = poppinsBold,
@@ -79,13 +76,37 @@ fun SettingContent() {
                 )
                 Switch(
                     modifier = Modifier.size(50.dp),
-                    checked = checked,
-                    onCheckedChange = {
-                        checked = it
-                    }
+                    checked = notificationSetting,
+                    onCheckedChange = changeNotificationSetting
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Security",
+                fontFamily = poppinsBold,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "Biometric Authentication",
+                    fontFamily = poppins,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Switch(
+                    modifier = Modifier.size(50.dp),
+                    checked = biometricSetting,
+                    onCheckedChange = changeBiometricSetting
+                )
+            }
             Divider()
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -108,20 +129,10 @@ fun SettingContent() {
                 )
                 Switch(
                     modifier = Modifier.size(50.dp),
-                    checked = checked,
-                    onCheckedChange = {
-                        checked = it
-                    }
+                    checked = themeSetting,
+                    onCheckedChange = changeThemeSetting
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SettingPreview() {
-    CloudRayaAppsTheme {
-        SettingScreen()
     }
 }

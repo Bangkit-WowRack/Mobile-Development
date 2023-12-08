@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wowrack.cloudrayaapps.data.model.ActionVMResponse
 import com.wowrack.cloudrayaapps.data.model.VMAction
 import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.common.UiState
@@ -66,6 +67,7 @@ fun MonitorScreen(
     ),
 ) {
     val vmDetail by viewModel.vmDetail
+    val vmActionStatus by viewModel.actionVMStatus
 
     val startAlert = remember { mutableStateOf(false) }
     val stopAlert = remember { mutableStateOf(false) }
@@ -137,6 +139,25 @@ fun MonitorScreen(
         }
     }
 
+    DisposableEffect(key1 = vmActionStatus) {
+        when (vmActionStatus) {
+            is UiState.Success -> {
+                viewModel.getVMDetail(id)
+            }
+
+            is UiState.Error -> {
+                snackbar(((vmActionStatus as UiState.Error).errorMessage))
+            }
+
+            else -> {
+                // do nothing
+            }
+        }
+        onDispose {
+
+        }
+    }
+
     when (vmDetail) {
         is UiState.Loading -> {
             DetailCardShimmering()
@@ -147,8 +168,6 @@ fun MonitorScreen(
                 id = id,
                 data = (vmDetail as UiState.Success).data.data,
                 navigateToServer = navigateToServer,
-                viewModel = viewModel,
-                snackbar = snackbar,
                 openAlert = openAlert,
             )
         }
@@ -171,34 +190,11 @@ fun MonitorContent(
     id: Int,
     data: VMDetailData,
     navigateToServer: (Int) -> Unit,
-    viewModel: MonitorViewModel,
-    snackbar: (String) -> Job,
     openAlert: (VMAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val vmActionStatus by viewModel.actionVMStatus
-
     var selected by remember { mutableIntStateOf(0) }
     val scrollState = rememberScrollState()
-
-    DisposableEffect(key1 = vmActionStatus) {
-        when (vmActionStatus) {
-            is UiState.Success -> {
-                viewModel.getVMDetail(id)
-            }
-
-            is UiState.Error -> {
-                snackbar(((vmActionStatus as UiState.Error).errorMessage))
-            }
-
-            else -> {
-                // do nothing
-            }
-        }
-        onDispose {
-
-        }
-    }
 
     Column(
         modifier = modifier

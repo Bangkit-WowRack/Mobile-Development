@@ -3,11 +3,20 @@ package com.wowrack.cloudrayaapps
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wowrack.cloudrayaapps.data.token.DeviceTokenManager
+import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,13 +24,40 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         DeviceTokenManager.initialize(applicationContext)
         setContent {
-            CloudRayaAppsTheme {
+            val viewModel: AppViewModel = viewModel(
+                factory = getViewModelFactory(context = LocalContext.current)
+            )
+
+            val themeSetting by viewModel.themeSetting.collectAsState()
+            val notificationSetting by viewModel.notificationSetting.collectAsState()
+            val biometricSetting by viewModel.biometricSetting.collectAsState()
+
+            val changeThemeSetting = { isDarkModeActive: Boolean ->
+                viewModel.saveThemeSetting(isDarkModeActive)
+            }
+
+            val changeNotificationSetting = { isNotificationActive: Boolean ->
+                viewModel.saveNotificationSetting(isNotificationActive)
+            }
+
+            val changeBiometricSetting = { isBiometricActive: Boolean ->
+                viewModel.saveBiometricSetting(isBiometricActive)
+            }
+
+            CloudRayaAppsTheme(darkTheme = themeSetting) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App()
+                    App(
+                        themeSetting = themeSetting,
+                        notificationSetting = notificationSetting,
+                        biometricSetting = biometricSetting,
+                        changeThemeSetting = changeThemeSetting,
+                        changeNotificationSetting = changeNotificationSetting,
+                        changeBiometricSetting = changeBiometricSetting
+                    )
                 }
             }
         }

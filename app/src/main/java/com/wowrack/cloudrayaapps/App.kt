@@ -37,6 +37,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun App(
+    themeSetting: Boolean,
+    notificationSetting: Boolean,
+    biometricSetting: Boolean,
+    changeThemeSetting: (Boolean) -> Unit,
+    changeNotificationSetting: (Boolean) -> Unit,
+    changeBiometricSetting: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
@@ -175,7 +181,12 @@ fun App(
             }
             composable(Screen.Setting.route) {
                 SettingScreen(
-
+                    themeSetting = themeSetting,
+                    notificationSetting = notificationSetting,
+                    biometricSetting = biometricSetting,
+                    changeThemeSetting = changeThemeSetting,
+                    changeNotificationSetting = changeNotificationSetting,
+                    changeBiometricSetting = changeBiometricSetting
                 )
             }
             composable(Screen.Resource.route) {
@@ -243,13 +254,5 @@ fun App(
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AppPreview() {
-    CloudRayaAppsTheme {
-        App()
     }
 }

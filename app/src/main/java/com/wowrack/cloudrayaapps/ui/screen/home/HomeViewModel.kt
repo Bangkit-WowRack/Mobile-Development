@@ -7,17 +7,24 @@ import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.ArticlesResponse
+import com.wowrack.cloudrayaapps.data.model.Notification
+import com.wowrack.cloudrayaapps.data.repository.ServerRepository
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.ui.common.UiState
 
 class HomeViewModel(
     private val userRepository: UserRepository,
+    private val serverRepository: ServerRepository,
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
     private val _dashboardData = mutableStateOf<UiState<DashboardResponse>>(UiState.Loading)
     val dashboardData: State<UiState<DashboardResponse>>
         get() = _dashboardData
+
+    private val _notificationList = mutableStateOf<UiState<List<Notification>>>(UiState.Loading)
+    val notificationList: State<UiState<List<Notification>>>
+        get() = _notificationList
 
     private val _articleData = mutableStateOf<UiState<ArticlesResponse>>(UiState.Loading)
     val articleData: State<UiState<ArticlesResponse>>
@@ -50,4 +57,14 @@ class HomeViewModel(
         }
     }
 
+    fun getNotificationList() {
+        serverRepository.getNotificationList().observeForever {
+            when (it) {
+                is Result.Loading -> _notificationList.value = UiState.Loading
+                is Result.Success -> _notificationList.value = UiState.Success(it.data)
+                is Result.Error -> _notificationList.value = UiState.Error(it.error)
+                is Result.NotLogged -> _notificationList.value = UiState.NotLogged
+            }
+        }
+    }
 }

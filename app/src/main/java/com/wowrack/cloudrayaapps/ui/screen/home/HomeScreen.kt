@@ -39,6 +39,7 @@ import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.ArticleList
 import com.wowrack.cloudrayaapps.ui.components.DashboardInfo
+import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.components.NotificationListHome
 import com.wowrack.cloudrayaapps.ui.shimmer.ArticleShimmering
 import com.wowrack.cloudrayaapps.ui.shimmer.HomeDataShimmering
@@ -57,6 +58,8 @@ fun HomeScreen(
 ) {
     val dashboardData by viewModel.dashboardData
     val articleData by viewModel.articleData
+    val notificationList by viewModel.notificationList
+
     val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = true) {
@@ -66,6 +69,9 @@ fun HomeScreen(
         if (articleData is UiState.Loading) {
             viewModel.getArticleData()
         }
+        if (notificationList is UiState.Loading) {
+            viewModel.getNotificationList()
+        }
     }
 
     Column(
@@ -73,7 +79,7 @@ fun HomeScreen(
             .verticalScroll(state = scrollState)
             .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement =  Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -123,12 +129,20 @@ fun HomeScreen(
             is UiState.Loading -> {
                 HomeDataShimmering()
             }
+
             is UiState.Success -> {
                 DashboardInfo((dashboardData as UiState.Success).data.data)
             }
+
             is UiState.Error -> {
-                Text(text = (dashboardData as UiState.Error).errorMessage)
+                ErrorMessage(
+                    message = (dashboardData as UiState.Error).errorMessage,
+                    onRetry = {
+                        viewModel.getDashboardData()
+                    }
+                )
             }
+
             is UiState.NotLogged -> {
                 navigateToLogin()
             }
@@ -143,15 +157,21 @@ fun HomeScreen(
             is UiState.Loading -> {
                 ArticleShimmering()
             }
+
             is UiState.Success -> {
                 val data = (articleData as UiState.Success).data.data
-                if (data != null) {
-                    ArticleList(data)
-                }
+                ArticleList(data)
             }
+
             is UiState.Error -> {
-                Text(text = (articleData as UiState.Error).errorMessage)
+                ErrorMessage(
+                    message = (articleData as UiState.Error).errorMessage,
+                    onRetry = {
+                        viewModel.getArticleData()
+                    }
+                )
             }
+
             is UiState.NotLogged -> {
                 navigateToLogin()
             }
@@ -163,22 +183,43 @@ fun HomeScreen(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
-        Card(
-            modifier = modifier
-                .height(200.dp)
-                .shadow(8.dp, RoundedCornerShape(8.dp)),
-            shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background,
-            ),
-        ) {
-            Column(
-                modifier.padding(8.dp)
-            ) {
-                NotificationListHome()
+
+        when (notificationList) {
+            is UiState.Loading -> {
+                HomeDataShimmering()
+            }
+            is UiState.Success -> {
+                val data = (notificationList as UiState.Success).data.slice(0..2)
+                Card(
+                    modifier = modifier
+                        .height(200.dp)
+                        .shadow(8.dp, RoundedCornerShape(8.dp)),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
+                ) {
+                    Column(
+                        modifier.padding(8.dp)
+                    ) {
+                        NotificationListHome(
+                            data = data,
+                            navigateToNotification = navigateToNotification
+                        )
+                    }
+                }
+            }
+            is UiState.Error -> {
+                ErrorMessage(
+                    message = (notificationList as UiState.Error).errorMessage,
+                    onRetry = {
+                        viewModel.getNotificationList()
+                    }
+                )
+            }
+            is UiState.NotLogged -> {
+                navigateToLogin()
             }
         }
-
-
     }
 }

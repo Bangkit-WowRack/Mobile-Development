@@ -35,15 +35,28 @@ import com.wowrack.cloudrayaapps.utils.truncateText
 
 @Composable
 fun ArticleList(
-    data: List<ArticleData>,
+    data: List<ArticleData>?,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(start = 5.dp)
     ) {
-        items(data, key = { it.id }) { article ->
-            ArticleItem(article)
+        if (data.isNullOrEmpty()) {
+            item {
+                Text(
+                    text = "No Recent Article",
+                    fontFamily = poppins,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = modifier,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        } else {
+            items(data, key = { it.id }) { article ->
+                ArticleItem(article)
+            }
         }
     }
 }
