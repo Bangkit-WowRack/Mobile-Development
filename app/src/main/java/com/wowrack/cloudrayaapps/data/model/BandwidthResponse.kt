@@ -5,32 +5,26 @@ import com.google.gson.annotations.SerializedName
 data class BandwidthResponse(
 
 	@field:SerializedName("code")
-	val code: Int? = null,
+	val code: Int,
 
 	@field:SerializedName("data")
-	val data: List<BandwidthData>? = null,
+	val data: List<BandwidthData>,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String
 )
 
 data class BandwidthData(
 
-	@field:SerializedName("date")
-	val date: String? = null,
-
 	@field:SerializedName("cost")
-	val cost: Int? = null,
-
-	@field:SerializedName("hour")
-	val hour: Int? = null,
+	val cost: Int,
 
 	@field:SerializedName("usage")
-	val usage: Int? = null,
-
-	@field:SerializedName("converted_date")
-	val convertedDate: String? = null,
+	val usage: Float,
 
 	@field:SerializedName("type")
-	val type: String? = null
+	val type: String,
+
+	@field:SerializedName("timestamp")
+	val timestamp: String
 )

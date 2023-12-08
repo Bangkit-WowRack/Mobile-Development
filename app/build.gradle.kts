@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -59,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -84,19 +86,12 @@ dependencies {
     //pref
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    //chart
-    implementation("co.yml:ycharts:2.1.0")
+//    //chart
+//    implementation("co.yml:ycharts:2.1.0")
 
     //view-model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
-    //jwt
-    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
-    implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
-    implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
-
-    //mqtt
-    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
-
+    implementation("com.squareup.picasso:picasso:2.8")
 }

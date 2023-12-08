@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wowrack.cloudrayaapps.data.dummy.getDummyNotification
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.components.NotificationList
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
@@ -24,18 +25,13 @@ import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun NotificationScreen(
+    modifier: Modifier = Modifier,
     viewModel: NotificationViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
-    NotificationContent()
-}
-@Composable
-fun NotificationContent(
-    modifier: Modifier = Modifier
-) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize(),
     ) {
         Text(
@@ -47,7 +43,9 @@ fun NotificationContent(
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.width(16.dp))
-        NotificationList()
+        NotificationList(
+            getDummyNotification()
+        )
     }
 }
 

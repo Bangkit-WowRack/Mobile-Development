@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -21,26 +22,33 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wowrack.cloudrayaapps.data.dummy.getDummyNotification
 import com.wowrack.cloudrayaapps.data.model.Notification
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
-fun NotificationList() {
-    val dummyNotification = getDummyNotification()
-
+fun NotificationList(
+    data: List<Notification>,
+) {
     LazyColumn(
         state = rememberLazyListState(),
     ) {
-        items(dummyNotification.size) { index ->
-            val notification = dummyNotification[index]
-            Column {
+        if (data.isEmpty()) {
+            item {
+                Text(
+                    text = "No Notification",
+                    fontFamily = poppinsBold,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        } else {
+            items(data, key = { it.id }) { notification ->
                 key(notification.id) {
                     NotificationItem(notification)
-                    if (index < dummyNotification.size - 1) {
-                        Divider() // Your Divider composable here
-                    }
+                    Spacer(modifier = Modifier.height(2.dp))
                 }
             }
         }
@@ -130,22 +138,35 @@ fun NotificationListHome(
     LazyColumn(
         state = rememberLazyListState(),
     ) {
-        items(data, key = { it.id }) { notification ->
-            NotificationItemHome(notification)
-            Spacer(modifier = Modifier.height(2.dp))
-        }
-
-        item {
-            TextButton(
-                onClick = navigateToNotification,
-                modifier = Modifier.fillMaxWidth()
-            ) {
+        if (data.isEmpty()) {
+            item {
                 Text(
-                    text = "Show More",
-                    fontFamily = poppins,
+                    text = "No Notification",
+                    fontFamily = poppinsBold,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.primary
                 )
+            }
+        } else {
+            items(data, key = { it.id }) { notification ->
+                NotificationItemHome(notification)
+                Spacer(modifier = Modifier.height(2.dp))
+            }
+
+            item {
+                TextButton(
+                    onClick = navigateToNotification,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Show More",
+                        fontFamily = poppins,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
         }
     }

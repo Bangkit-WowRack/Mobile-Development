@@ -2,6 +2,8 @@ package com.wowrack.cloudrayaapps.data.api
 
 import com.wowrack.cloudrayaapps.data.model.ActionVMRequest
 import com.wowrack.cloudrayaapps.data.model.ActionVMResponse
+import com.wowrack.cloudrayaapps.data.model.BandwidthRequest
+import com.wowrack.cloudrayaapps.data.model.BandwidthResponse
 import com.wowrack.cloudrayaapps.data.model.ConsoleRequest
 import com.wowrack.cloudrayaapps.data.model.ConsoleResponse
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
@@ -10,6 +12,8 @@ import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.LoginResponse
 import com.wowrack.cloudrayaapps.data.model.OTPRequest
+import com.wowrack.cloudrayaapps.data.model.UsageRequest
+import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
 import com.wowrack.cloudrayaapps.data.model.VMDetailResponse
 import com.wowrack.cloudrayaapps.data.model.VirtualMachinesResponse
@@ -63,6 +67,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Response<VMDetailResponse>
+
+    @POST("virtualmachines/usages")
+    suspend fun getVMUsage(
+        @Header("Authorization") token: String,
+        @Body requestBody: UsageRequest
+    ): Response<UsageResponse>
+
+    @POST("virtualmachines/bandwidths")
+    suspend fun getVMBandwidth(
+        @Header("Authorization") token: String,
+        @Body requestBody: BandwidthRequest
+    ): Response<BandwidthResponse>
 
     @POST("virtualmachines/action")
     suspend fun actionVM(

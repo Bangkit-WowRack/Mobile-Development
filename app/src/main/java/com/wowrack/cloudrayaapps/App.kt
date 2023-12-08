@@ -1,6 +1,9 @@
 package com.wowrack.cloudrayaapps
 
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -9,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -18,6 +22,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wowrack.cloudrayaapps.ui.components.BottomBar
 import com.wowrack.cloudrayaapps.ui.navigation.Screen
 import com.wowrack.cloudrayaapps.ui.screen.getstarted.GetStartedScreen
@@ -35,6 +42,7 @@ import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.utils.showBottomBar
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
     themeSetting: Boolean,
@@ -57,6 +65,21 @@ fun App(
             snackbarHostState.showSnackbar(message)
         }
     }
+
+//    FirebaseApp.initializeApp(LocalContext.current);
+//    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//        if (!task.isSuccessful) {
+//            Log.w("ayam", "Fetching FCM registration token failed", task.exception)
+//            return@OnCompleteListener
+//        }
+//
+//        // Get new FCM registration token
+//        val token = task.result
+//
+//        // Log and toast
+//        Log.d("ayam", token)
+//        showSnackBar(token)
+//    })
 
     Scaffold(
         snackbarHost = {
