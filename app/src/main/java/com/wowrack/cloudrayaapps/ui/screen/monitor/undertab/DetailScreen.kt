@@ -45,7 +45,7 @@ fun DetailContent(
                 .shadow(8.dp, RoundedCornerShape(8.dp)),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background,
+                containerColor = MaterialTheme.colorScheme.surface,
             ),
         ) {
             Column(
@@ -57,6 +57,7 @@ fun DetailContent(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Divider(
                     modifier.width(140.dp)
@@ -66,42 +67,48 @@ fun DetailContent(
                     text = "Project Tag",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.projectTag ?: "No Project Tag",
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Status",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.status,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Launch Date",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.launchDate,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
             }
@@ -113,7 +120,7 @@ fun DetailContent(
                 .shadow(8.dp, RoundedCornerShape(8.dp)),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background,
+                containerColor = MaterialTheme.colorScheme.surface,
             ),
         ) {
             Column(
@@ -125,6 +132,7 @@ fun DetailContent(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Divider(
                     modifier.width(140.dp)
@@ -134,14 +142,17 @@ fun DetailContent(
                     text = "Location",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.location,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider()
@@ -150,14 +161,17 @@ fun DetailContent(
                     text = "Type Package",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.vmPackage,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -168,14 +182,17 @@ fun DetailContent(
                             text = "CPU",
                             fontFamily = poppins,
                             fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
                             modifier = modifier,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Text(
                             text = "${data.cpu} Core",
-                            fontFamily = poppins,
+                            fontFamily = poppinsBold,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Column {
@@ -183,14 +200,17 @@ fun DetailContent(
                             text = "Memory",
                             fontFamily = poppins,
                             fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
                             modifier = modifier,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Text(
                             text = "${data.memory} MB",
-                            fontFamily = poppins,
+                            fontFamily = poppinsBold,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Column {
@@ -198,14 +218,17 @@ fun DetailContent(
                             text = "Storage",
                             fontFamily = poppins,
                             fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
                             modifier = modifier,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Text(
                             text = "${data.rootdiskSize} GB",
-                            fontFamily = poppins,
+                            fontFamily = poppinsBold,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -216,14 +239,17 @@ fun DetailContent(
                     text = "Operating System",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.os,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider()
@@ -232,35 +258,43 @@ fun DetailContent(
                     text = "Main Public and Private IP",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Public IP",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.publicIp,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = "Private IP",
                     fontFamily = poppins,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 data.privateIp.forEach {
                     Text(
                         text = it,
-                        fontFamily = poppins,
+                        fontFamily = poppinsBold,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = modifier,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

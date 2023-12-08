@@ -85,7 +85,8 @@ fun HomeScreen(
                 text = "Dashboard",
                 fontFamily = poppinsBold,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
             Row {
                 IconButton(
@@ -137,7 +138,8 @@ fun HomeScreen(
             text = "News",
             fontFamily = poppinsBold,
             fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
         )
         when (articleData) {
             is UiState.Loading -> {
@@ -161,7 +163,9 @@ fun HomeScreen(
             text = "Notification",
             fontFamily = poppinsBold,
             fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+
         )
         Card(
             modifier = modifier

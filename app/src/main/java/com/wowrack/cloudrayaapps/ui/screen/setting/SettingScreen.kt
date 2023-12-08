@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,6 +55,7 @@ fun SettingContent() {
             fontFamily = poppinsBold,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(32.dp))
         Column(
@@ -64,6 +66,7 @@ fun SettingContent() {
                 fontFamily = poppinsBold,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -76,6 +79,7 @@ fun SettingContent() {
                     fontFamily = poppins,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Switch(
                     modifier = Modifier.size(50.dp),
@@ -93,6 +97,7 @@ fun SettingContent() {
                 fontFamily = poppinsBold,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -105,6 +110,7 @@ fun SettingContent() {
                     fontFamily = poppins,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Switch(
                     modifier = Modifier.size(50.dp),

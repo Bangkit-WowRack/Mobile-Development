@@ -26,9 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 private fun TabIndicator(
@@ -77,6 +81,9 @@ private fun TabItem(
             ),
         text = text,
         color = tabTextColor,
+        fontFamily = poppins,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
     )
 }
@@ -121,7 +128,7 @@ fun CustomTab(
                             onClick(index)
                         },
                         tabWidth = calculatedTabWidth,
-                        text = text
+                        text = text,
                     )
                 }
             }

@@ -31,6 +31,7 @@ import com.wowrack.cloudrayaapps.data.model.Article
 import com.wowrack.cloudrayaapps.data.model.ArticleData
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import com.wowrack.cloudrayaapps.utils.truncateText
 
 @Composable
@@ -63,7 +64,7 @@ fun ArticleItem(
             },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         Column(
@@ -71,24 +72,25 @@ fun ArticleItem(
         ) {
             Text(
                 text = article.title.truncateText(70),
-                fontFamily = poppins,
+                fontFamily = poppinsBold,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = modifier,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(4.dp))
             Box(
                 modifier = modifier
                     .width(IntrinsicSize.Max)
                     .background(Color.LightGray, RoundedCornerShape(4.dp))
-                    .padding(2.dp)
+                    .padding(horizontal = 8.dp, vertical = 2.dp)
             ) {
                 Text(
                     text = article.categories.name,
                     fontFamily = poppins,
                     fontSize = 12.sp,
-                    modifier = modifier
+                    modifier = modifier,
+                    color = MaterialTheme.colorScheme.surface
                 )
             }
 //            Spacer(modifier = Modifier.height(4.dp))

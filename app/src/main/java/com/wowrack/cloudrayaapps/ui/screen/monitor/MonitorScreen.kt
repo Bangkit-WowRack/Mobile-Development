@@ -220,14 +220,16 @@ fun MonitorContent(
                         text = "Vm Detail",
                         fontFamily = poppinsBold,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
                     )
 
                     Text(
                         text = data.hostname,
                         fontFamily = poppins,
                         fontSize = 16.sp,
-                        color = Color.Black
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Box(
@@ -244,13 +246,13 @@ fun MonitorContent(
                 ) {
                     Text(
                         text = "${data.status.capitalize()} - ${data.state}",
-                        fontSize = 16.sp,
-                        color = Color.White,
+                        fontFamily = poppins,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         modifier = modifier.padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                            top = 6.dp,
-                            bottom = 6.dp
+                            horizontal = 10.dp,
+                            vertical = 6.dp
                         )
                     )
                 }

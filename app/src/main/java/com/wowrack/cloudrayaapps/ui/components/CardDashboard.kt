@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun CardDashboardItem(
@@ -41,7 +42,7 @@ fun CardDashboardItem(
             .shadow(8.dp, RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         Column(
@@ -62,9 +63,10 @@ fun CardDashboardItem(
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = title,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 14.sp,
-                    modifier = modifier
+                    modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -73,17 +75,19 @@ fun CardDashboardItem(
             ) {
                 Text(
                     text = value,
-                    fontFamily = poppins,
+                    fontFamily = poppinsBold,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = modifier
+                    modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = info,
                     fontFamily = poppins,
                     fontSize = 14.sp,
-                    modifier = modifier
+                    modifier = modifier,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

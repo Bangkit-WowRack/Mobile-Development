@@ -77,7 +77,8 @@ fun ResourceContent(
             text = "VM List",
             fontFamily = poppinsBold,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
         )
         if (data == null) {
             Text(text = "No Data")

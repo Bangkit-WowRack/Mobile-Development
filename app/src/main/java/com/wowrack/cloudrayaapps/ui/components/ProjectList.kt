@@ -57,7 +57,7 @@ fun ProjectList(
             },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         Row(
@@ -69,7 +69,7 @@ fun ProjectList(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(12.dp)
-                    .size(48.dp)
+                    .size(40.dp)
             )
             Column {
                 Text(
@@ -77,13 +77,13 @@ fun ProjectList(
                     fontFamily = poppins,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = data.status,
                     fontFamily = poppinsBold,
                     fontSize = 14.sp,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
 //            Spacer(modifier = Modifier.weight(1f))
