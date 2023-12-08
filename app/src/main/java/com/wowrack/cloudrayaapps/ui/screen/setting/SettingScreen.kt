@@ -9,29 +9,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
-import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.accompanist.permissions.rememberPermissionState
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun SettingScreen(
     themeSetting: Boolean,
@@ -40,7 +36,23 @@ fun SettingScreen(
     changeThemeSetting: (Boolean) -> Unit,
     changeNotificationSetting: (Boolean) -> Unit,
     changeBiometricSetting: (Boolean) -> Unit,
+    showSnackBar: (String) -> Unit,
 ) {
+
+    if (notificationSetting) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            val permissionState =
+                rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+            val launcher =
+                rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
+                    if (isGranted) {
+                        showSnackBar("Permission Granted")
+                    } else {
+                        changeNotificationSetting(false)
+                    }
+                }
+        }
+    }
 
     Column(
         modifier = Modifier

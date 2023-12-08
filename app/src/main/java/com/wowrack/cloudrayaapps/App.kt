@@ -209,7 +209,8 @@ fun App(
                     biometricSetting = biometricSetting,
                     changeThemeSetting = changeThemeSetting,
                     changeNotificationSetting = changeNotificationSetting,
-                    changeBiometricSetting = changeBiometricSetting
+                    changeBiometricSetting = changeBiometricSetting,
+                    showSnackBar = showSnackBar
                 )
             }
             composable(Screen.Resource.route) {
