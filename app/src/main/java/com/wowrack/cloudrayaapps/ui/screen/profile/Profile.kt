@@ -180,7 +180,7 @@ fun ProfileContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(Color.White, RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)),
+                .background(MaterialTheme.colorScheme.background, RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)),
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -230,13 +230,13 @@ fun ProfileSection(
             fontFamily = poppinsBold,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text = desc,
             fontFamily = poppins,
             fontSize = 14.sp,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

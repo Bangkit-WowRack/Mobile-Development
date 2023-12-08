@@ -114,7 +114,8 @@ fun OTPScreen(
                     text = "Enter Verification Code",
                     fontFamily = poppinsBold,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
             Column(

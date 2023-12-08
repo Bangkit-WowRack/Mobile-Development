@@ -59,22 +59,26 @@ fun NotificationItem(
    ){
        Text(
            text = notification.title,
-           fontFamily = poppins,
+           fontFamily = poppinsBold,
            fontSize = 16.sp,
            fontWeight = FontWeight.Bold,
-           modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp)
+           modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp),
+           color = MaterialTheme.colorScheme.onBackground
        )
        Text(
            text = notification.description,
            fontFamily = poppins,
            fontSize = 12.sp,
-           modifier = Modifier.padding(horizontal = 16.dp)
+           fontWeight = FontWeight.Bold,
+           modifier = Modifier.padding(horizontal = 16.dp),
+           color = MaterialTheme.colorScheme.onBackground
        )
        Text(
            text = notification.date,
            fontFamily = poppins,
            fontSize = 12.sp,
-           modifier = Modifier.padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 16.dp)
+           modifier = Modifier.padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 16.dp),
+           color = MaterialTheme.colorScheme.onBackground
        )
    }
 }
@@ -95,20 +99,24 @@ fun NotificationItemHome(
             fontFamily = poppinsBold,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp),
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text = notification.description,
             fontFamily = poppins,
             fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
             maxLines = 1,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text = notification.date,
             fontFamily = poppins,
             fontSize = 10.sp,
-            modifier = Modifier.padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 16.dp),
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
