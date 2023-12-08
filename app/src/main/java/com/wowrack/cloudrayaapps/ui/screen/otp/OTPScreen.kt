@@ -223,7 +223,9 @@ fun OTPScreen(
                         modifier = Modifier
                             .padding(start = 4.dp)
                             .clickable {
-                                resendOtp()
+                                if (countdownValue == 0) {
+                                    resendOtp()
+                                }
                             }
                     )
                 }
