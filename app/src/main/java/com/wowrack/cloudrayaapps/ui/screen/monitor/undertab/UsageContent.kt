@@ -48,7 +48,7 @@ fun CPUTab(modifier: Modifier = Modifier) {
             Pair(21, 50.25),
             Pair(22, 34.45),
             Pair(23, 41.35),
-            Pair(23, 0.0),
+            Pair(24, 0.0),
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -90,7 +90,7 @@ fun MemoryTab(modifier: Modifier = Modifier) {
             Pair(21, 50.25),
             Pair(22, 94.45),
             Pair(23, 41.35),
-            Pair(23, 21.35),
+            Pair(24, 21.35),
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -131,7 +131,7 @@ fun BandwidthTab(modifier: Modifier = Modifier) {
             Pair(21, 50.25),
             Pair(22, 34.45),
             Pair(23, 41.35),
-            Pair(23, 21.35),
+            Pair(24, 21.35),
         )
 
         Spacer(modifier = Modifier.height(32.dp))

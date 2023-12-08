@@ -64,7 +64,7 @@ fun ProfileScreen(
     }
 
     Surface(
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.secondary
     ) {
         when (profileData) {
             is UiState.Loading -> {
@@ -127,7 +127,8 @@ fun ProfileContent(
                 Text(
                     text = "Status",
                     fontFamily = poppinsBold,
-                    style = TextStyle(fontWeight = FontWeight.Bold)
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(
@@ -154,7 +155,8 @@ fun ProfileContent(
                 Text(
                     text = "Billing Type",
                     fontFamily = poppinsBold,
-                    style = TextStyle(fontWeight = FontWeight.Bold)
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(

@@ -126,6 +126,7 @@ fun HomeScreen(
                 }
             }
         }
+
         when (dashboardData) {
             is UiState.Loading -> {
                 HomeDataShimmering()
@@ -140,36 +141,6 @@ fun HomeScreen(
                     message = (dashboardData as UiState.Error).errorMessage,
                     onRetry = {
                         viewModel.getDashboardData()
-                    }
-                )
-            }
-
-            is UiState.NotLogged -> {
-                navigateToLogin()
-            }
-        }
-        Text(
-            text = "News",
-            fontFamily = poppinsBold,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        when (articleData) {
-            is UiState.Loading -> {
-                ArticleShimmering()
-            }
-
-            is UiState.Success -> {
-                val data = (articleData as UiState.Success).data.data
-                ArticleList(data)
-            }
-
-            is UiState.Error -> {
-                ErrorMessage(
-                    message = (articleData as UiState.Error).errorMessage,
-                    onRetry = {
-                        viewModel.getArticleData()
                     }
                 )
             }
@@ -225,5 +196,38 @@ fun HomeScreen(
                 navigateToLogin()
             }
         }
+        Spacer(modifier = modifier.height(8.dp))
+        Text(
+            text = "News",
+            fontFamily = poppinsBold,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+        when (articleData) {
+            is UiState.Loading -> {
+                ArticleShimmering()
+            }
+
+            is UiState.Success -> {
+                val data = (articleData as UiState.Success).data.data
+                ArticleList(data)
+            }
+
+            is UiState.Error -> {
+                ErrorMessage(
+                    message = (articleData as UiState.Error).errorMessage,
+                    onRetry = {
+                        viewModel.getArticleData()
+                    }
+                )
+            }
+
+            is UiState.NotLogged -> {
+                navigateToLogin()
+            }
+        }
+
+
     }
 }
