@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.math.round
+import kotlin.math.roundToInt
 
 @Composable
 fun LineChart(
@@ -29,20 +30,20 @@ fun LineChart(
     val spacing = 100f
     val graphColor = MaterialTheme.colorScheme.primary
     val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
-    val upperValue = remember { (100.0) }
-    val lowerValue = remember { (0.0) }
+    val upperValue = remember { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
+    val lowerValue = remember { (data.minOfOrNull { it.second }?.toInt() ?: 0) }
     val density = LocalDensity.current
 
     val textPaint = remember(density) {
         Paint().apply {
-            color = android.graphics.Color.BLACK
+            color = android.graphics.Color.rgb(36,78,201)
             textAlign = Paint.Align.CENTER
             textSize = density.run { 10.sp.toPx() }
         }
     }
 
     Canvas(modifier = modifier) {
-        if (data.size >= 24) {
+        if (data.size > 24) {
             val spacePerHour = (size.width - spacing) / 24
 
             val startIndex = data.size - 24
@@ -113,7 +114,7 @@ fun LineChart(
         } else {
             val spacePerHour = (size.width - spacing) / data.size
 
-            (data.indices).forEach { i ->
+            (data.indices step 2).forEach { i ->
                 val hour = data[i].first
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(

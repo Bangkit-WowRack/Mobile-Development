@@ -135,15 +135,19 @@ fun OTPScreen(
                     fontFamily = poppins,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 when (otpData) {
                     is UiState.Success -> {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = (otpData as UiState.Success<OTPData>).data.email,
-                            fontFamily = poppins,
+                            fontFamily = poppinsBold,
                             fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     else -> {
@@ -164,6 +168,7 @@ fun OTPScreen(
                             text = (otpStatus as UiState.Error).errorMessage,
                             fontFamily = poppins,
                             fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -198,7 +203,8 @@ fun OTPScreen(
                         text = "Verify",
                         modifier = Modifier.padding(vertical = 8.dp),
                         color = Color.White,
-                        fontFamily = poppins
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.Bold
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -212,12 +218,13 @@ fun OTPScreen(
                         color = Color.Gray,
                         fontFamily = poppins,
                         fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                     )
                     Text(
                         text = if (countdownValue == 0) "Resend" else "Resend in $timerText",
                         color = if (countdownValue == 0) MaterialTheme.colorScheme.primary else Color.Gray,
-                        fontFamily = poppins,
+                        fontFamily = poppinsBold,
                         fontSize = 14.sp,
                         textAlign = TextAlign.Center,
                         modifier = Modifier

@@ -115,6 +115,7 @@ fun LoginScreen(
                 text = "Welcome! Log in using your App Key and Secret Key. Find these keys on Cludraya website for access",
                 fontFamily = poppins,
                 fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -216,7 +217,8 @@ fun LoginScreen(
                     Text(
                         text = "Login",
                         modifier = Modifier.padding(vertical = 8.dp),
-                        fontFamily = poppins
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
