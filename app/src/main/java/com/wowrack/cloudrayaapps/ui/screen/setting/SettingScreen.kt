@@ -26,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.google.accompanist.permissions.rememberPermissionState
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
+import kotlinx.coroutines.Job
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -36,7 +37,7 @@ fun SettingScreen(
     changeThemeSetting: (Boolean) -> Unit,
     changeNotificationSetting: (Boolean) -> Unit,
     changeBiometricSetting: (Boolean) -> Unit,
-    showSnackBar: (String) -> Unit,
+    showSnackBar: (String) -> Job,
 ) {
 
     if (notificationSetting) {
@@ -51,6 +52,9 @@ fun SettingScreen(
                         changeNotificationSetting(false)
                     }
                 }
+            if (!permissionState.hasPermission) {
+                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 

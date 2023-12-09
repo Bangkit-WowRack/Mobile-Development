@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,59 +34,39 @@ import com.wowrack.cloudrayaapps.ui.theme.poppins
 fun ServerScreen(
     id: Int,
     navigateToLogin: () -> Unit,
+    navigateToMonitor: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ServerViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
     val sshUrl by viewModel.sshUrl
-    val context = LocalContext.current
 
-//    DisposableEffect(key1 = id) {
-//        viewModel.getSshUrl(id)
-//        onDispose {
-//
-//        }
-//    }
+    DisposableEffect(key1 = id) {
+        viewModel.getSshUrl(id)
+        onDispose {
 
-    AndroidView(factory = {
-        WebView(context).apply {
-            webViewClient = WebViewClient()
-
-            loadUrl((sshUrl as UiState.Success<String>).data)
         }
-    })
+    }
 
-//    DisposableEffect(id) {
-//        viewModel.getSshUrl(id)
-//        onDispose {
-//
-//        }
-//    }
-//
-//    when (sshUrl) {
-//        is UiState.Loading -> {
-//            Text("Loading")
-//        }
-//        is UiState.Success -> {
-//            AndroidView(factory = {
-//                WebView(context).apply {
-//                    webViewClient = WebViewClient()
-//
-//                    loadUrl((sshUrl as UiState.Success<String>).data)
-//                }
-//            })
-//        }
-//        is UiState.Error -> {
-//            ErrorMessage(
-//                message = (sshUrl as UiState.Error).errorMessage,
-//                onRetry = { viewModel.getSshUrl(id) }
-//            )
-//        }
-//        is UiState.NotLogged -> {
-//            navigateToLogin()
-//        }
-//    }
+    when (sshUrl) {
+        is UiState.Loading -> {
+            Text("Loading")
+        }
+        is UiState.Success -> {
+            LocalUriHandler.current.openUri((sshUrl as UiState.Success<String>).data)
+            navigateToMonitor()
+        }
+        is UiState.Error -> {
+            ErrorMessage(
+                message = (sshUrl as UiState.Error).errorMessage,
+                onRetry = { viewModel.getSshUrl(id) }
+            )
+        }
+        is UiState.NotLogged -> {
+            navigateToLogin()
+        }
+    }
 }
 
 //@Composable

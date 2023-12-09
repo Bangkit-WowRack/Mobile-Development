@@ -68,24 +68,28 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<VMDetailResponse>
 
+    @Headers("Content-Type: application/json")
     @POST("virtualmachines/usages")
     suspend fun getVMUsage(
         @Header("Authorization") token: String,
         @Body requestBody: UsageRequest
     ): Response<UsageResponse>
 
+    @Headers("Content-Type: application/json")
     @POST("virtualmachines/bandwidths")
     suspend fun getVMBandwidth(
         @Header("Authorization") token: String,
         @Body requestBody: BandwidthRequest
     ): Response<BandwidthResponse>
 
+    @Headers("Content-Type: application/json")
     @POST("virtualmachines/action")
     suspend fun actionVM(
         @Header("Authorization") token: String,
         @Body requestBody: ActionVMRequest
     ): Response<ActionVMResponse>
 
+    @Headers("Content-Type: application/json")
     @POST("virtualmachines/open-console")
     suspend fun openConsole(
         @Header("Authorization") token: String,
