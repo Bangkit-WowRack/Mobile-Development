@@ -108,7 +108,8 @@ fun LoginScreen(
                 text = "Login",
                 fontFamily = poppinsBold,
                 fontSize = 45.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
@@ -116,7 +117,7 @@ fun LoginScreen(
                 fontFamily = poppins,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(40.dp))
             Box(
@@ -133,9 +134,9 @@ fun LoginScreen(
                     placeholder = { Text(text = InputType.AppKey.label, fontFamily = poppins, color = Color.DarkGray) },
                     singleLine = true,
                     shape = RoundedCornerShape(16.dp),
-                    textStyle = TextStyle(color = Color.Black),
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
+                        containerColor = MaterialTheme.colorScheme.background,
                         focusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
@@ -157,9 +158,9 @@ fun LoginScreen(
                     placeholder = { Text(text = InputType.SecretKey.label, fontFamily = poppins, color = Color.DarkGray) },
                     singleLine = true,
                     shape = RoundedCornerShape(16.dp),
-                    textStyle = TextStyle(color = Color.Black),
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.White,
+                        containerColor = MaterialTheme.colorScheme.background,
                         focusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
