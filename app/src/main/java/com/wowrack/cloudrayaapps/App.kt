@@ -1,7 +1,5 @@
 package com.wowrack.cloudrayaapps
 
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -12,9 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,9 +17,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
 import com.wowrack.cloudrayaapps.ui.components.BottomBar
 import com.wowrack.cloudrayaapps.ui.navigation.Screen
 import com.wowrack.cloudrayaapps.ui.screen.getstarted.GetStartedScreen
@@ -65,15 +57,6 @@ fun App(
             snackbarHostState.showSnackbar(message)
         }
     }
-
-    FirebaseApp.initializeApp(LocalContext.current)
-    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-        if (!task.isSuccessful) {
-            return@OnCompleteListener
-        }
-
-        val token = task.result
-    })
 
     Scaffold(
         snackbarHost = {

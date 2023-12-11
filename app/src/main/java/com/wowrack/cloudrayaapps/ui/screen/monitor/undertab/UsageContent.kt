@@ -1,5 +1,6 @@
 package com.wowrack.cloudrayaapps.ui.screen.monitor.undertab
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.data.model.BandwidthResponse
@@ -24,6 +26,8 @@ import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.components.LineChart
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
+import com.wowrack.cloudrayaapps.utils.getBandwidthUsage
 import com.wowrack.cloudrayaapps.utils.getCPUUsage
 import com.wowrack.cloudrayaapps.utils.getMemoryUsage
 
@@ -34,19 +38,46 @@ fun CPUTab(
     modifier: Modifier = Modifier
 ) {
     Column {
-        Spacer(modifier = Modifier.height(32.dp))
-
         when (data) {
             is UiState.Success -> {
-                val chartData = data.data.getCPUUsage()
+                val chartData = data.data.data
 
-                LineChart(
-                    data = chartData,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
+                if (chartData.isEmpty()) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .shadow(4.dp, RoundedCornerShape(8.dp)),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(IntrinsicSize.Min)
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Text(
+                                text = "No Data",
+                                fontFamily = poppinsBold,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                            )
+                        }
+                    }
+                } else {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    LineChart(
+                        data = chartData.getCPUUsage(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
             }
 
             is UiState.Error -> {
@@ -74,19 +105,46 @@ fun MemoryTab(
     modifier: Modifier = Modifier
 ) {
     Column {
-        Spacer(modifier = Modifier.height(32.dp))
-
         when (data) {
             is UiState.Success -> {
-                val chartData = data.data.getMemoryUsage()
+                val chartData = data.data.data
 
-                LineChart(
-                    data = chartData,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
+                if (chartData.isEmpty()) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .shadow(4.dp, RoundedCornerShape(8.dp)),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(IntrinsicSize.Min)
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "No Data",
+                                fontFamily = poppinsBold,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                            )
+                        }
+                    }
+                } else {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    LineChart(
+                        data = chartData.getMemoryUsage(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
             }
 
             is UiState.Error -> {
@@ -116,42 +174,44 @@ fun BandwidthTab(
     Column {
         when (data) {
             is UiState.Success -> {
+                val chartData = data.data.data
 
-                val data = listOf(
-                    Pair(1, 10.25),
-                    Pair(2, 34.45),
-                    Pair(3, 21.35),
-                    Pair(4, 40.25),
-                    Pair(5, 34.45),
-                    Pair(6, 51.35),
-                    Pair(7, 40.25),
-                    Pair(8, 14.45),
-                    Pair(9, 51.35),
-                    Pair(10, 70.25),
-                    Pair(11, 64.45),
-                    Pair(12, 81.35),
-                    Pair(13, 70.25),
-                    Pair(14, 94.45),
-                    Pair(15, 81.35),
-                    Pair(16, 61.35),
-                    Pair(17, 70.25),
-                    Pair(18, 54.45),
-                    Pair(19, 61.35),
-                    Pair(20, 41.35),
-                    Pair(21, 50.25),
-                    Pair(22, 34.45),
-                    Pair(23, 41.35),
-                    Pair(24, 21.35),
-                )
-
-                Spacer(modifier = Modifier.height(32.dp))
-                LineChart(
-                    data = data,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
+                if (chartData.isEmpty()) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .shadow(4.dp, RoundedCornerShape(8.dp)),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(IntrinsicSize.Min)
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "No Data",
+                                fontFamily = poppinsBold,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                            )
+                        }
+                    }
+                } else {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    LineChart(
+                        data = chartData.getBandwidthUsage(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
             }
 
 

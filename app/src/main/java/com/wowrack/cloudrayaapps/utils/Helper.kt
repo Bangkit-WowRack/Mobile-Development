@@ -1,8 +1,12 @@
 package com.wowrack.cloudrayaapps.utils
 
+import com.wowrack.cloudrayaapps.data.model.BandwidthData
+import com.wowrack.cloudrayaapps.data.model.DataCpu
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.navigation.Screen
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun String.truncateText(maxLength: Int = 80): String {
     return if (this.length <= maxLength) {
@@ -41,19 +45,35 @@ fun Int.getIcon(): String {
     }
 }
 
-fun UsageResponse.getCPUUsage(): List<Pair<Int, Double>> {
+fun List<DataCpu>.getCPUUsage(): List<Pair<Int, Double>> {
     val data = mutableListOf<Pair<Int, Double>>()
-    this.data.forEachIndexed { index, dataCpu ->
+    this.forEachIndexed { index, dataCpu ->
         data.add(Pair(index + 1, dataCpu.cpuUsed.toDouble()))
     }
     return data
 }
 
-fun UsageResponse.getMemoryUsage(): List<Pair<Int, Double>> {
+fun List<DataCpu>.getMemoryUsage(): List<Pair<Int, Double>> {
     val data = mutableListOf<Pair<Int, Double>>()
-    this.data.forEachIndexed { index, dataCpu ->
+    this.forEachIndexed { index, dataCpu ->
         data.add(Pair(index + 1, dataCpu.memoryUsed.toDouble()))
     }
     return data
+}
+
+fun List<BandwidthData>.getBandwidthUsage(): List<Pair<Int, Double>> {
+    val data = mutableListOf<Pair<Int, Double>>()
+    this.forEachIndexed { index, bandwidthData ->
+        data.add(Pair(index + 1, bandwidthData.usage.toDouble()))
+    }
+    return data
+}
+
+fun String.timestampToHourMinute(): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
+    val dateTime = LocalDateTime.parse(this, formatter)
+
+    val hourMinuteFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    return dateTime.format(hourMinuteFormatter)
 }
 

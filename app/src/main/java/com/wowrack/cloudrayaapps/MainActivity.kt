@@ -11,6 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wowrack.cloudrayaapps.data.token.DeviceTokenManager
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
@@ -19,6 +22,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DeviceTokenManager.initialize(applicationContext)
+
+        FirebaseApp.initializeApp(this)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+        })
+
         setContent {
             val viewModel: AppViewModel = viewModel(
                 factory = getViewModelFactory(context = LocalContext.current)

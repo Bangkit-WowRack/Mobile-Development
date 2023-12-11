@@ -9,12 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-<<<<<<< HEAD
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-=======
->>>>>>> fc904b8bac8c3d4104f5d46b5ac0d1943c521362
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -27,8 +23,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import android.Manifest
+import android.content.Context
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
@@ -47,21 +51,16 @@ fun SettingScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    if (notificationSetting) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            val permissionState =
-                rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
-            val launcher =
-                rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
-                    if (isGranted) {
-                        showSnackBar("Permission Granted")
-                    } else {
-                        changeNotificationSetting(false)
-                    }
-                }
+    val permissionState =
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+
+    DisposableEffect(notificationSetting) {
+        if (notificationSetting && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (!permissionState.hasPermission) {
-                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                permissionState.launchPermissionRequest()
             }
+        }
+        onDispose {
         }
     }
 

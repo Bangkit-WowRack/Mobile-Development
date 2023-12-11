@@ -154,7 +154,7 @@ class ServerRepository(
                 return@liveData
             }
 
-            val response = apiService.getVMBandwidth(token, BandwidthRequest(id), 1, 24)
+            val response = apiService.getVMBandwidth(token, BandwidthRequest(id), 1, 12)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
