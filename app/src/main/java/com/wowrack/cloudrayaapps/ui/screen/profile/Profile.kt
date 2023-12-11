@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -63,7 +65,10 @@ fun ProfileScreen(
         navigateToLogin()
     }
 
+    val scrollState = rememberScrollState()
+
     Surface(
+        modifier = Modifier.verticalScroll(state = scrollState),
         color = MaterialTheme.colorScheme.secondary
     ) {
         when (profileData) {
@@ -196,7 +201,7 @@ fun ProfileContent(
                 Button(
                     onClick = onLogout,
                     modifier = Modifier
-                        .padding(horizontal = 24.dp)
+                        .padding(horizontal = 24.dp, vertical = 8.dp)
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
