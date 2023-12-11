@@ -47,7 +47,6 @@ import com.wowrack.cloudrayaapps.ui.shimmer.HomeDataShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
-@Deprecated("Slice data for demo purpose")
 @Composable
 fun HomeScreen(
     navigateToLogin: () -> Unit,

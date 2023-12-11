@@ -116,7 +116,7 @@ class ServerRepository(
                 return@liveData
             }
 
-            val response = apiService.getVMUsage(token, UsageRequest(id))
+            val response = apiService.getVMUsage(token, UsageRequest(id), 1, 24)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -154,7 +154,7 @@ class ServerRepository(
                 return@liveData
             }
 
-            val response = apiService.getVMBandwidth(token, BandwidthRequest(id))
+            val response = apiService.getVMBandwidth(token, BandwidthRequest(id), 1, 24)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {

@@ -27,6 +27,7 @@ import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @Headers("Content-Type: application/json")
@@ -72,14 +73,18 @@ interface ApiService {
     @POST("virtualmachines/usages")
     suspend fun getVMUsage(
         @Header("Authorization") token: String,
-        @Body requestBody: UsageRequest
+        @Body requestBody: UsageRequest,
+        @Query("page") page: Int,
+        @Query("size") size: Int
     ): Response<UsageResponse>
 
     @Headers("Content-Type: application/json")
     @POST("virtualmachines/bandwidths")
     suspend fun getVMBandwidth(
         @Header("Authorization") token: String,
-        @Body requestBody: BandwidthRequest
+        @Body requestBody: BandwidthRequest,
+        @Query("page") page: Int,
+        @Query("size") size: Int
     ): Response<BandwidthResponse>
 
     @Headers("Content-Type: application/json")

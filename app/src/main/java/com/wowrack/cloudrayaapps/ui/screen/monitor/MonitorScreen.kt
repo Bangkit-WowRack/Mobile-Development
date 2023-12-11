@@ -1,5 +1,6 @@
 package com.wowrack.cloudrayaapps.ui.screen.monitor
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wowrack.cloudrayaapps.data.model.ActionVMResponse
+import com.wowrack.cloudrayaapps.data.model.BandwidthResponse
+import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.data.model.VMAction
 import com.wowrack.cloudrayaapps.data.model.VMDetailData
 import com.wowrack.cloudrayaapps.ui.common.UiState
@@ -56,6 +61,7 @@ import com.wowrack.cloudrayaapps.ui.shimmer.DetailCardShimmering
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 @Composable
 fun MonitorScreen(
@@ -70,10 +76,14 @@ fun MonitorScreen(
 ) {
     val vmDetail by viewModel.vmDetail
     val vmActionStatus by viewModel.actionVMStatus
+    val usageData by viewModel.usageData
+    val bandwidthData by viewModel.bandwidthData
 
     val startAlert = remember { mutableStateOf(false) }
     val stopAlert = remember { mutableStateOf(false) }
     val rebootAlert = remember { mutableStateOf(false) }
+
+    var onWaiting by remember { mutableStateOf(false) }
 
     val openAlert = { action: VMAction ->
         when (action) {
@@ -81,6 +91,14 @@ fun MonitorScreen(
             VMAction.stop -> stopAlert.value = true
             VMAction.reboot -> rebootAlert.value = true
         }
+    }
+
+    val onUsageDataRetry = {
+        viewModel.getUsageData(id)
+    }
+
+    val onBandwidthDataRetry = {
+        viewModel.getBandwidthData(id)
     }
 
     when {
@@ -92,6 +110,7 @@ fun MonitorScreen(
                 onConfirmation = {
                     viewModel.doVMAction(id, VMAction.start)
                     startAlert.value = false
+                    onWaiting = true
                 },
                 dialogTitle = "Start this VM?",
                 dialogText = "Are you sure you want to start the Virtual Machine?",
@@ -108,6 +127,7 @@ fun MonitorScreen(
                 onConfirmation = {
                     viewModel.doVMAction(id, VMAction.stop)
                     stopAlert.value = false
+                    onWaiting = true
                 },
                 dialogTitle = "Stop this VM?",
                 dialogText = "Are you sure you want to stop the Virtual Machine?",
@@ -124,6 +144,7 @@ fun MonitorScreen(
                 onConfirmation = {
                     viewModel.doVMAction(id, VMAction.reboot)
                     rebootAlert.value = false
+                    onWaiting = true
                 },
                 dialogTitle = "Restart this VM?",
                 dialogText = "Are you sure you want to restart the Virtual Machine?",
@@ -139,6 +160,8 @@ fun MonitorScreen(
 
     DisposableEffect(key1 = id) {
         viewModel.getVMDetail(id)
+        viewModel.getUsageData(id)
+        viewModel.getBandwidthData(id)
         onDispose {
 
         }
@@ -163,18 +186,41 @@ fun MonitorScreen(
         }
     }
 
+    LaunchedEffect(key1 = onWaiting) {
+        while (onWaiting) {
+            delay(12000)
+            viewModel.getVMDetail(id)
+        }
+    }
+
+
+
     when (vmDetail) {
         is UiState.Loading -> {
             DetailCardShimmering()
         }
 
         is UiState.Success -> {
+            val data = (vmDetail as UiState.Success).data.data
             MonitorContent(
                 id = id,
-                data = (vmDetail as UiState.Success).data.data,
+                data = data,
+                usageData = usageData,
+                bandwidthData = bandwidthData,
                 navigateToServer = navigateToServer,
                 openAlert = openAlert,
+                onUsageDataRetry = onUsageDataRetry,
+                onBandwidthDataRetry = onBandwidthDataRetry,
             )
+
+            DisposableEffect(key1 = data) {
+                if (data.state == "Running" || data.state == "Stopped") {
+                    onWaiting = false
+                }
+                onDispose {
+
+                }
+            }
         }
 
         is UiState.Error -> {
@@ -194,6 +240,10 @@ fun MonitorScreen(
 fun MonitorContent(
     id: Int,
     data: VMDetailData,
+    usageData: UiState<UsageResponse>,
+    bandwidthData: UiState<BandwidthResponse>,
+    onUsageDataRetry: () -> Unit,
+    onBandwidthDataRetry: () -> Unit,
     navigateToServer: (Int) -> Unit,
     openAlert: (VMAction) -> Unit,
     modifier: Modifier = Modifier
@@ -367,7 +417,12 @@ fun MonitorContent(
                     data = data,
                 )
 
-                1 -> UsageContent()
+                1 -> UsageContent(
+                    usageData = usageData,
+                    bandwidthData = bandwidthData,
+                    onUsageDataRetry = onUsageDataRetry,
+                    onBandwidthDataRetry = onBandwidthDataRetry,
+                )
             }
         }
 
