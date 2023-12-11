@@ -66,20 +66,14 @@ fun App(
         }
     }
 
-//    FirebaseApp.initializeApp(LocalContext.current);
-//    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//        if (!task.isSuccessful) {
-//            Log.w("ayam", "Fetching FCM registration token failed", task.exception)
-//            return@OnCompleteListener
-//        }
-//
-//        // Get new FCM registration token
-//        val token = task.result
-//
-//        // Log and toast
-//        Log.d("ayam", token)
-//        showSnackBar(token)
-//    })
+    FirebaseApp.initializeApp(LocalContext.current)
+    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+        if (!task.isSuccessful) {
+            return@OnCompleteListener
+        }
+
+        val token = task.result
+    })
 
     Scaffold(
         snackbarHost = {
@@ -209,7 +203,8 @@ fun App(
                     biometricSetting = biometricSetting,
                     changeThemeSetting = changeThemeSetting,
                     changeNotificationSetting = changeNotificationSetting,
-                    changeBiometricSetting = changeBiometricSetting
+                    changeBiometricSetting = changeBiometricSetting,
+                    showSnackBar = showSnackBar
                 )
             }
             composable(Screen.Resource.route) {
@@ -274,6 +269,9 @@ fun App(
                             }
                         }
                     },
+                    navigateToMonitor = {
+                        navController.navigate(Screen.Monitor.createRoute(id))
+                    }
                 )
             }
         }

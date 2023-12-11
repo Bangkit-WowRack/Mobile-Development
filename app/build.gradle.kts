@@ -86,12 +86,10 @@ dependencies {
     //pref
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-//    //chart
-//    implementation("co.yml:ycharts:2.1.0")
-
     //view-model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.accompanist:accompanist-permissions:0.19.0")
 }
