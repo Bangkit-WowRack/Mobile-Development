@@ -9,6 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+<<<<<<< HEAD
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+=======
+>>>>>>> fc904b8bac8c3d4104f5d46b5ac0d1943c521362
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -39,6 +45,7 @@ fun SettingScreen(
     changeBiometricSetting: (Boolean) -> Unit,
     showSnackBar: (String) -> Job,
 ) {
+    val scrollState = rememberScrollState()
 
     if (notificationSetting) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -60,6 +67,7 @@ fun SettingScreen(
 
     Column(
         modifier = Modifier
+            .verticalScroll(scrollState)
             .fillMaxSize()
             .padding(16.dp)
     ) {
