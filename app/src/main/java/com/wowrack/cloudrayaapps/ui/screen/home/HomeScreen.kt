@@ -44,6 +44,8 @@ import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.components.NotificationListHome
 import com.wowrack.cloudrayaapps.ui.shimmer.ArticleShimmering
 import com.wowrack.cloudrayaapps.ui.shimmer.HomeDataShimmering
+import com.wowrack.cloudrayaapps.ui.shimmer.NotificationShimmer
+import com.wowrack.cloudrayaapps.ui.shimmer.NotificationShimmerItem
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
@@ -192,7 +194,7 @@ fun HomeScreen(
         )
         when (notificationList) {
             is UiState.Loading -> {
-                ArticleShimmering()
+                NotificationShimmer()
             }
             is UiState.Success -> {
 

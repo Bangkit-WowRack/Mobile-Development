@@ -60,7 +60,7 @@ fun ProfileScreenShimmering() {
         end = Offset(x = translateAnim.value, y = translateAnim.value)
     )
     Surface(
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.secondary
     ) {
         ProfileShimmerItem(brush = brush)
     }
@@ -137,7 +137,7 @@ fun ProfileShimmerItem(brush: Brush) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(Color.White, RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)),
+                .background(MaterialTheme.colorScheme.background, RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)),
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -240,6 +240,14 @@ fun ProfileShimmerItem(brush: Brush) {
                             .height(18.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth(fraction = 0.75f)
+                            .background(brush)
+                    )
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .height(60.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .fillMaxWidth(fraction = 1f)
                             .background(brush)
                     )
                 }

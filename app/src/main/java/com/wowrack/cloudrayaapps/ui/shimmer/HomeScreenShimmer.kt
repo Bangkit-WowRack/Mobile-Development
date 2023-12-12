@@ -174,6 +174,51 @@ fun ArticleShimmering() {
 }
 
 @Composable
+fun NotificationShimmer() {
+    val shimmerColors = listOf(
+        Color.LightGray.copy(alpha = 0.6f),
+        Color.LightGray.copy(alpha = 0.2f),
+        Color.LightGray.copy(alpha = 0.6f),
+    )
+
+    val transition = rememberInfiniteTransition()
+    val translateAnim = transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 1000,
+                easing = FastOutSlowInEasing
+            ),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    val brush = Brush.linearGradient(
+        colors = shimmerColors,
+        start = Offset.Zero,
+        end = Offset(x = translateAnim.value, y = translateAnim.value)
+    )
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(8.dp, RoundedCornerShape(8.dp))
+            .clickable {
+
+            },
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background,
+        ),
+    ) {
+        repeat(3) {
+            NotificationShimmerItem(brush = brush)
+        }
+    }
+}
+
+@Composable
 fun ArticleShimmerItem(brush: Brush) {
     Card(
         modifier = Modifier
@@ -217,6 +262,37 @@ fun ArticleShimmerItem(brush: Brush) {
         }
     }
 }
+
+@Composable
+fun NotificationShimmerItem(brush: Brush) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .fillMaxWidth(fraction = 0.3f)
+                .background(brush)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .fillMaxWidth(fraction = 1f)
+                .background(brush)
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .fillMaxWidth(fraction = 0.3f)
+                .background(brush)
+        )
+    }
+}
 @Composable
 @Preview(showBackground = true)
 fun HomeDataShimmerItemPreview() {
@@ -235,6 +311,20 @@ fun HomeDataShimmerItemPreview() {
 @Preview(showBackground = true)
 fun ArticleShimmerItemPreview() {
     ArticleShimmerItem(
+        brush = Brush.linearGradient(
+            listOf(
+                Color.LightGray.copy(alpha = 0.6f),
+                Color.LightGray.copy(alpha = 0.2f),
+                Color.LightGray.copy(alpha = 0.6f),
+            )
+        )
+    )
+}
+
+@Composable
+@Preview(showBackground = true)
+fun NotificationShimmerItemPreview() {
+    NotificationShimmerItem(
         brush = Brush.linearGradient(
             listOf(
                 Color.LightGray.copy(alpha = 0.6f),
