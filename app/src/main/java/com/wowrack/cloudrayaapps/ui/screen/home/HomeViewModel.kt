@@ -8,6 +8,7 @@ import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
 import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.ArticlesResponse
 import com.wowrack.cloudrayaapps.data.model.Notification
+import com.wowrack.cloudrayaapps.data.model.NotificationResponse
 import com.wowrack.cloudrayaapps.data.repository.ServerRepository
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.ui.common.UiState
@@ -22,8 +23,8 @@ class HomeViewModel(
     val dashboardData: State<UiState<DashboardResponse>>
         get() = _dashboardData
 
-    private val _notificationList = mutableStateOf<UiState<List<Notification>>>(UiState.Loading)
-    val notificationList: State<UiState<List<Notification>>>
+    private val _notificationList = mutableStateOf<UiState<NotificationResponse>>(UiState.Loading)
+    val notificationList: State<UiState<NotificationResponse>>
         get() = _notificationList
 
     private val _articleData = mutableStateOf<UiState<ArticlesResponse>>(UiState.Loading)
@@ -58,7 +59,7 @@ class HomeViewModel(
     }
 
     fun getNotificationList() {
-        serverRepository.getNotificationList().observeForever {
+        serverRepository.getNotificationList(3).observeForever {
             when (it) {
                 is Result.Loading -> _notificationList.value = UiState.Loading
                 is Result.Success -> _notificationList.value = UiState.Success(it.data)

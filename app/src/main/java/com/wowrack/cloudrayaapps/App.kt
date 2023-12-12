@@ -176,7 +176,14 @@ fun App(
             }
             composable(Screen.Notification.route) {
                 NotificationScreen(
-
+                    navigateToLogin = {
+                        showSnackBar("Login Session Expired")
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    },
                 )
             }
             composable(Screen.Setting.route) {
@@ -253,7 +260,7 @@ fun App(
                         }
                     },
                     navigateToMonitor = {
-                        navController.navigate(Screen.Monitor.createRoute(id))
+                        navController.popBackStack()
                     }
                 )
             }

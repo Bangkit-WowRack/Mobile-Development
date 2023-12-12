@@ -11,6 +11,7 @@ import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
 import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.LoginResponse
+import com.wowrack.cloudrayaapps.data.model.NotificationResponse
 import com.wowrack.cloudrayaapps.data.model.OTPRequest
 import com.wowrack.cloudrayaapps.data.model.UsageRequest
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
@@ -100,4 +101,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body requestBody: ConsoleRequest
     ): Response<ConsoleResponse>
+
+    @GET("auth/show-notif")
+    suspend fun getNotification(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<NotificationResponse>
 }

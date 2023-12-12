@@ -52,7 +52,7 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(SettingViewModel::class.java) ->
                 SettingViewModel() as T
             modelClass.isAssignableFrom(NotificationViewModel::class.java) ->
-                NotificationViewModel() as T
+                NotificationViewModel(serverRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }

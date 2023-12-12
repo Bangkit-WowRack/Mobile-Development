@@ -5,8 +5,11 @@ import com.wowrack.cloudrayaapps.data.model.DataCpu
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.ui.common.UiState
 import com.wowrack.cloudrayaapps.ui.navigation.Screen
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun String.truncateText(maxLength: Int = 80): String {
     return if (this.length <= maxLength) {
@@ -75,5 +78,13 @@ fun String.timestampToHourMinute(): String {
 
     val hourMinuteFormatter = DateTimeFormatter.ofPattern("HH:mm")
     return dateTime.format(hourMinuteFormatter)
+}
+
+fun Long.formatUnixEpochTime(): String {
+    val instant = Instant.ofEpochMilli(this)
+    val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+
+    val outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a", Locale.getDefault())
+    return localDateTime.format(outputFormatter)
 }
 

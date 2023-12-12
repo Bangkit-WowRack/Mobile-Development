@@ -16,6 +16,7 @@ import com.wowrack.cloudrayaapps.data.model.ConsoleRequest
 import com.wowrack.cloudrayaapps.data.model.ConsoleResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
 import com.wowrack.cloudrayaapps.data.model.Notification
+import com.wowrack.cloudrayaapps.data.model.NotificationResponse
 import com.wowrack.cloudrayaapps.data.model.UsageRequest
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.data.model.VMAction
@@ -257,41 +258,39 @@ class ServerRepository(
         }
     }
 
-    fun getNotificationList(): LiveData<Result<List<Notification>>> = liveData(Dispatchers.IO) {
+    fun getNotificationList(size: Int = 100): LiveData<Result<NotificationResponse>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
 
         try {
-//            emit(Result.Success(getDummyNotification()))
-            emit(Result.Success(getDummyNotification()))
-//            val token = getTokenAndValidate(userPreference, validateLogin)
-//
-//            if (token != null) {
-//                val response = apiService.getVMList(token)
-//                if (response.isSuccessful) {
-//                    val body = response.body()
-//                    if (body != null) {
-//                        emit(Result.Success(body))
-//                    } else {
-//                        emit(Result.Error("Something went wrong"))
-//                    }
-//                } else {
-//                    val errorBody = response.errorBody()?.string()
-//                    if (!errorBody.isNullOrBlank()) {
-//                        val gson = Gson()
-//                        val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-//                        if (errorResponse.code == 401) {
-//                            emit(Result.NotLogged)
-//                        } else {
-//                            emit(Result.Error(errorResponse.message))
-//                        }
-//                    } else {
-//                        emit(Result.Error("Something went wrong"))
-//                    }
-//                }
-//
-//            } else {
-//                emit(Result.NotLogged)
-//            }
+            val token = getTokenAndValidate(userPreference, validateLogin)
+
+            if (token != null) {
+                val response = apiService.getNotification(token, 1, size)
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        emit(Result.Success(body))
+                    } else {
+                        emit(Result.Error("Something went wrong"))
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    if (!errorBody.isNullOrBlank()) {
+                        val gson = Gson()
+                        val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                        if (errorResponse.code == 401) {
+                            emit(Result.NotLogged)
+                        } else {
+                            emit(Result.Error(errorResponse.message))
+                        }
+                    } else {
+                        emit(Result.Error("Something went wrong"))
+                    }
+                }
+
+            } else {
+                emit(Result.NotLogged)
+            }
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }

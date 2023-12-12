@@ -192,11 +192,11 @@ fun HomeScreen(
         )
         when (notificationList) {
             is UiState.Loading -> {
-                HomeDataShimmering()
+                ArticleShimmering()
             }
             is UiState.Success -> {
 
-                val data = (notificationList as UiState.Success).data.slice(0..2)
+                val data = (notificationList as UiState.Success).data.data
 
                 Card(
                     modifier = modifier

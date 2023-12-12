@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import com.wowrack.cloudrayaapps.ui.screen.resource.ResourceContent
 import com.wowrack.cloudrayaapps.ui.shimmer.ResourceScreenShimmering
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
+import kotlinx.coroutines.delay
 
 @Composable
 fun ServerScreen(
@@ -49,13 +51,35 @@ fun ServerScreen(
         }
     }
 
+    LaunchedEffect(sshUrl) {
+        when (sshUrl) {
+            is UiState.NotLogged -> {
+                navigateToLogin()
+            }
+            is UiState.Success -> {
+                delay(3000)
+                navigateToMonitor()
+            }
+            else -> {
+
+            }
+        }
+    }
+
     when (sshUrl) {
         is UiState.Loading -> {
-            Text("Loading")
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
         }
         is UiState.Success -> {
             LocalUriHandler.current.openUri((sshUrl as UiState.Success<String>).data)
-            navigateToMonitor()
         }
         is UiState.Error -> {
             ErrorMessage(
@@ -63,8 +87,8 @@ fun ServerScreen(
                 onRetry = { viewModel.getSshUrl(id) }
             )
         }
-        is UiState.NotLogged -> {
-            navigateToLogin()
+        else -> {
+
         }
     }
 }

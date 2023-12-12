@@ -1,6 +1,7 @@
 package com.wowrack.cloudrayaapps.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,12 +26,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wowrack.cloudrayaapps.data.model.Notification
+import com.wowrack.cloudrayaapps.data.model.NotificationItem
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
+import com.wowrack.cloudrayaapps.utils.formatUnixEpochTime
 
 @Composable
 fun NotificationList(
-    data: List<Notification>,
+    data: List<NotificationItem>,
 ) {
     LazyColumn(
         state = rememberLazyListState(),
@@ -48,10 +51,8 @@ fun NotificationList(
             }
         } else {
             items(data, key = { it.id }) { notification ->
-                key(notification.id) {
-                    NotificationItem(notification)
-                    Spacer(modifier = Modifier.height(2.dp))
-                }
+                NotificationItem(notification)
+                Spacer(modifier = Modifier.height(2.dp))
             }
         }
     }
@@ -59,13 +60,16 @@ fun NotificationList(
 
 @Composable
 fun NotificationItem(
-    notification: Notification,
+    notification: NotificationItem,
     modifier: Modifier = Modifier,
 ) {
    Column(
        Modifier
            .fillMaxWidth()
            .background(color = Color(0x30009EFB))
+           .clickable {
+
+           }
    ){
        Text(
            text = notification.title,
@@ -84,7 +88,7 @@ fun NotificationItem(
            color = MaterialTheme.colorScheme.onBackground
        )
        Text(
-           text = notification.date,
+           text = notification.timestamp.formatUnixEpochTime(),
            fontFamily = poppins,
            fontSize = 12.sp,
            modifier = Modifier.padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 16.dp),
@@ -95,14 +99,17 @@ fun NotificationItem(
 
 @Composable
 fun NotificationItemHome(
-    notification: Notification,
+    notification: NotificationItem,
     modifier: Modifier = Modifier,
 ) {
     Column(
         Modifier
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .background(color = Color(0x30009EFB)),
+            .background(color = Color(0x30009EFB))
+            .clickable {
+
+            },
     ){
         Text(
             text = notification.title,
@@ -122,7 +129,7 @@ fun NotificationItemHome(
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = notification.date,
+            text = notification.timestamp.formatUnixEpochTime(),
             fontFamily = poppins,
             fontSize = 10.sp,
             modifier = Modifier.padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 16.dp),
@@ -133,7 +140,7 @@ fun NotificationItemHome(
 
 @Composable
 fun NotificationListHome(
-    data: List<Notification>,
+    data: List<NotificationItem>,
     navigateToNotification: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
