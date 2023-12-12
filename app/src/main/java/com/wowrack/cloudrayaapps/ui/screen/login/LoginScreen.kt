@@ -71,8 +71,8 @@ fun LoginScreen(
         viewModel.login(appKey, secretKey)
     }
 
-    var appKey by remember { mutableStateOf("30f15c6d-5350-4756-b9aa-d0606a84a2da") }
-    var secretKey by remember { mutableStateOf("MgKgfgo49UK6GVTBp7hizT9mXn7Hq83w") }
+    var appKey by remember { mutableStateOf("") }
+    var secretKey by remember { mutableStateOf("") }
 
     LaunchedEffect(loginStatus) {
         when (loginStatus) {
