@@ -16,6 +16,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.wowrack.cloudrayaapps.data.token.DeviceTokenManager
 import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
+import com.wowrack.cloudrayaapps.ui.screen.news.NewsScreen
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 
 class MainActivity : ComponentActivity() {
@@ -59,14 +60,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App(
-                        themeSetting = themeSetting,
-                        notificationSetting = notificationSetting,
-                        biometricSetting = biometricSetting,
-                        changeThemeSetting = changeThemeSetting,
-                        changeNotificationSetting = changeNotificationSetting,
-                        changeBiometricSetting = changeBiometricSetting
-                    )
+//                    App(
+//                        themeSetting = themeSetting,
+//                        notificationSetting = notificationSetting,
+//                        biometricSetting = biometricSetting,
+//                        changeThemeSetting = changeThemeSetting,
+//                        changeNotificationSetting = changeNotificationSetting,
+//                        changeBiometricSetting = changeBiometricSetting
+//                    )
+                    NewsScreen()
                 }
             }
         }
