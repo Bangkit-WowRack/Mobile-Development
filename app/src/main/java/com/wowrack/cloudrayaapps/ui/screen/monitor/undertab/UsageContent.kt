@@ -74,7 +74,7 @@ fun CPUTab(
                         data = chartData.getCPUUsage(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(300.dp)
+                            .height(200.dp)
                             .align(Alignment.CenterHorizontally)
                     )
                 }
@@ -141,7 +141,7 @@ fun MemoryTab(
                         data = chartData.getMemoryUsage(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(300.dp)
+                            .height(200.dp)
                             .align(Alignment.CenterHorizontally)
                     )
                 }
@@ -208,7 +208,7 @@ fun BandwidthTab(
                         data = chartData.getBandwidthUsage(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(300.dp)
+                            .height(200.dp)
                             .align(Alignment.CenterHorizontally)
                     )
                 }
