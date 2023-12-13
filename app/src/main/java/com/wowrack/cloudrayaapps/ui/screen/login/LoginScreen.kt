@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -71,8 +72,8 @@ fun LoginScreen(
         viewModel.login(appKey, secretKey)
     }
 
-    var appKey by remember { mutableStateOf("") }
-    var secretKey by remember { mutableStateOf("") }
+    var appKey by remember { mutableStateOf("30f15c6d-5350-4756-b9aa-d0606a84a2da") }
+    var secretKey by remember { mutableStateOf("MgKgfgo49UK6GVTBp7hizT9mXn7Hq83w") }
 
     LaunchedEffect(loginStatus) {
         when (loginStatus) {
@@ -127,7 +128,8 @@ fun LoginScreen(
             ) {
                 TextField(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .testTag("appKey"),
                     value = appKey,
                     onValueChange = { appKey = it },
                     leadingIcon = { Icon(imageVector = InputType.AppKey.icon, null) },
@@ -151,7 +153,8 @@ fun LoginScreen(
             ) {
                 TextField(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .testTag("secretKey"),
                     value = secretKey,
                     onValueChange = { secretKey = it },
                     leadingIcon = { Icon(imageVector = InputType.SecretKey.icon, null) },

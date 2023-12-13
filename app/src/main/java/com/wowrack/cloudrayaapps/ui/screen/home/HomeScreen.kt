@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -152,7 +153,7 @@ fun HomeScreen(
                 navigateToLogin()
             }
         }
-        Spacer(modifier = modifier.height(8.dp))
+        Divider(modifier = modifier.height(2.dp))
         Text(
             text = "News",
             fontFamily = poppinsBold,
@@ -183,7 +184,8 @@ fun HomeScreen(
                 navigateToLogin()
             }
         }
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = modifier.height(1.dp))
+        Divider(modifier = modifier.height(2.dp))
         Text(
             text = "Notification",
             fontFamily = poppinsBold,
@@ -203,7 +205,7 @@ fun HomeScreen(
                 Card(
                     modifier = modifier
                         .height(200.dp)
-                        .shadow(8.dp, RoundedCornerShape(8.dp)),
+                        .shadow(4.dp, RoundedCornerShape(8.dp)),
                     shape = RoundedCornerShape(8.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.background,

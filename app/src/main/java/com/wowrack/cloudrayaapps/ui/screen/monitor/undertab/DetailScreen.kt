@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,10 +67,10 @@ fun DetailContent(
                 Text(
                     text = "Project Tag",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.projectTag ?: "No Project Tag",
@@ -82,10 +83,10 @@ fun DetailContent(
                 Text(
                     text = "Status",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.status,
@@ -98,10 +99,10 @@ fun DetailContent(
                 Text(
                     text = "Launch Date",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.launchDate,
@@ -141,10 +142,10 @@ fun DetailContent(
                 Text(
                     text = "Location",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.location,
@@ -160,10 +161,10 @@ fun DetailContent(
                 Text(
                     text = "Type Package",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.vmPackage,
@@ -181,10 +182,10 @@ fun DetailContent(
                         Text(
                             text = "CPU",
                             fontFamily = poppins,
-                            fontSize = 16.sp,
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = Color.Gray
                         )
                         Text(
                             text = "${data.cpu} Core",
@@ -199,10 +200,10 @@ fun DetailContent(
                         Text(
                             text = "Memory",
                             fontFamily = poppins,
-                            fontSize = 16.sp,
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = Color.Gray
                         )
                         Text(
                             text = "${data.memory} MB",
@@ -217,10 +218,10 @@ fun DetailContent(
                         Text(
                             text = "Storage",
                             fontFamily = poppins,
-                            fontSize = 16.sp,
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = Color.Gray
                         )
                         Text(
                             text = "${data.rootdiskSize} GB",
@@ -238,10 +239,10 @@ fun DetailContent(
                 Text(
                     text = "Operating System",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.os,
@@ -266,10 +267,10 @@ fun DetailContent(
                 Text(
                     text = "Public IP",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 Text(
                     text = data.publicIp,
@@ -282,10 +283,10 @@ fun DetailContent(
                 Text(
                     text = "Private IP",
                     fontFamily = poppins,
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = modifier,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Gray
                 )
                 data.privateIp.forEach {
                     Text(

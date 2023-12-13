@@ -92,4 +92,8 @@ dependencies {
 
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.google.accompanist:accompanist-permissions:0.19.0")
+
+    //test
+    androidTestImplementation("androidx.navigation:navigation-testing:2.6.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
 }

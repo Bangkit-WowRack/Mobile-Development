@@ -39,7 +39,7 @@ fun CardDashboardItem(
         modifier = modifier
             .width(180.dp)
             .height(90.dp)
-            .shadow(8.dp, RoundedCornerShape(8.dp)),
+            .shadow(4.dp, RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,

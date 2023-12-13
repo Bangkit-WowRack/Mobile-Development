@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -71,7 +72,7 @@ fun ArticleItem(
         modifier = modifier
             .width(300.dp)
             .height(150.dp)
-            .shadow(8.dp, RoundedCornerShape(8.dp))
+            .shadow(4.dp, RoundedCornerShape(8.dp))
             .clickable {
 
             },
@@ -81,7 +82,10 @@ fun ArticleItem(
         ),
     ) {
         Column(
-            modifier.padding(16.dp),
+            modifier = modifier
+                .fillMaxHeight()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = article.title.truncateText(70),
@@ -91,7 +95,6 @@ fun ArticleItem(
                 modifier = modifier,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            Spacer(modifier = Modifier.height(4.dp))
             Box(
                 modifier = modifier
                     .width(IntrinsicSize.Max)
@@ -105,8 +108,8 @@ fun ArticleItem(
                     modifier = modifier,
                     color = MaterialTheme.colorScheme.surface
                 )
+                Spacer(modifier = Modifier.height(4.dp))
             }
-//            Spacer(modifier = Modifier.height(4.dp))
 //            Text(
 //                text = "By ${article.creator.name}",
 //                fontFamily = poppins,

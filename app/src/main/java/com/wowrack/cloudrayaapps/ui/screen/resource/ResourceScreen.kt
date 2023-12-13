@@ -79,8 +79,15 @@ fun ResourceContent(
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
         )
-        if (data == null) {
-            Text(text = "No Data")
+        if (data.isNullOrEmpty()) {
+            Text(
+                text = "No Notification",
+                fontFamily = poppinsBold,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
         } else {
             data.forEach {
                 ProjectList(
