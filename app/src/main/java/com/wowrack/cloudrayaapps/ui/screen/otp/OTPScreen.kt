@@ -262,7 +262,7 @@ fun OTPTextField(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 repeat(otpCount) { index ->
-                    CharView(
+                    CharTextView(
                         index = index,
                         text = otpText
                     )
@@ -274,7 +274,7 @@ fun OTPTextField(
 }
 
 @Composable
-private fun CharView(
+private fun CharTextView(
     index: Int,
     text: String
 ) {
@@ -297,6 +297,8 @@ private fun CharView(
                 }, RoundedCornerShape(8.dp)
             ),
         text = char,
+        fontSize = 28.sp,
+        fontFamily = poppins,
         color = if (isFocused) {
             Color.LightGray
         } else {
