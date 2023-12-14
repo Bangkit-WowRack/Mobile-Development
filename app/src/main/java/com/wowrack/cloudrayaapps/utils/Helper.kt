@@ -48,26 +48,26 @@ fun Int.getIcon(): String {
     }
 }
 
-fun List<DataCpu>.getCPUUsage(): List<Pair<Int, Double>> {
-    val data = mutableListOf<Pair<Int, Double>>()
-    this.forEachIndexed { index, dataCpu ->
-        data.add(Pair(index + 1, dataCpu.cpuUsed.toDouble()))
+fun List<DataCpu>.getCPUUsage(): List<Pair<String, Double>> {
+    val data = mutableListOf<Pair<String, Double>>()
+    this.forEach { dataUsage ->
+        data.add(Pair(dataUsage.timestamp.timestampToHourMinute(), dataUsage.cpuUsed.toDouble()))
     }
     return data
 }
 
-fun List<DataCpu>.getMemoryUsage(): List<Pair<Int, Double>> {
-    val data = mutableListOf<Pair<Int, Double>>()
-    this.forEachIndexed { index, dataCpu ->
-        data.add(Pair(index + 1, dataCpu.memoryUsed.toDouble()))
+fun List<DataCpu>.getMemoryUsage(): List<Pair<String, Double>> {
+    val data = mutableListOf<Pair<String, Double>>()
+    this.forEach { dataUsage ->
+        data.add(Pair(dataUsage.timestamp.timestampToHourMinute(), dataUsage.memoryUsed.toDouble()))
     }
     return data
 }
 
-fun List<BandwidthData>.getBandwidthUsage(): List<Pair<Int, Double>> {
-    val data = mutableListOf<Pair<Int, Double>>()
-    this.forEachIndexed { index, bandwidthData ->
-        data.add(Pair(index + 1, bandwidthData.usage.toDouble()))
+fun List<BandwidthData>.getBandwidthUsage(): List<Pair<String, Double>> {
+    val data = mutableListOf<Pair<String, Double>>()
+    this.forEach { dataUsage ->
+        data.add(Pair(dataUsage.timestamp.timestampToHourMinute(), dataUsage.usage.toDouble()))
     }
     return data
 }

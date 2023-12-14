@@ -53,7 +53,7 @@ class FirebaseService : FirebaseMessagingService() {
             .setStyle(NotificationCompat.BigPictureStyle()
                 .bigPicture(Picasso.get().load(imageUrl).get()).bigLargeIcon(Picasso.get().load(imageUrl).get()))
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         val channel = NotificationChannel(
             CHANNEL_ID,
