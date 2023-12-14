@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.wowrack.cloudrayaapps.AppViewModel
 import com.wowrack.cloudrayaapps.data.di.Injection
 import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
+import com.wowrack.cloudrayaapps.data.repository.FirebaseRepository
 import com.wowrack.cloudrayaapps.data.repository.ServerRepository
 import com.wowrack.cloudrayaapps.data.repository.SettingRepository
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
@@ -24,7 +25,8 @@ class ViewModelFactory(
     private val userRepository: UserRepository,
     private val serverRepository: ServerRepository,
     private val articleRepository: ArticleRepository,
-    private val settingRepository: SettingRepository
+    private val settingRepository: SettingRepository,
+    private val firebaseRepository: FirebaseRepository
 ) :
     ViewModelProvider.NewInstanceFactory() {
 
@@ -50,7 +52,7 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(OTPViewModel::class.java) ->
                 OTPViewModel(userRepository) as T
             modelClass.isAssignableFrom(SettingViewModel::class.java) ->
-                SettingViewModel() as T
+                SettingViewModel(firebaseRepository) as T
             modelClass.isAssignableFrom(NotificationViewModel::class.java) ->
                 NotificationViewModel(serverRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
@@ -63,6 +65,7 @@ fun getViewModelFactory(context: Context): ViewModelFactory {
         Injection.provideUserRepository(context),
         Injection.provideServerRepository(context),
         Injection.provideArticleRepository(),
-        Injection.provideSettingRepository(context)
+        Injection.provideSettingRepository(context),
+        Injection.provideFirebaseRepository(context)
     )
 }

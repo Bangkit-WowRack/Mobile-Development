@@ -25,15 +25,6 @@ class MainActivity : ComponentActivity() {
         DeviceTokenManager.initialize(applicationContext)
 
         FirebaseApp.initializeApp(this)
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                return@OnCompleteListener
-            }
-
-            val token = task.result
-
-            Log.d("ayam", token)
-        })
 
         setContent {
             val viewModel: AppViewModel = viewModel(

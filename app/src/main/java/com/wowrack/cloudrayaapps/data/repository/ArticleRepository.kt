@@ -6,7 +6,7 @@ import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.dummy.getDummyArticleResponse
 import kotlinx.coroutines.Dispatchers
 
-class ArticleRepository (
+class ArticleRepository private constructor(
     private val apiService: ApiService,
 ) {
 

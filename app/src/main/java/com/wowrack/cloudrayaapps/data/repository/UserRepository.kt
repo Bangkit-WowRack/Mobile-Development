@@ -1,6 +1,5 @@
 package com.wowrack.cloudrayaapps.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
@@ -11,7 +10,6 @@ import com.wowrack.cloudrayaapps.data.common.Result
 import com.wowrack.cloudrayaapps.data.model.DashboardResponse
 import com.wowrack.cloudrayaapps.data.model.ErrorResponse
 import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
-import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.OTPData
@@ -21,10 +19,8 @@ import com.wowrack.cloudrayaapps.data.pref.KeyPreference
 import com.wowrack.cloudrayaapps.data.token.DeviceTokenManager
 import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 
-class UserRepository(
+class UserRepository private constructor(
     private val apiService: ApiService,
     private val userPreference: UserPreference,
     private val keyPreference: KeyPreference,

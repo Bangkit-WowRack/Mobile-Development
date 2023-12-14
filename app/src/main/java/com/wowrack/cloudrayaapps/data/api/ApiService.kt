@@ -13,6 +13,7 @@ import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.LoginResponse
 import com.wowrack.cloudrayaapps.data.model.NotificationResponse
 import com.wowrack.cloudrayaapps.data.model.OTPRequest
+import com.wowrack.cloudrayaapps.data.model.SubscribeNotificationRequest
 import com.wowrack.cloudrayaapps.data.model.UsageRequest
 import com.wowrack.cloudrayaapps.data.model.UsageResponse
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
@@ -107,5 +108,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("page") page: Int,
         @Query("size") size: Int
+    ): Response<NotificationResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("auth/verify-fcm")
+    suspend fun subscribeNotification(
+        @Header("Authorization") token: String,
+        @Body requestBody: SubscribeNotificationRequest
     ): Response<NotificationResponse>
 }

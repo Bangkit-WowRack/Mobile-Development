@@ -13,6 +13,7 @@ import com.wowrack.cloudrayaapps.data.pref.settingData
 import com.wowrack.cloudrayaapps.data.pref.startDataStore
 import com.wowrack.cloudrayaapps.data.pref.userDataStore
 import com.wowrack.cloudrayaapps.data.repository.ArticleRepository
+import com.wowrack.cloudrayaapps.data.repository.FirebaseRepository
 import com.wowrack.cloudrayaapps.data.repository.ServerRepository
 import com.wowrack.cloudrayaapps.data.repository.SettingRepository
 import com.wowrack.cloudrayaapps.data.repository.UserRepository
@@ -44,6 +45,14 @@ object Injection {
     fun provideSettingRepository(context: Context): SettingRepository {
         val settingPref = SettingPreferences.getInstance(context.settingData)
         return SettingRepository.getInstance(settingPref)
+    }
+
+    fun provideFirebaseRepository(context: Context): FirebaseRepository {
+        val apiService = ApiConfig.getApiService()
+        val userPref = UserPreference.getInstance(context.userDataStore)
+        val keyPref = KeyPreference.getInstance(context.keyDataStore)
+        val validateLogin = suspend { validateLogin(apiService, userPref, keyPref) }
+        return FirebaseRepository.getInstance(apiService, userPref, validateLogin)
     }
 
 //    suspend fun provideValidateLogin(context: Context): suspend () -> Boolean {

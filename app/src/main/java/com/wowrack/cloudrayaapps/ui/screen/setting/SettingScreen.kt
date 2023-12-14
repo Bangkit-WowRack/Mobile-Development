@@ -23,17 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import android.Manifest
-import android.content.Context
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import com.google.accompanist.permissions.PermissionState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.rememberPermissionState
+import com.wowrack.cloudrayaapps.ui.common.UiState
+import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 import kotlinx.coroutines.Job
@@ -48,19 +46,48 @@ fun SettingScreen(
     changeNotificationSetting: (Boolean) -> Unit,
     changeBiometricSetting: (Boolean) -> Unit,
     showSnackBar: (String) -> Job,
+    viewModel: SettingViewModel = viewModel(
+    factory = getViewModelFactory(context = LocalContext.current)
+),
 ) {
+    val result by viewModel.subscribeStatus
+
     val scrollState = rememberScrollState()
 
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
-    DisposableEffect(notificationSetting) {
+    LaunchedEffect(notificationSetting) {
         if (notificationSetting && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (!permissionState.hasPermission) {
                 permissionState.launchPermissionRequest()
             }
         }
+        if (notificationSetting) {
+            viewModel.subscribeNotification()
+
+            when (result) {
+                is UiState.Success -> {
+                    if (!(result as UiState.Success<Boolean>).data) {
+                        showSnackBar("Failed to subscribe notification")
+                        changeNotificationSetting(false)
+                    }
+                }
+                is UiState.Error -> {
+                    showSnackBar("Failed to subscribe notification")
+                    changeNotificationSetting(false)
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
+
+    DisposableEffect(permissionState) {
+        changeNotificationSetting(permissionState.hasPermission)
         onDispose {
+
         }
     }
 
@@ -108,32 +135,32 @@ fun SettingScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Divider()
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Security",
-                fontFamily = poppinsBold,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Biometric Authentication",
-                    fontFamily = poppins,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                Switch(
-                    modifier = Modifier.size(50.dp),
-                    checked = biometricSetting,
-                    onCheckedChange = changeBiometricSetting
-                )
-            }
+//            Divider()
+//            Spacer(modifier = Modifier.height(16.dp))
+//            Text(
+//                text = "Security",
+//                fontFamily = poppinsBold,
+//                fontSize = 14.sp,
+//                fontWeight = FontWeight.Bold,
+//            )
+//            Row(
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceBetween,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            ) {
+//                Text(
+//                    text = "Biometric Authentication",
+//                    fontFamily = poppins,
+//                    fontSize = 14.sp,
+//                    fontWeight = FontWeight.Bold,
+//                )
+//                Switch(
+//                    modifier = Modifier.size(50.dp),
+//                    checked = biometricSetting,
+//                    onCheckedChange = changeBiometricSetting
+//                )
+//            }
             Divider()
             Spacer(modifier = Modifier.height(16.dp))
             Text(

@@ -24,7 +24,7 @@ import com.wowrack.cloudrayaapps.data.model.VMDetailResponse
 import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
 
-class ServerRepository(
+class ServerRepository private constructor(
     private val userPreference: UserPreference,
     private val apiService: ApiService,
     private val validateLogin: suspend () -> Boolean
