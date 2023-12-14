@@ -32,6 +32,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 @Composable
 fun NotificationScreen(
     navigateToLogin: () -> Unit,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: NotificationViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -75,7 +76,10 @@ fun NotificationScreen(
             }
 
             is UiState.Success -> {
-                NotificationList(data = (notificationList as UiState.Success).data.data)
+                NotificationList(
+                    data = (notificationList as UiState.Success).data.data,
+                    navigateToMonitor = navigateToMonitor
+                )
             }
 
             is UiState.Error -> {

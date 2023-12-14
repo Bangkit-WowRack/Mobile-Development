@@ -176,6 +176,9 @@ fun App(
                     navigateToNews = { id ->
                         navController.navigate(Screen.News.createRoute(id))
                     },
+                    navigateToMonitor = { id ->
+                        navController.navigate(Screen.Monitor.createRoute(id))
+                    },
                 )
             }
             composable(
@@ -196,6 +199,9 @@ fun App(
                                 inclusive = true
                             }
                         }
+                    },
+                    navigateToMonitor = { id ->
+                        navController.navigate(Screen.Monitor.createRoute(id))
                     },
                 )
             }

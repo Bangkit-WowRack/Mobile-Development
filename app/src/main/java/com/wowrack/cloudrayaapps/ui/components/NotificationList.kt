@@ -34,6 +34,7 @@ import com.wowrack.cloudrayaapps.utils.formatUnixEpochTime
 @Composable
 fun NotificationList(
     data: List<NotificationItem>,
+    navigateToMonitor: (Int) -> Unit,
 ) {
     LazyColumn(
         state = rememberLazyListState(),
@@ -51,7 +52,10 @@ fun NotificationList(
             }
         } else {
             items(data, key = { it.id }) { notification ->
-                NotificationItem(notification)
+                NotificationItem(
+                    notification = notification,
+                    navigateToMonitor = navigateToMonitor
+                )
                 Spacer(modifier = Modifier.height(2.dp))
             }
         }
@@ -61,6 +65,7 @@ fun NotificationList(
 @Composable
 fun NotificationItem(
     notification: NotificationItem,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
    Column(
@@ -68,7 +73,7 @@ fun NotificationItem(
            .fillMaxWidth()
            .background(color = Color(0x30009EFB))
            .clickable {
-
+                navigateToMonitor(notification.vmId)
            }
    ){
        Text(
@@ -100,6 +105,7 @@ fun NotificationItem(
 @Composable
 fun NotificationItemHome(
     notification: NotificationItem,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -108,7 +114,7 @@ fun NotificationItemHome(
             .fillMaxWidth()
             .background(color = Color(0x30009EFB))
             .clickable {
-
+                navigateToMonitor(notification.vmId)
             },
     ){
         Text(
@@ -142,6 +148,7 @@ fun NotificationItemHome(
 fun NotificationListHome(
     data: List<NotificationItem>,
     navigateToNotification: () -> Unit,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -166,7 +173,10 @@ fun NotificationListHome(
             }
         } else {
             items(data, key = { it.id }) { notification ->
-                NotificationItemHome(notification)
+                NotificationItemHome(
+                    notification = notification,
+                    navigateToMonitor = navigateToMonitor
+                )
                 Spacer(modifier = Modifier.height(2.dp))
             }
 

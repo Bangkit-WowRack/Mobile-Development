@@ -56,6 +56,7 @@ fun HomeScreen(
     navigateToNotification: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToNews: (Int) -> Unit,
+    navigateToMonitor: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -219,7 +220,8 @@ fun HomeScreen(
                     ) {
                         NotificationListHome(
                             data = data,
-                            navigateToNotification = navigateToNotification
+                            navigateToNotification = navigateToNotification,
+                            navigateToMonitor = navigateToMonitor
                         )
                     }
                 }
