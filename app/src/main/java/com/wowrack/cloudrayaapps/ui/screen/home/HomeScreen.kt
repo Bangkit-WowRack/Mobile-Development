@@ -154,7 +154,7 @@ fun HomeScreen(
                 navigateToLogin()
             }
         }
-        Divider(modifier = modifier.height(2.dp))
+        Spacer(modifier = modifier.height(2.dp))
         Text(
             text = "News",
             fontFamily = poppinsBold,
@@ -188,8 +188,7 @@ fun HomeScreen(
                 navigateToLogin()
             }
         }
-        Spacer(modifier = modifier.height(1.dp))
-        Divider(modifier = modifier.height(2.dp))
+        Spacer(modifier = modifier.height(3.dp))
         Text(
             text = "Notification",
             fontFamily = poppinsBold,

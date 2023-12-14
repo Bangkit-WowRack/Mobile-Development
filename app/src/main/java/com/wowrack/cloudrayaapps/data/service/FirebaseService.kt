@@ -54,7 +54,6 @@ class FirebaseService : FirebaseMessagingService() {
                 .bigPicture(Picasso.get().load(imageUrl).get()).bigLargeIcon(Picasso.get().load(imageUrl).get()))
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setSubText("test")
 
         val channel = NotificationChannel(
             CHANNEL_ID,
@@ -70,6 +69,6 @@ class FirebaseService : FirebaseMessagingService() {
     companion object {
         private const val NOTIFICATION_ID = 1
         private const val CHANNEL_ID = "channel_01"
-        private const val CHANNEL_NAME = "Hepta channel"
+        private const val CHANNEL_NAME = "CloudRaya Notification"
     }
 }
