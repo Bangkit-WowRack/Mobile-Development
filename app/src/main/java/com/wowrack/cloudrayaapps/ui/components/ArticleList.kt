@@ -38,6 +38,7 @@ import com.wowrack.cloudrayaapps.utils.truncateText
 @Composable
 fun ArticleList(
     data: List<ArticleData>?,
+    navigateToNews: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
@@ -57,7 +58,7 @@ fun ArticleList(
             }
         } else {
             items(data, key = { it.id }) { article ->
-                ArticleItem(article)
+                ArticleItem(article, navigateToNews)
             }
         }
     }
@@ -66,6 +67,7 @@ fun ArticleList(
 @Composable
 fun ArticleItem(
     article: ArticleData,
+    navigateToNews: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -74,7 +76,7 @@ fun ArticleItem(
             .height(150.dp)
             .shadow(4.dp, RoundedCornerShape(8.dp))
             .clickable {
-
+                navigateToNews(article.id)
             },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(

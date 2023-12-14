@@ -23,6 +23,7 @@ import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 
 @Composable
 fun NewsScreen(
+    id: Int,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -34,12 +35,14 @@ fun NewsScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        NewsContent()
+        NewsContent(id)
     }
 }
 
 @Composable
-fun NewsContent() {
+fun NewsContent(
+    id: Int,
+) {
     Column {
         Text(
             text = "News",
@@ -67,15 +70,15 @@ fun NewsContent() {
     }
 }
 
-@Preview
-@Composable
-fun NewsPreview() {
-    CloudRayaAppsTheme {
-        Surface(
-            color = MaterialTheme.colorScheme.background
-        ) {
-            NewsScreen()
-        }
-
-    }
-}
+//@Preview
+//@Composable
+//fun NewsPreview() {
+//    CloudRayaAppsTheme {
+//        Surface(
+//            color = MaterialTheme.colorScheme.background
+//        ) {
+//            NewsScreen()
+//        }
+//
+//    }
+//}

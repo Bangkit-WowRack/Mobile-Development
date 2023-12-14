@@ -172,6 +172,10 @@ fun App(
                     navigateToSetting = {
                         navController.navigate(Screen.Setting.route)
                     },
+                    navigateToNews = { id ->
+                        navController.navigate(Screen.News.createRoute(id))
+                    },
+
                 )
             }
             composable(Screen.Notification.route) {

@@ -55,6 +55,7 @@ fun HomeScreen(
     navigateToLogin: () -> Unit,
     navigateToNotification: () -> Unit,
     navigateToSetting: () -> Unit,
+    navigateToNews: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -168,7 +169,7 @@ fun HomeScreen(
 
             is UiState.Success -> {
                 val data = (articleData as UiState.Success).data.data
-                ArticleList(data)
+                ArticleList(data, navigateToNews)
             }
 
             is UiState.Error -> {
