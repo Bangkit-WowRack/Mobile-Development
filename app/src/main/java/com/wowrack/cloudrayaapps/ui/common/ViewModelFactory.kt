@@ -13,6 +13,7 @@ import com.wowrack.cloudrayaapps.data.repository.UserRepository
 import com.wowrack.cloudrayaapps.ui.screen.home.HomeViewModel
 import com.wowrack.cloudrayaapps.ui.screen.login.LoginViewModel
 import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorViewModel
+import com.wowrack.cloudrayaapps.ui.screen.news.NewsViewModel
 import com.wowrack.cloudrayaapps.ui.screen.notification.NotificationViewModel
 import com.wowrack.cloudrayaapps.ui.screen.otp.OTPViewModel
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileViewModel
@@ -55,6 +56,8 @@ class ViewModelFactory(
                 SettingViewModel(firebaseRepository) as T
             modelClass.isAssignableFrom(NotificationViewModel::class.java) ->
                 NotificationViewModel(serverRepository) as T
+            modelClass.isAssignableFrom(NewsViewModel::class.java) ->
+                NewsViewModel(articleRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }

@@ -8,15 +8,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wowrack.cloudrayaapps.data.model.ArticleData
+import com.wowrack.cloudrayaapps.ui.common.UiState
+import com.wowrack.cloudrayaapps.ui.common.getViewModelFactory
+import com.wowrack.cloudrayaapps.ui.components.ErrorMessage
 import com.wowrack.cloudrayaapps.ui.theme.CloudRayaAppsTheme
 import com.wowrack.cloudrayaapps.ui.theme.poppins
 import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
@@ -25,23 +35,77 @@ import com.wowrack.cloudrayaapps.ui.theme.poppinsBold
 fun NewsScreen(
     id: Int,
     modifier: Modifier = Modifier,
+    viewModel: NewsViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier
-            .verticalScroll(state = scrollState)
-            .padding(16.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        NewsContent(id)
+    val articleData by viewModel.articleData
+
+    DisposableEffect(id) {
+        viewModel.getArticleData(id)
+        onDispose {
+
+        }
+    }
+
+    when (articleData) {
+        is UiState.Loading -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp,
+                    alignment = Alignment.CenterVertically
+                ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        is UiState.Success -> {
+            val data = (articleData as UiState.Success).data
+            Column(
+                modifier
+                    .verticalScroll(state = scrollState)
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                NewsContent(data)
+            }
+        }
+
+        is UiState.Error -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp,
+                    alignment = Alignment.CenterVertically
+                ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ErrorMessage(
+                    message = (articleData as UiState.Error).errorMessage,
+                    onRetry = { }
+                )
+            }
+        }
+
+        is UiState.NotLogged -> {
+
+        }
     }
 }
 
 @Composable
 fun NewsContent(
-    id: Int,
+    data: ArticleData,
 ) {
     Column {
         Text(
@@ -53,7 +117,7 @@ fun NewsContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Promo KETUPAT! Get IDR 250K for First Top Up",
+            text = data.title,
             fontFamily = poppinsBold,
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
@@ -61,7 +125,7 @@ fun NewsContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text  =  "We would like to inform you about a price adjustment for our 'Managed Service.' Starting September 1st, 2023, there will be adjustments to the pricing as follows:\n\n1. New Price: IDR 750K per hour (formerly IDR 650K per hour)\n2. Bundle of 3 hours: IDR 1950K (formerly IDR 1650K)\n\nWe are making this adjustment to ensure we continuously provide you with the best experience from our team of expert support professionals. Additionally, due to the rapid growth of our customer base, we have expanded our support team to ensure prompt responses and timely solutions for all your requests and needs.\n\nIf you wish to take advantage of the bundle offer at the current price, you still have the opportunity to do so before the effective date of the price adjustment.\n\nShould there be any questions or if you require assistance related to our services, please feel free to reach out to our support team at support@wowrack.co.id.\n\nThank you for your understanding and continued support. We remain dedicated to providing you with exceptional solutions and services for your business.\n\nWarm regards, Cloud Raya Team",
+            text = data.content,
             fontFamily = poppins,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,

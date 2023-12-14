@@ -169,7 +169,10 @@ fun HomeScreen(
 
             is UiState.Success -> {
                 val data = (articleData as UiState.Success).data.data
-                ArticleList(data, navigateToNews)
+                ArticleList(
+                    data = data,
+                    navigateToNews = navigateToNews
+                )
             }
 
             is UiState.Error -> {

@@ -23,6 +23,7 @@ import com.wowrack.cloudrayaapps.ui.screen.getstarted.GetStartedScreen
 import com.wowrack.cloudrayaapps.ui.screen.home.HomeScreen
 import com.wowrack.cloudrayaapps.ui.screen.login.LoginScreen
 import com.wowrack.cloudrayaapps.ui.screen.monitor.MonitorScreen
+import com.wowrack.cloudrayaapps.ui.screen.news.NewsScreen
 import com.wowrack.cloudrayaapps.ui.screen.notification.NotificationScreen
 import com.wowrack.cloudrayaapps.ui.screen.otp.OTPScreen
 import com.wowrack.cloudrayaapps.ui.screen.profile.ProfileScreen
@@ -175,7 +176,15 @@ fun App(
                     navigateToNews = { id ->
                         navController.navigate(Screen.News.createRoute(id))
                     },
-
+                )
+            }
+            composable(
+                route = Screen.News.route,
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) {
+                val id = it.arguments?.getInt("id") ?: 0
+                NewsScreen(
+                    id = id,
                 )
             }
             composable(Screen.Notification.route) {

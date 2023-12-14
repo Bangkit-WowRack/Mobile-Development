@@ -20,6 +20,21 @@ class ArticleRepository private constructor(
         }
     }
 
+    fun getArticleDetail(id: Int) = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+
+        try {
+            val data = getDummyArticleResponse().data?.first { it.id == id }
+            if (data != null) {
+                emit(Result.Success(data))
+            } else {
+                emit(Result.Error("Data not found"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: ArticleRepository? = null

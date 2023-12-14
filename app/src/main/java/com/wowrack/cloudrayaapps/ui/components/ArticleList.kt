@@ -58,7 +58,10 @@ fun ArticleList(
             }
         } else {
             items(data, key = { it.id }) { article ->
-                ArticleItem(article, navigateToNews)
+                ArticleItem(
+                    article = article,
+                    navigateToNews = navigateToNews
+                )
             }
         }
     }
