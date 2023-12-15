@@ -11,6 +11,7 @@ import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
 import com.wowrack.cloudrayaapps.data.model.GetOTPResponse
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
 import com.wowrack.cloudrayaapps.data.model.LoginResponse
+import com.wowrack.cloudrayaapps.data.model.LogoutRequest
 import com.wowrack.cloudrayaapps.data.model.NotificationResponse
 import com.wowrack.cloudrayaapps.data.model.OTPRequest
 import com.wowrack.cloudrayaapps.data.model.SubscribeNotificationRequest
@@ -116,4 +117,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body requestBody: SubscribeNotificationRequest
     ): Response<NotificationResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("auth/logout")
+    suspend fun logout(
+        @Header("Authorization") token: String,
+        @Body requestBody: LogoutRequest
+    )
 }

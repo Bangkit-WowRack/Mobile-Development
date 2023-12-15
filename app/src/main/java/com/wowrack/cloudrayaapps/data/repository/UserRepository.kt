@@ -12,6 +12,7 @@ import com.wowrack.cloudrayaapps.data.model.ErrorResponse
 import com.wowrack.cloudrayaapps.data.model.GetOTPRequest
 import com.wowrack.cloudrayaapps.data.model.Key
 import com.wowrack.cloudrayaapps.data.model.LoginRequest
+import com.wowrack.cloudrayaapps.data.model.LogoutRequest
 import com.wowrack.cloudrayaapps.data.model.OTPData
 import com.wowrack.cloudrayaapps.data.model.OTPRequest
 import com.wowrack.cloudrayaapps.data.model.UserDetailResponse
@@ -19,6 +20,7 @@ import com.wowrack.cloudrayaapps.data.pref.KeyPreference
 import com.wowrack.cloudrayaapps.data.token.DeviceTokenManager
 import com.wowrack.cloudrayaapps.data.utils.getTokenAndValidate
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 
 class UserRepository private constructor(
     private val apiService: ApiService,
@@ -222,6 +224,10 @@ class UserRepository private constructor(
     }
 
     suspend fun logout() {
+        apiService.logout(
+            "Bearer ${userPreference.getToken().first()}",
+            LogoutRequest(DeviceTokenManager.getDeviceToken())
+        )
         userPreference.logout()
         keyPreference.deleteKey()
     }
